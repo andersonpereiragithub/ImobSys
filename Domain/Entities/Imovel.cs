@@ -9,18 +9,18 @@ namespace ImobSys.Domain
         public Guid Id { get; private set; }
 
         public string InscricaoIPTU { get; set; }
-        public string TipoImovel { get; set; }  // Comercial, Residencial, Misto
-        public string DetalhesTipoImovel { get; set; }  // Casa, Sala, Loja, etc.
+        public string TipoImovel { get; set; }
+        public string DetalhesTipoImovel { get; set; }
         public float AreaUtil { get; set; }
 
-        public Endereco Endereco { get; set; }  // Classe Endereco separada
+        public Endereco Endereco { get; set; }
 
         public List<Guid> Proprietarios { get; set; }
 
-        public bool ParaLocacao { get; set; }  // Se está disponível para locação
-        public bool ParaVenda { get; set; }     // Se está disponível para venda
+        public bool ParaLocacao { get; set; }
+        public bool ParaVenda { get; set; }
 
-        public string StatusLocacao { get; set; }  // Disponível ou Alugado
+        public string StatusLocacao { get; set; }
 
         public decimal? ValorAluguel { get; set; }
         public decimal? ValorVenda { get; set; }

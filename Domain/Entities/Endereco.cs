@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ImobSys.Domain.Entities;
+using ImobSys.Domain.Entities.ImobSys.Domain;
+using System;
 
 namespace ImobSys.Domain.Entities
 {
@@ -14,7 +16,7 @@ namespace ImobSys.Domain.Entities
         public string Pais { get; set; }
 
         public string Referencia { get; set; }
-        public Coordenadas CoordenadasGeograficas { get; set; }
+        public CoordenadasGeograficas? Coordenadas { get; set; }
 
 
         public Endereco(string logradouro, string numero, string bairro, string cidade, string uf, string cep, string pais = "Brasil")
@@ -28,19 +30,10 @@ namespace ImobSys.Domain.Entities
             Pais = pais;
             Complemento = string.Empty;
             Referencia = string.Empty;
-            CoordenadasGeograficas = new Coordenadas();
         }
-    }
 
-    public class Coordenadas
-    {
-        public double Latitude { get; set; }
-        public double Longitude { get; set; }
-
-        public Coordenadas(double latitude = 0.0, double longitude = 0.0)
-        {
-            Latitude = latitude;
-            Longitude = longitude;
+        public Endereco() {
+            Coordenadas = new CoordenadasGeograficas();
         }
     }
 }
