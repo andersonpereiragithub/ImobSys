@@ -1,39 +1,45 @@
-﻿using System;
-using ImobSys.Domain.Entities.Enums;
+﻿using ImobSys.Domain.Entities;
+using System;
+using System.Collections.Generic;
 
-namespace ImobSys.Domain.Entities
+namespace ImobSys.Domain
 {
     public class Imovel
     {
+        public Guid Id { get; private set; }
+
         public string InscricaoIPTU { get; set; }
-        public Endereco Endereco { get; set; }
+        public string TipoImovel { get; set; }  // Comercial, Residencial, Misto
+        public string DetalhesTipoImovel { get; set; }  // Casa, Sala, Loja, etc.
         public float AreaUtil { get; set; }
 
-        public TipoImovel TipoImovel { get; set; }  // Comercial, Residencial, Misto
-        public SubtipoImovel SubtipoImovel { get; set; }  // Ex.: Casa, Sala, etc.
+        public Endereco Endereco { get; set; }  // Classe Endereco separada
 
-        public FinalidadeImovel Finalidade { get; set; }
-        public decimal? ValorLocacao { get; set; }
+        public List<Guid> Proprietarios { get; set; }
+
+        public bool ParaLocacao { get; set; }  // Se está disponível para locação
+        public bool ParaVenda { get; set; }     // Se está disponível para venda
+
+        public string StatusLocacao { get; set; }  // Disponível ou Alugado
+
+        public decimal? ValorAluguel { get; set; }
         public decimal? ValorVenda { get; set; }
 
-        public bool EstaAlugado { get; set; }  // Indica se está ou não alugado
-
-        public Condominio? Condominio { get; set; }
-        public string? MatriculaCESAMA { get; set; }  // Para imóveis sem condomínio
-
-        public List<int> ProprietariosIds { get; set; }  // Relacionamento com proprietários (IDs)
+        public string NomeCondominio { get; set; }
+        public decimal? ValorCondominio { get; set; }
 
         public int Quartos { get; set; }
         public int Salas { get; set; }
         public int Banheiros { get; set; }
         public int Garagens { get; set; }
-        public bool TemCozinha { get; set; }
-        public bool TemCopa { get; set; }
-        public bool TemQuintal { get; set; }
+        public bool Cozinha { get; set; }
+        public bool Copa { get; set; }
+        public bool Quintal { get; set; }
 
         public Imovel()
         {
-            ProprietariosIds = new List<int>();
+            Id = Guid.NewGuid();
+            Proprietarios = new List<Guid>();
         }
     }
 }

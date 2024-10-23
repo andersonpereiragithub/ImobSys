@@ -4,7 +4,6 @@ namespace ImobSys.Domain.Entities
 {
     public class Endereco
     {
-        // Atributos principais do endereço
         public string Logradouro { get; set; }
         public string Numero { get; set; }
         public string Complemento { get; set; }
