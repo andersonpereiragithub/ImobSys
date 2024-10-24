@@ -3,15 +3,24 @@ using Newtonsoft.Json;
 
 namespace ImobSys.Infrastructure.Repositories
 {
-    internal class JsonImovelRepository : IImovelRepository
+    public class JsonImovelRepository : IImovelRepository
     {
         private readonly string _filePath;
 
-        public JsonImovelRepository()
+        public JsonImovelRepository(string? _filePath = null)
         {
             string projectDirectory = Directory.GetCurrentDirectory();
-            _filePath = Path.Combine(projectDirectory, "Infrastructure", "Persistence", "Data", "imoveis.json");
+
+            string dataDirectory = Path.Combine(projectDirectory, "Infrastructure", "Persistence", "Data");
+
+            if (!Directory.Exists(dataDirectory))
+            {
+                Directory.CreateDirectory(dataDirectory);
+            }
+
+            _filePath = _filePath ?? Path.Combine(dataDirectory, "imoveis.json");
         }
+
         public void Salvar(Imovel imovel)
         {
             var imoveis = ListarTodos();
