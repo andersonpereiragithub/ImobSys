@@ -2,7 +2,7 @@
 
 namespace ImobSys.Infrastructure.Repositories
 {
-    public interface IImoveisRepository
+    public interface IImovelRepository
     {
         void Salvar(Imovel imovel);
         Imovel BuscarPorId(Guid id);
