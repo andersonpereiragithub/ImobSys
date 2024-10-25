@@ -6,7 +6,7 @@ namespace ImobSys.Domain
 {
     public class Imovel
     {
-        public Guid Id { get; private set; }
+        public Guid Id { get; set; }
 
         public string InscricaoIPTU { get; set; }
         public string TipoImovel { get; set; }

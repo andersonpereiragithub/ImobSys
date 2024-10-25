@@ -7,18 +7,26 @@ namespace ImobSys.Infrastructure.Repositories
     {
         private readonly string _filePath;
 
-        public JsonImovelRepository(string? _filePath = null)
+        public JsonImovelRepository(string? filePath = null)
         {
-            string projectDirectory = Directory.GetCurrentDirectory();
-
-            string dataDirectory = Path.Combine(projectDirectory, "Infrastructure", "Persistence", "Data");
-
-            if (!Directory.Exists(dataDirectory))
+            if (filePath == null)
             {
-                Directory.CreateDirectory(dataDirectory);
-            }
 
-            _filePath = _filePath ?? Path.Combine(dataDirectory, "imoveis.json");
+                string projectDirectory = Directory.GetCurrentDirectory();
+
+                string dataDirectory = Path.Combine(projectDirectory, "Infrastructure", "Persistence", "Data");
+
+                if (!Directory.Exists(dataDirectory))
+                {
+                    Directory.CreateDirectory(dataDirectory);
+                }
+
+                _filePath = Path.Combine(dataDirectory, "imoveis.json");
+            }
+            else
+            {
+                _filePath = filePath;
+            }
         }
 
         public void Salvar(Imovel imovel)
@@ -33,7 +41,7 @@ namespace ImobSys.Infrastructure.Repositories
 
             imoveis.Add(imovel);
 
-            File.WriteAllText(_filePath, JsonConvert.SerializeObject(imoveis));
+            File.WriteAllText(_filePath, JsonConvert.SerializeObject(imoveis, Formatting.Indented));
         }
 
         public Imovel BuscarPorId(Guid id)
