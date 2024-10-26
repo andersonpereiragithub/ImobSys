@@ -29,9 +29,9 @@ namespace ImobSys.Infrastructure.Repositories
             }
         }
 
-        public void Salvar(Imovel imovel)
+        public void SalvarImovel(Imovel imovel)
         {
-            var imoveis = ListarTodos();
+            var imoveis = ListarTodosImovel();
             var existente = imoveis.Find(i => i.Id == imovel.Id);
 
             if (existente != null)
@@ -44,20 +44,20 @@ namespace ImobSys.Infrastructure.Repositories
             File.WriteAllText(_filePath, JsonConvert.SerializeObject(imoveis, Formatting.Indented));
         }
 
-        public Imovel BuscarPorId(Guid id)
+        public Imovel BuscarPorIdImovel(Guid id)
         {
-            var imoveis = ListarTodos();
+            var imoveis = ListarTodosImovel();
             var imovel = imoveis.Find(imovel => imovel.Id == id);
 
             if (imovel == null)
             {
-                throw new Exception("Imóvel não encontrado.");
+                throw new Exception("Imóvel não encontrado!");
             }
 
             return imovel;
         }
 
-        public List<Imovel> ListarTodos()
+        public List<Imovel> ListarTodosImovel()
         {
             if (!File.Exists(_filePath))
             {
@@ -75,9 +75,9 @@ namespace ImobSys.Infrastructure.Repositories
             return imoveis;
         }
 
-        public void Remover(Guid id)
+        public void RemoverImovel(Guid id)
         {
-            var imoveis = ListarTodos();
+            var imoveis = ListarTodosImovel();
             var imovel = imoveis.Find(i => i.Id == id);
 
             if (imovel != null)

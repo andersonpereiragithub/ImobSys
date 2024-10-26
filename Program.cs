@@ -30,7 +30,7 @@ namespace ImobSys
                 return;
             }
 
-            imovelRepository.Salvar(novoImovel);
+            imovelRepository.SalvarImovel(novoImovel);
 
             Console.WriteLine("Imóvel salvo com sucesso!");
         }
