@@ -1,41 +1,37 @@
 # ImobSys
 
-_Sistema de Controle e GestÃ£o de ImÃ³veis_
+_Sistema de Controle e Gestão de Imóveis_
 
 ## Progresso do Projeto
 
-### Primeiros Passos ConcluÃ­dos
-- [x] CriaÃ§Ã£o do projeto no Visual Studio 2022
-- [x] OrganizaÃ§Ã£o das camadas e pastas do projeto
-- [x] CriaÃ§Ã£o das classes principais (`Imovel`, `Endereco`, `Condominio`, etc.)
-- [x] ImplementaÃ§Ã£o dos enums (`TipoImovel`, `FinalidadeImovel`, etc.)
-- [x] CriaÃ§Ã£o do repositÃ³rio GitHub e commit inicial
-- [x] ConfiguraÃ§Ã£o inicial do repositÃ³rio de dados para persistÃªncia em JSON
-- [x] ImplementaÃ§Ã£o da camada de serviÃ§o para `ImovelService`
-- [x] Desenvolvimento inicial da interface no Console (menu e opÃ§Ãµes)
-- [x] ImplementaÃ§Ã£o de geraÃ§Ã£o de IDs Ãºnicos para `Imovel` e `Cliente`
+### Primeiros Passos Concluídos
+- [x] Criação do projeto no Visual Studio 2022
+- [x] Organização das camadas e pastas do projeto
+- [x] Criação das classes principais (`Imovel`, `Endereco`, `Condominio`, etc.)
+- [x] Implementação dos enums (`TipoImovel`, `FinalidadeImovel`, etc.)
+- [x] Criação do repositório GitHub e commit inicial
+- [x] Configuração inicial do repositório de dados para persistência em JSON
+- [x] Implementação da camada de serviço para `ImovelService`
+- [x] Desenvolvimento inicial da interface no Console (menu e opções)
+- [x] Implementação de geração de IDs únicos para `Imovel` e `Cliente`
 
-### PrÃ³ximas Etapas
+### Próximas Etapas
 - [ ] Configurar interface de console para melhor usabilidade
-    - Tamanho da tela, cores, tÃ­tulo do console
-    - MÃ¡scaras para entradas especÃ­ficas (CPF, InscriÃ§Ã£o de IPTU)
+    - Tamanho da tela, cores, título do console
+    - Máscaras para entradas específicas (CPF, Inscrição de IPTU)
 - [ ] Tratamento robusto de entrada de dados para evitar valores incorretos e duplicidade de cadastros
-- [ ] Implementar mÃ©todos de listagem e consulta
-    - Listar todos os clientes e imÃ³veis
-    - Listar todos os imÃ³veis de um cliente especÃ­fico
-- [ ] Implementar documentaÃ§Ãµes e tutoriais de uso para o projeto ImobSys
-- [ ] Adicionar validaÃ§Ãµes de campo obrigatÃ³rias e opcionais
-- [ ] Adicionar testes unitÃ¡rios para as classes de domÃ­nio e camada de serviÃ§os
-- [ ] Preparar para futuras migraÃ§Ãµes para banco de dados relacional
+- [ ] Implementar métodos de listagem e consulta
+    - Listar todos os clientes e imóveis
+    - Listar todos os imóveis de um cliente específico
+- [ ] Implementar documentações e tutoriais de uso para o projeto ImobSys
+- [ ] Adicionar validações de campo obrigatórias e opcionais
+- [ ] Adicionar testes unitários para as classes de domínio e camada de serviços
+- [ ] Preparar para futuras migrações para banco de dados relacional
 
 ## Objetivo do Projeto
-O **ImobSys** Ã© um sistema de controle e gestÃ£o de imÃ³veis, desenvolvido inicialmente como uma aplicaÃ§Ã£o de console. O sistema foi estruturado para permitir futuras migraÃ§Ãµes para interfaces web ou desktop e suporte a persistÃªncia de dados em diferentes formatos (comeÃ§ando com JSON e preparado para transiÃ§Ã£o para banco de dados).
+O **ImobSys** é um sistema de controle e gestão de imóveis, desenvolvido inicialmente como uma aplicação de console. O sistema foi estruturado para permitir futuras migrações para interfaces web ou desktop e suporte a persistência de dados em diferentes formatos (começando com JSON e preparado para transição para banco de dados).
 
-O objetivo principal do projeto Ã© oferecer uma soluÃ§Ã£o organizada e expansÃ­vel para controle de propriedades, com recursos para cadastro, consulta, e atualizaÃ§Ã£o de informaÃ§Ãµes de imÃ³veis e clientes, com funcionalidades de validaÃ§Ã£o e integridade dos dados.
-
----
-
-_Projeto privado desenvolvido por [Anderson Paiva Pereira]._
+O objetivo principal do projeto é oferecer uma solução organizada e expansível para controle de propriedades, com recursos para cadastro, consulta, e atualização de informações de imóveis e clientes, com funcionalidades de validação e integridade dos dados.
 
 ---
 
