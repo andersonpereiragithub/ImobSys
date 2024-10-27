@@ -9,12 +9,14 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
         private readonly IClienteRepository _clienteRepository;
         private readonly IImovelRepository _imovelRepository;
         private readonly ClienteService _clienteService;
+        private readonly ImovelService _imovelService;
 
-        public MenuCadastro(IClienteRepository clienteRepository, IImovelRepository imovelRepository, ClienteService clienteService)
+        public MenuCadastro(IClienteRepository clienteRepository, IImovelRepository imovelRepository, ClienteService clienteService, ImovelService imovelService)
         {
             _clienteRepository = clienteRepository;
             _imovelRepository = imovelRepository;
             _clienteService = clienteService;
+            _imovelService = imovelService;
         }
 
         public void ExibirMenuCadastro()
@@ -39,7 +41,7 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
                         _clienteService.CadastrarNovoCliente();
                         break;
                     case "2":
-                        //CadastrarNovoImovel();
+                        _imovelService.CadastrarNovoImovel();
                         break;
                     case "0":
                         voltar = true;

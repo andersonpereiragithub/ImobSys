@@ -8,11 +8,12 @@ public class MenuPrincipal
     private readonly MenuBusca _menuBusca;
     private readonly MenuListagem _menuListagem;
     private readonly MenuRemocao _menuRemocao;
-    private readonly ClienteService _clienteService; 
+    private readonly ClienteService _clienteService;
+    private readonly ImovelService _movelService;
 
-    public MenuPrincipal(IClienteRepository clienteRepository, IImovelRepository imovelRepository, ClienteService clienteService)
+    public MenuPrincipal(IClienteRepository clienteRepository, IImovelRepository imovelRepository, ClienteService clienteService, ImovelService imovelService)
     {
-        _menuCadastro = new MenuCadastro(clienteRepository, imovelRepository, clienteService);
+        _menuCadastro = new MenuCadastro(clienteRepository, imovelRepository, clienteService, imovelService);
         _menuBusca = new MenuBusca(clienteRepository, imovelRepository);
         _menuListagem = new MenuListagem(clienteRepository, imovelRepository);
         _menuRemocao = new MenuRemocao(clienteRepository, imovelRepository);

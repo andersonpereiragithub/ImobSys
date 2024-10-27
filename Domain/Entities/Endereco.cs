@@ -6,6 +6,7 @@ namespace ImobSys.Domain.Entities
 {
     public class Endereco
     {
+        public string TipoLogradouro {  get; set; }
         public string Logradouro { get; set; }
         public string Numero { get; set; }
         public string Complemento { get; set; }
@@ -19,8 +20,9 @@ namespace ImobSys.Domain.Entities
         public CoordenadasGeograficas? Coordenadas { get; set; }
 
 
-        public Endereco(string logradouro, string numero, string bairro, string cidade, string uf, string cep, string pais = "Brasil")
+        public Endereco(string tipoLogradouro, string logradouro, string numero, string bairro, string cidade, string uf, string cep, string pais = "Brasil")
         {
+            TipoLogradouro = tipoLogradouro;
             Logradouro = logradouro;
             Numero = numero;
             Bairro = bairro;
