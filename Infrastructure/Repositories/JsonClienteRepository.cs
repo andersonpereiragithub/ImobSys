@@ -48,12 +48,12 @@ namespace ImobSys.Infrastructure.Repositories
 
         public Cliente BuscarPorIdCliente(Guid id)
         {
-            var clientes = ListarTodosCliente();
-            var cliente = clientes.Find(cliente => cliente.Id == id);
+            var cliente = ListarTodosCliente().Find(cliente => cliente.Id == id); ;
+            //var cliente = clientes.Find(cliente => cliente.Id == id);
 
             if (cliente == null)
             {
-                throw new Exception("Cliente não encontrado!");
+                return null;
             }
 
             return cliente;
@@ -79,6 +79,11 @@ namespace ImobSys.Infrastructure.Repositories
 
         public bool RemoverCliente(Guid id)
         {
+            if (_imovelRepository.ClientePossuiImovel(id))
+            {
+                throw new InvalidOperationException("Não é possível remover um CLIENTE com imóveis associados.");
+            }
+
             var clientes = ListarTodosCliente();
             var cliente = clientes.Find(clientes => clientes.Id == id);
 
