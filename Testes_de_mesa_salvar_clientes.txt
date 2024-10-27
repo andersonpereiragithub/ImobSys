@@ -1,0 +1,130 @@
+        static void Main(string[] args)
+        {
+            // Caminho para o arquivo temporário de clientes
+            string filePath = "clientes_teste_manual.json";
+
+            // Criar uma instância do JsonImovelRepository com um mock simples
+            var imovelRepositoryMock = new MockImovelRepository(); // Crie uma classe de mock simples conforme necessário
+            var clienteRepository = new JsonClienteRepository(imovelRepositoryMock, filePath);
+
+            // Teste 1: Salvar um cliente
+            Console.WriteLine("=== Teste de Salvamento ===");
+            var cliente1 = new Cliente { Id = Guid.NewGuid(), Nome = "João", CPF = "12345678900", TipoCliente = "Proprietário" };
+            var cliente2 = new Cliente { Id = Guid.NewGuid(), Nome = "Anderson Paiva Pereira", CPF = "00739488708", TipoCliente = "Locatário" };
+            clienteRepository.SalvarCliente(cliente1);
+            clienteRepository.SalvarCliente(cliente2);
+            Console.WriteLine($"ID: {cliente1.Id}, Cliente salvo: {cliente1.Nome}, CPF: {cliente1.CPF}, Cliente é: {cliente1.TipoCliente}\n");
+            Console.WriteLine($"ID: {cliente2.Id}, Cliente salvo: {cliente2.Nome}, CPF: {cliente2.CPF}, Cliente é: {cliente2.TipoCliente}\n");
+
+            // Teste 2: Buscar cliente por ID
+            Console.WriteLine("=== Teste de Busca por ID ===");
+            var clienteBuscado = clienteRepository.BuscarPorIdCliente(cliente1.Id);
+            Console.WriteLine(clienteBuscado != null ? $"Cliente encontrado: {clienteBuscado.Nome}" : "Cliente não encontrado\n");
+
+            // Teste 3: Listar todos os clientes
+            Console.WriteLine("\n=== Teste de Listagem ===");
+            var clientes = clienteRepository.ListarTodosCliente();
+            foreach (var cliente in clientes)
+            {
+                Console.WriteLine($"Cliente: {cliente.Nome}, CPF: {cliente.CPF}");
+            }
+            Console.WriteLine();
+
+            // Teste 4: Tentar Remover Cliente com Imóveis Associados
+            Console.WriteLine("=== Teste de Remoção com Imóveis Associados ===");
+            try
+            {
+                clienteRepository.RemoverCliente(cliente2.Id);
+                Console.WriteLine($"Cliente: {cliente2.Nome}, removido com sucesso!");
+            }
+            catch (InvalidOperationException ex)
+            {
+                Console.WriteLine($"Erro esperado ao remover: {ex.Message}\n");
+            }
+            
+            // Teste 3: Listar todos os clientes
+            Console.WriteLine("\n=== Teste de Listagem ===");
+            var clientes2 = clienteRepository.ListarTodosCliente();
+            foreach (var cliente in clientes2)
+            {
+                Console.WriteLine($"Cliente: {cliente.Nome}, CPF: {cliente.CPF}");
+            }
+            Console.WriteLine();
+
+            // Teste 5: Remover Cliente sem Imóveis Associados
+            Console.WriteLine("=== Teste de Remoção Sem Imóveis Associados ===");
+            imovelRepositoryMock.DesassociarCliente(cliente1.Id); // Método hipotético para desassociar cliente
+            bool removido = clienteRepository.RemoverCliente(cliente1.Id);
+            Console.WriteLine(removido ? "Cliente removido com sucesso." : "Cliente não encontrado ou não removido.\n");
+
+            // Limpeza do arquivo de teste
+            LimparArquivoDeTeste(filePath);
+        }
+
+        // Método para limpar o arquivo JSON temporário após o teste
+        private static void LimparArquivoDeTeste(string filePath)
+        {
+            if (System.IO.File.Exists(filePath))
+            {
+                System.IO.File.Delete(filePath);
+            }
+        }
+        //// Configura os serviços de DI
+        //var startup = new Startup();
+        //var serviceProvider = startup.ConfigureServices();
+
+        //var imovelRepository = serviceProvider.GetService<IImovelRepository>();
+
+        //var novoImovel = new Imovel
+        //{
+        //    InscricaoIPTU = "123456",
+        //    TipoImovel = "Residencial",
+        //    DetalhesTipoImovel = "Casa",
+        //    AreaUtil = 120.5f
+        //};
+
+        //if (imovelRepository == null)
+        //{
+        //    Console.WriteLine("Erro: ImovelRepository não foi resolvido.");
+        //    return;
+        //}
+
+        //imovelRepository.SalvarImovel(novoImovel);
+
+        //Console.WriteLine("Imóvel salvo com sucesso!");
+    }
+
+    public class MockImovelRepository : IImovelRepository
+    {
+        private readonly List<Guid> clientesComImoveis = new List<Guid>();
+
+        public void AssociarCliente(Guid clienteId) => clientesComImoveis.Add(clienteId);
+        public void DesassociarCliente(Guid clienteId) => clientesComImoveis.Remove(clienteId);
+
+        public bool ClientePossuiImovel(Guid clienteId) => clientesComImoveis.Contains(clienteId);
+
+        public void SalvarImovel(Imovel imovel)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Imovel BuscarPorIdImovel(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Imovel> ListarTodosImovel()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoverImovel(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        // Implementações de métodos da interface, caso sejam necessários
+        // Exemplo: public void Salvar(Imovel imovel) { ... }
+    }
+
+

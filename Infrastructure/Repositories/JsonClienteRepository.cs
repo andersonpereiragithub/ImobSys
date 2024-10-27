@@ -59,6 +59,18 @@ namespace ImobSys.Infrastructure.Repositories
             return cliente;
         }
 
+        public Cliente BuscarPorNomeCliente(string nomeCliente)
+        {
+            var cliente = ListarTodosCliente().Find(cliente => cliente.Nome == nomeCliente);
+            //var cliente = clientes.Find(cliente => cliente.Id == id);
+
+            if (cliente == null)
+            {
+                return null;
+            }
+
+            return cliente;
+        }
         public List<Cliente> ListarTodosCliente()
         {
             if (!File.Exists(_filePath))
