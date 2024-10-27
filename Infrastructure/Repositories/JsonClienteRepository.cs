@@ -48,7 +48,7 @@ namespace ImobSys.Infrastructure.Repositories
 
         public Cliente BuscarPorIdCliente(Guid id)
         {
-            var cliente = ListarTodosCliente().Find(cliente => cliente.Id == id); ;
+            var cliente = ListarTodosCliente().Find(cliente => cliente.Id == id); 
             //var cliente = clientes.Find(cliente => cliente.Id == id);
 
             if (cliente == null)
