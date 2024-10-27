@@ -4,7 +4,7 @@ using ImobSys.Presentation.ConsoleApp;
 using ImobSys.Domain;
 using System;
 using ImobSys.Domain.Entities;
-using ImobSys.Domain.Entities.Enums;
+using ImobSys.Domain.Interfaces;
 
 namespace ImobSys.ConsoleApp
 {

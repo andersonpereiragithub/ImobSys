@@ -1,6 +1,6 @@
 ﻿using ImobSys.Domain;
 
-namespace ImobSys.Infrastructure.Repositories
+namespace ImobSys.Domain.Interfaces
 {
     public interface IImovelRepository
     {
@@ -9,5 +9,6 @@ namespace ImobSys.Infrastructure.Repositories
         List<Imovel> ListarTodosImovel();
         void RemoverImovel(Guid id);
         bool ClientePossuiImovel(Guid clienteId);
+        Imovel BuscarPorInscricaoIPTU(string? inscricaoIptu);
     }
 }

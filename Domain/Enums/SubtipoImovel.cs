@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ImobSys.Domain.Entities.Enums
+namespace ImobSys.Domain.Enums
 {
     public enum SubtipoImovel
     {

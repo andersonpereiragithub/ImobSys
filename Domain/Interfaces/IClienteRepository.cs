@@ -1,7 +1,7 @@
 ﻿using ImobSys.Domain.Entities;
 using ImobSys.Domain;
 
-namespace ImobSys.Infrastructure.Repositories
+namespace ImobSys.Domain.Interfaces
 {
     public interface IClienteRepository
     {

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using ImobSys.Infrastructure.Repositories;
+using ImobSys.Domain.Interfaces;
 
 namespace ImobSys.Infrastructure.DI
 {

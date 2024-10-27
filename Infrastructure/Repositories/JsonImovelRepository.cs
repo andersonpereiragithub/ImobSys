@@ -1,4 +1,5 @@
 ﻿using ImobSys.Domain;
+using ImobSys.Domain.Interfaces;
 using Newtonsoft.Json;
 
 namespace ImobSys.Infrastructure.Repositories
@@ -56,7 +57,18 @@ namespace ImobSys.Infrastructure.Repositories
 
             return imovel;
         }
+        public Imovel BuscarPorInscricaoIPTU(string inscricaoIPTU)
+        {
+            var imoveis = ListarTodosImovel();
+            var imovel = imoveis.Find(imovel => imovel.InscricaoIPTU == inscricaoIPTU);
 
+            if (imovel == null)
+            {
+                throw new Exception("Imóvel não encontrado!");
+            }
+
+            return imovel;
+        }
         public List<Imovel> ListarTodosImovel()
         {
             if (!File.Exists(_filePath))

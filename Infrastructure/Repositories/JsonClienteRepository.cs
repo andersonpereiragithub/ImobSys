@@ -1,5 +1,5 @@
 ﻿using ImobSys.Domain.Entities;
-using ImobSys.Infrastructure.Repositories;
+using ImobSys.Domain.Interfaces;
 using Newtonsoft.Json;
 
 namespace ImobSys.Infrastructure.Repositories

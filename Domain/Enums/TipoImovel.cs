@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ImobSys.Domain.Entities.Enums
+namespace ImobSys.Domain.Enums
 {
     public enum TipoImovel
     {
