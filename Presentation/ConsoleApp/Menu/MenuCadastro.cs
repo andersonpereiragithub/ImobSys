@@ -1,10 +1,23 @@
-﻿using System;
+﻿using ImobSys.Domain.Interfaces;
+using ImobSys.Application.Services;
+using System;
 
 namespace ImobSys.Presentation.ConsoleApp.Menu
 {
     public class MenuCadastro
     {
-        public void Exibir()
+        private readonly IClienteRepository _clienteRepository;
+        private readonly IImovelRepository _imovelRepository;
+        private readonly ClienteService _clienteService;
+
+        public MenuCadastro(IClienteRepository clienteRepository, IImovelRepository imovelRepository, ClienteService clienteService)
+        {
+            _clienteRepository = clienteRepository;
+            _imovelRepository = imovelRepository;
+            _clienteService = clienteService;
+        }
+
+        public void ExibirMenuCadastro()
         {
             bool voltar = false;
 
@@ -23,10 +36,10 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
                 switch (opcao)
                 {
                     case "1":
-                        CadastrarNovoCliente();
+                        _clienteService.CadastrarNovoCliente();
                         break;
                     case "2":
-                        CadastrarNovoImovel();
+                        //CadastrarNovoImovel();
                         break;
                     case "0":
                         voltar = true;
@@ -39,18 +52,18 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
             }
         }
 
-        private void CadastrarNovoCliente()
-        {
-            // Implementação ou chamada para cadastrar cliente
-            Console.WriteLine("Função de cadastro de cliente...");
-            Console.ReadKey();
-        }
+        //private void CadastrarNovoCliente()
+        //{
+        //    // Implementação ou chamada para cadastrar cliente
+        //    Console.WriteLine("Função de cadastro de cliente...");
+        //    Console.ReadKey();
+        //}
 
-        private void CadastrarNovoImovel()
-        {
-            // Implementação ou chamada para cadastrar imóvel
-            Console.WriteLine("Função de cadastro de imóvel...");
-            Console.ReadKey();
-        }
+        //private void CadastrarNovoImovel()
+        //{
+        //    // Implementação ou chamada para cadastrar imóvel
+        //    Console.WriteLine("Função de cadastro de imóvel...");
+        //    Console.ReadKey();
+        //}
     }
 }
