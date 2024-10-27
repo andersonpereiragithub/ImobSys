@@ -8,5 +8,6 @@ namespace ImobSys.Infrastructure.Repositories
         Imovel BuscarPorIdImovel(Guid id);
         List<Imovel> ListarTodosImovel();
         void RemoverImovel(Guid id);
+        bool ClientePossuiImovel(Guid clienteId);
     }
 }

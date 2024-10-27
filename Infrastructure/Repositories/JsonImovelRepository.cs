@@ -87,5 +87,10 @@ namespace ImobSys.Infrastructure.Repositories
             }
         }
 
+        public bool ClientePossuiImovel(Guid clienteId)
+        {
+            var imoveis = ListarTodosImovel();
+            return imoveis.Any(imovel => imovel.Proprietarios.Contains(clienteId));
+        }
     }
 }

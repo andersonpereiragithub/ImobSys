@@ -8,6 +8,6 @@ namespace ImobSys.Infrastructure.Repositories
         void SalvarCliente(Cliente cliente);
         Cliente BuscarPorIdCliente(Guid id);
         List<Cliente> ListarTodosCliente();
-        void RemoverCliente(Guid id);
+        bool RemoverCliente(Guid id);
     }
 }

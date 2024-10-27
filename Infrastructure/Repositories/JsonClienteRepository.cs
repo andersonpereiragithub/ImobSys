@@ -7,9 +7,12 @@ namespace ImobSys.Infrastructure.Repositories
     public class JsonClienteRepository : IClienteRepository
     {
         private readonly string _filePath;
+        private readonly IImovelRepository _imovelRepository;
 
-        public JsonClienteRepository(string? filePath = null)
+        public JsonClienteRepository(IImovelRepository imovelRepository, string? filePath = null)
         {
+            _imovelRepository = imovelRepository;
+
             if (filePath == null)
             {
                 string projectDirectory = Directory.GetCurrentDirectory();
@@ -17,10 +20,10 @@ namespace ImobSys.Infrastructure.Repositories
 
                 if (!Directory.Exists(dataDirectory))
                 {
-                    Directory.Exists(dataDirectory);
+                    Directory.CreateDirectory(dataDirectory);
                 }
 
-                _filePath = Path.Combine(dataDirectory, "cliente.json");
+                _filePath = Path.Combine(dataDirectory, "clientes.json");
             }
             else
             {
@@ -33,11 +36,11 @@ namespace ImobSys.Infrastructure.Repositories
             var clientes = ListarTodosCliente();
             var existente = clientes.Find(i => i.Id == cliente.Id);
 
-            if(existente != null)
+            if (existente != null)
             {
                 clientes.Remove(existente);
             }
-            
+
             clientes.Add(cliente);
 
             File.WriteAllText(_filePath, JsonConvert.SerializeObject(clientes, Formatting.Indented));
@@ -66,23 +69,26 @@ namespace ImobSys.Infrastructure.Repositories
             var json = File.ReadAllText(_filePath);
             var clientes = JsonConvert.DeserializeObject<List<Cliente>>(json);
 
-            if(clientes == null)
+            if (clientes == null)
             {
                 return new List<Cliente>();
             }
 
             return clientes;
         }
-     
-        public void RemoverCliente(Guid id)
+
+        public bool RemoverCliente(Guid id)
         {
             var clientes = ListarTodosCliente();
             var cliente = clientes.Find(clientes => clientes.Id == id);
 
-            if (cliente != null) { 
+            if (cliente != null)
+            {
                 clientes.Remove(cliente);
                 File.WriteAllText(_filePath, JsonConvert.SerializeObject(clientes, Formatting.Indented));
+                return true; //apenas para testes
             }
+            return false;
         }
     }
 }
