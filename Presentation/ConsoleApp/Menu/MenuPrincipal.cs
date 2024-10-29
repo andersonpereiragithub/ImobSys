@@ -1,6 +1,6 @@
-﻿using ImobSys.Domain.Interfaces;
-using ImobSys.Presentation.ConsoleApp.Menu;
+﻿using ImobSys.Presentation.ConsoleApp.Menu;
 using ImobSys.Application.Services;
+using ImobSys.Domain.Interfaces;
 
 public class MenuPrincipal
 {

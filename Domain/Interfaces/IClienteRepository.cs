@@ -1,5 +1,5 @@
-﻿using ImobSys.Domain.Entities;
-using ImobSys.Domain;
+﻿using ImobSys.Domain;
+using ImobSys.Domain.Entities.Clientes;
 
 namespace ImobSys.Domain.Interfaces
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 using ImobSys.Domain;
-using ImobSys.Domain.Entities;
+using ImobSys.Domain.Entities.Clientes;
 using ImobSys.Domain.Interfaces;
 
 namespace ImobSys.Presentation.ConsoleApp.Menu

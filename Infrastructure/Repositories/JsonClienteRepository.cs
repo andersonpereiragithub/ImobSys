@@ -1,4 +1,4 @@
-﻿using ImobSys.Domain.Entities;
+﻿using ImobSys.Domain.Entities.Clientes;
 using ImobSys.Domain.Interfaces;
 using Newtonsoft.Json;
 

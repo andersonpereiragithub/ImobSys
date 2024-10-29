@@ -1,6 +1,7 @@
-﻿using System;
-using ImobSys.Domain.Entities;
+﻿using ImobSys.Domain.Entities.Clientes;
 using ImobSys.Domain.Interfaces;
+using ImobSys.Domain.Entities;
+using System;
 
 namespace ImobSys.Application.Services
 {

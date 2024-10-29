@@ -258,6 +258,7 @@ namespace ImobSys.Application.Services
             {
                 Console.WriteLine($" [{(int)tipo}] {tipo}");
             }
+
             Console.Write("Escolha o tipo de Logradouro: ");
             // Lê a escolha do usuário
             int escolha;
