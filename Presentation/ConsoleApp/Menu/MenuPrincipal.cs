@@ -28,7 +28,8 @@ public class MenuPrincipal
             Console.WriteLine("=========== MENU PRINCIPAL ===========");
             Console.WriteLine("1. Cadastro");
             Console.WriteLine("2. Busca");
-            Console.WriteLine("3. Listagem");
+            Console.WriteLine("     \u001b[33mListagens\u001b[0m");
+            Console.WriteLine("             3. Lista de Clientes");
             Console.WriteLine("4. Remoção");
             Console.WriteLine("0. Sair");
             Console.WriteLine("======================================");

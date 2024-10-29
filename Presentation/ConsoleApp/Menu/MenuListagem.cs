@@ -19,10 +19,10 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
             var clientes = _clienteRepository.ListarTodosCliente();
             if (clientes.Count > 0)
             {
-                Console.WriteLine("Clientes cadastrados:");
+                Console.WriteLine("\u001b[33m\nClientes cadastrados:\u001b[0m");
                 foreach (var cliente in clientes)
                 {
-                    Console.WriteLine($"ID: {cliente.Id}, Nome: {cliente.Nome}, CPF: {cliente.CPF}");
+                    Console.WriteLine($"Nome: {cliente.Nome}, CPF: {cliente.CPF}");
                 }
             }
             else
