@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using ImobSys.Domain;
 using ImobSys.Domain.Entities;
+using ImobSys.Domain.Enums;
 using ImobSys.Domain.Interfaces;
 
 namespace ImobSys.Application.Services
@@ -109,8 +110,8 @@ namespace ImobSys.Application.Services
             
             Console.Clear();
             Console.WriteLine("==== Informações de Endereço ====");
-            Console.Write("Tipo de Logradouro (Rua, Av, Alameda, etc.): ");
-            string tipoLogradouro = Console.ReadLine();
+            
+            string tipoLogradouro = SolicitarTipoLogradouro().ToString();
 
             Console.Write("Logradouro: ");
             string logradouro = Console.ReadLine();
@@ -247,6 +248,27 @@ namespace ImobSys.Application.Services
             Console.WriteLine("Pressione qualquer tecla para retornar ao Menu.");
             Console.ReadKey();
         }
+
+        public TipoLogradouro SolicitarTipoLogradouro()
+        {
+            Console.WriteLine("Selecione o Tipo de Logradouro:");
+
+            // Exibe todas as opções do enum com seus índices
+            foreach (var tipo in Enum.GetValues(typeof(TipoLogradouro)))
+            {
+                Console.WriteLine($" [{(int)tipo}] {tipo}");
+            }
+            Console.Write("Escolha o tipo de Logradouro: ");
+            // Lê a escolha do usuário
+            int escolha;
+            while (!int.TryParse(Console.ReadLine(), out escolha) || !Enum.IsDefined(typeof(TipoLogradouro), escolha))
+            {
+                Console.WriteLine("Opção inválida! Digite o número correspondente a uma opção da lista.");
+            }
+
+            return (TipoLogradouro)escolha;
+        }
+
         private int LerIntPositivo()
         {
             while (true)
