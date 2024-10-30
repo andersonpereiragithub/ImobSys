@@ -2,7 +2,7 @@
 
 namespace ImobSys.Domain.Entities.Clientes
 {
-    public class Cliente
+    public abstract class Cliente
     {
         public Guid Id { get; set; }
         public string? Nome { get; set; }
