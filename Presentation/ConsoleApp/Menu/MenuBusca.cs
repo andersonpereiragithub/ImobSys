@@ -1,7 +1,8 @@
-﻿using System;
-using ImobSys.Domain;
-using ImobSys.Domain.Entities.Clientes;
+﻿using ImobSys.Domain.Entities.Clientes;
 using ImobSys.Domain.Interfaces;
+using ImobSys.Domain;
+using System;
+using System.Runtime.ConstrainedExecution;
 
 namespace ImobSys.Presentation.ConsoleApp.Menu
 {
@@ -24,16 +25,33 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
                 var nome = Console.ReadLine();
                 if (nome != null)
                 {
-                    Cliente cliente = _clienteRepository.BuscarPorNomeCliente(nome);  // Método hipotético em IClienteRepository
-                    
+                    Cliente cliente = _clienteRepository.BuscarPorNomeCliente(nome);
+
                     if (cliente != null)
                     {
-                        Console.WriteLine($"Cliente encontrado: {cliente.Nome}, CPF: {cliente.CPF}");
+                        Console.WriteLine($"Cliente encontrado: {cliente.Nome}");
+
+                        if (cliente is PessoaFisica pessoaFisica)
+                        {
+                            Console.WriteLine($"CPF: {pessoaFisica.CPF} ");
+                        }
+                        else if (cliente is PessoaJuridica pessoaJuridica)
+                        {
+                            Console.WriteLine($"CNPJ: {pessoaJuridica.CNPJ}");
+                            if (!string.IsNullOrWhiteSpace(pessoaJuridica.NomeRepresentante))
+                            {
+                                Console.WriteLine($"Nome do Representante: {pessoaJuridica.NomeRepresentante}");
+                            }
+                        }
                     }
                     else
                     {
-                        Console.WriteLine("Cliente não encontrado.");
+                        Console.WriteLine("Cliente não encontrado");
                     }
+                }
+                else
+                {
+                    Console.WriteLine("Nome não pode ser vazio.");
                 }
             }
             catch (Exception ex)

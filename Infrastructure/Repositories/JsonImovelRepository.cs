@@ -42,6 +42,11 @@ namespace ImobSys.Infrastructure.Repositories
 
             imoveis.Add(imovel);
 
+            var settings = new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.Auto
+            };
+
             File.WriteAllText(_filePath, JsonConvert.SerializeObject(imoveis, Formatting.Indented));
         }
 
@@ -77,6 +82,12 @@ namespace ImobSys.Infrastructure.Repositories
             }
 
             var json = File.ReadAllText(_filePath);
+
+            var settings = new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.Auto
+            };
+
             var imoveis = JsonConvert.DeserializeObject<List<Imovel>>(json);
 
             if (imoveis == null)

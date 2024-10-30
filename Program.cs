@@ -1,8 +1,9 @@
-﻿using System;
+﻿using ImobSys.Presentation.ConsoleApp.Menu;
+using ImobSys.Infrastructure.Repositories;
+using ImobSys.Domain.Entities.Clientes;
 using ImobSys.Application.Services;
 using ImobSys.Domain.Interfaces;
-using ImobSys.Infrastructure.Repositories;
-using ImobSys.Presentation.ConsoleApp.Menu;
+using System;
 
 namespace ImobSys.ConsoleApp
 {
@@ -10,12 +11,14 @@ namespace ImobSys.ConsoleApp
     {
         static void Main(string[] args)
         {
+            // Especificando o tipo de cliente (PessoaFisica) para o repositório
             IImovelRepository imovelRepository = new JsonImovelRepository("imoveis.json");
-            IClienteRepository clienteRepository = new JsonClienteRepository(imovelRepository, "clientes.json");
-            
-            ClienteService clienteService = new ClienteService(clienteRepository); //DÚVIDA SOBRE ISSO!
-            ImovelService imovelService = new ImovelService(imovelRepository, clienteRepository);//DÚVIDA SOBRE ISSO!
-            
+            IClienteRepository<PessoaFisica> clienteRepository = new JsonClienteRepository<PessoaFisica>("clientes.json");
+
+            // Passando repositórios específicos para os serviços
+            ClienteService clienteService = new ClienteService(clienteRepository);
+            ImovelService imovelService = new ImovelService(imovelRepository, clienteRepository);
+
             var menuPrincipal = new MenuPrincipal(clienteRepository, imovelRepository, clienteService, imovelService);
 
             menuPrincipal.Exibir();

@@ -3,12 +3,12 @@ using ImobSys.Domain.Entities.Clientes;
 
 namespace ImobSys.Domain.Interfaces
 {
-    public interface IClienteRepository
+    public interface IClienteRepository<T> where T : Cliente
     {
-        void SalvarCliente(Cliente cliente);
-        Cliente BuscarPorIdCliente(Guid id);
-        Cliente BuscarPorNomeCliente(string nome);
-        List<Cliente> ListarTodosCliente();
+        void SalvarCliente(T cliente);
+        T BuscarPorIdCliente(Guid id);
+        T BuscarPorNomeCliente(string nome);
+        List<T> ListarTodosCliente();
         bool RemoverCliente(Guid id);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using ImobSys.Domain.Entities.Clientes;
 using ImobSys.Domain.Interfaces;
 
 namespace ImobSys.Presentation.ConsoleApp.Menu
@@ -22,7 +23,14 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
                 Console.WriteLine("\u001b[33m\nClientes cadastrados:\u001b[0m");
                 foreach (var cliente in clientes)
                 {
-                    Console.WriteLine($"Nome: {cliente.Nome}, CPF: {cliente.CPF}");
+                    if (cliente is PessoaFisica pessoaFisica)
+                    {
+                        Console.WriteLine($"Nome: {cliente.Nome}, CPF: {pessoaFisica.CPF} ");
+                    }
+                    else if (cliente is PessoaJuridica pessoaJuridica)
+                    {
+                        Console.WriteLine($"Razão Social: {pessoaJuridica.RazaoSocial}, CNPJ: {pessoaJuridica.CNPJ}");
+                    }
                 }
             }
             else
