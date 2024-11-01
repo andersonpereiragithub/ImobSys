@@ -11,15 +11,20 @@ namespace ImobSys.ConsoleApp
     {
         static void Main(string[] args)
         {
-            // Especificando o tipo de cliente (PessoaFisica) para o repositório
             IImovelRepository imovelRepository = new JsonImovelRepository("imoveis.json");
             IClienteRepository<Cliente> clienteRepository = new JsonClienteRepository<Cliente>("clientes.json");
 
-            // Passando repositórios específicos para os serviços
             ClienteService clienteService = new ClienteService(clienteRepository);
             ImovelService imovelService = new ImovelService(imovelRepository, clienteRepository);
+            
+            var menuCadastro = new MenuCadastro(clienteService, imovelService);
+            var menuBusca = new MenuBusca(clienteRepository, imovelRepository);
+            var menuListagem = new MenuListagem(clienteRepository, imovelRepository);
+            var menuRemocao = new MenuRemocao(clienteRepository, imovelRepository);
 
-            var menuPrincipal = new MenuPrincipal(clienteRepository, imovelRepository, clienteService, imovelService);
+            var menuSecundarioListagem = new MenuSecundarioListagem(clienteRepository, imovelRepository, clienteService, imovelService);
+
+            var menuPrincipal = new MenuPrincipal(menuSecundarioListagem, clienteRepository, imovelRepository, clienteService, imovelService);
 
             menuPrincipal.Exibir();
         }

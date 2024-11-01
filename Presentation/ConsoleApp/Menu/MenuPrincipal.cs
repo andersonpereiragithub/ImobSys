@@ -22,7 +22,7 @@ public class MenuPrincipal
         _menuBusca = new MenuBusca(_clienteRepository, _imovelRepository);
         _menuListagem = new MenuListagem(clienteRepository, imovelRepository);
         _menuRemocao = new MenuRemocao(clienteRepository, imovelRepository);
-        _menuSecundarioListagem = new MenuSecundarioListagem(clienteService, imovelService);
+        _menuSecundarioListagem = new MenuSecundarioListagem(clienteRepository, imovelRepository, clienteService, imovelService);
     }
 
     public void Exibir()
@@ -52,7 +52,7 @@ public class MenuPrincipal
                     Console.WriteLine("Opção NÃO IMPLEMENTADA!");
                     break;
                 case "3":
-                    _menuListagem.ExibirMenuListagem();
+                    _menuSecundarioListagem.ExibirMenuListagem();
                     break;
                  case "0":
                     sair = true;
