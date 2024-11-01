@@ -1,7 +1,7 @@
-﻿using ImobSys.Presentation.ConsoleApp.Menu;
+﻿using ImobSys.Application.Services;
 using ImobSys.Domain.Entities.Clientes;
-using ImobSys.Application.Services;
 using ImobSys.Domain.Interfaces;
+using ImobSys.Presentation.ConsoleApp.Menu;
 
 public class MenuPrincipal
 {
@@ -9,11 +9,12 @@ public class MenuPrincipal
     private readonly MenuBusca _menuBusca;
     private readonly MenuListagem _menuListagem;
     private readonly MenuRemocao _menuRemocao;
+    private readonly MenuSecundarioListagem _menuSecundarioListagem;
     private readonly IClienteRepository<Cliente> _clienteRepository;
     private readonly IImovelRepository _imovelRepository;
     private readonly ImovelService _movelService;
 
-    public MenuPrincipal(IClienteRepository<Cliente> clienteRepository, IImovelRepository imovelRepository, ClienteService clienteService, ImovelService imovelService)
+    public MenuPrincipal(MenuSecundarioListagem menuSecundarioListagem, IClienteRepository<Cliente> clienteRepository, IImovelRepository imovelRepository, ClienteService clienteService, ImovelService imovelService)
     {
         _clienteRepository = clienteRepository;
         _imovelRepository = imovelRepository;
@@ -21,6 +22,7 @@ public class MenuPrincipal
         _menuBusca = new MenuBusca(_clienteRepository, _imovelRepository);
         _menuListagem = new MenuListagem(clienteRepository, imovelRepository);
         _menuRemocao = new MenuRemocao(clienteRepository, imovelRepository);
+        _menuSecundarioListagem = new MenuSecundarioListagem(clienteService, imovelService);
     }
 
     public void Exibir()
@@ -31,10 +33,9 @@ public class MenuPrincipal
             Console.Clear();
             Console.WriteLine("=========== MENU PRINCIPAL ===========");
             Console.WriteLine("1. Cadastro");
-            Console.WriteLine("2. Busca");
-            Console.WriteLine("     \u001b[33mListagens\u001b[0m");
-            Console.WriteLine("             3. Lista de Clientes");
-            Console.WriteLine("4. Remoção");
+            Console.WriteLine("\u001b[31m2. Busca\u001b[0m");
+            Console.WriteLine("3. Listagens");
+            Console.WriteLine("\u001b[31m4. Remoção\u001b[0m");
             Console.WriteLine("0. Sair");
             Console.WriteLine("======================================");
             Console.Write("Escolha uma opção: ");
@@ -48,14 +49,12 @@ public class MenuPrincipal
                     break;
                 case "2":
                     //_menuBusca.Exibir();
+                    Console.WriteLine("Opção NÃO IMPLEMENTADA!");
                     break;
                 case "3":
-                    _menuListagem.ListarTodosClientes();
+                    _menuListagem.ExibirMenuListagem();
                     break;
-                case "4":
-                    // _menuRemocao.Exibir();
-                    break;
-                case "0":
+                 case "0":
                     sair = true;
                     break;
                 default:

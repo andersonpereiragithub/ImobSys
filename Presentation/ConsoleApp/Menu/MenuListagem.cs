@@ -20,7 +20,7 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
             var clientes = _clienteRepository.ListarTodosCliente();
             if (clientes.Count > 0)
             {
-                Console.WriteLine("\u001b[33m\nClientes cadastrados:\u001b[0m");
+                Console.WriteLine("\n\n\u001b[33mClientes cadastrados:\u001b[0m");
                 foreach (var cliente in clientes)
                 {
                     if (cliente is PessoaFisica pessoaFisica)
@@ -37,7 +37,7 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
             {
                 Console.WriteLine("Nenhum cliente cadastrado.");
             }
-            Console.WriteLine("Pressione qualquer tecla para continuar...");
+            Console.WriteLine("\n\n\nPressione qualquer tecla para continuar...");
             Console.ReadKey();
         }
 
@@ -46,17 +46,36 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
             var imoveis = _imovelRepository.ListarTodosImovel();
             if (imoveis.Count > 0)
             {
-                Console.WriteLine("Imóveis cadastrados:");
+                Console.WriteLine("\n\n\u001b[33mImóveis cadastrados:\u001b[0m");
                 foreach (var imovel in imoveis)
                 {
-                    Console.WriteLine($"ID: {imovel.Id}, Tipo: {imovel.TipoImovel}, Área: {imovel.AreaUtil} m²");
+                    Console.WriteLine($"Imóvel: {imovel.Endereco.TipoLogradouro} {imovel.Endereco.Logradouro}, {imovel.Endereco.Numero} {imovel.Endereco.Complemento}, Tipo: {imovel.TipoImovel}, Área: {imovel.AreaUtil} m²");
                 }
             }
             else
             {
                 Console.WriteLine("Nenhum imóvel cadastrado.");
             }
-            Console.WriteLine("Pressione qualquer tecla para continuar...");
+            Console.WriteLine("\n\n\nPressione qualquer tecla para continuar...");
+            Console.ReadKey();
+        }
+
+        public void ListarTodosIPTUs()
+        {
+            var imoveis = _imovelRepository.ListarTodosImovel();
+            if (imoveis.Count > 0)
+            {
+                Console.WriteLine("\n\n\u001b[33mIPTUs cadastrados:\u001b[0m");
+                foreach (var imovel in imoveis)
+                {
+                    Console.WriteLine($"IPTU: {imovel.InscricaoIPTU} Enderço: {imovel.Endereco.TipoLogradouro} {imovel.Endereco.Logradouro}, {imovel.Endereco.Numero} {imovel.Endereco.Complemento}");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Nenhum imóvel cadastrado.");
+            }
+            Console.WriteLine("\n\n\nPressione qualquer tecla para continuar...");
             Console.ReadKey();
         }
     }
