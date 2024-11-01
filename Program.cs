@@ -13,7 +13,7 @@ namespace ImobSys.ConsoleApp
         {
             // Especificando o tipo de cliente (PessoaFisica) para o repositório
             IImovelRepository imovelRepository = new JsonImovelRepository("imoveis.json");
-            IClienteRepository<PessoaFisica> clienteRepository = new JsonClienteRepository<PessoaFisica>("clientes.json");
+            IClienteRepository<Cliente> clienteRepository = new JsonClienteRepository<Cliente>("clientes.json");
 
             // Passando repositórios específicos para os serviços
             ClienteService clienteService = new ClienteService(clienteRepository);

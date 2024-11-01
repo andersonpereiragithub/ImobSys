@@ -1,17 +1,17 @@
-﻿using ImobSys.Domain.Entities.Clientes;
+﻿using System.Runtime.ConstrainedExecution;
+using ImobSys.Domain.Entities.Clientes;
 using ImobSys.Domain.Interfaces;
 using ImobSys.Domain;
 using System;
-using System.Runtime.ConstrainedExecution;
 
 namespace ImobSys.Presentation.ConsoleApp.Menu
 {
     public class MenuBusca
     {
-        private readonly IClienteRepository _clienteRepository;
+        private readonly IClienteRepository<Cliente> _clienteRepository;
         private readonly IImovelRepository _imovelRepository;
 
-        public MenuBusca(IClienteRepository clienteRepository, IImovelRepository imovelRepository)
+        public MenuBusca(IClienteRepository<Cliente> clienteRepository, IImovelRepository imovelRepository)
         {
             _clienteRepository = clienteRepository;
             _imovelRepository = imovelRepository;

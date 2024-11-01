@@ -1,18 +1,19 @@
-﻿using System;
+﻿using ImobSys.Domain.Entities.Clientes;
 using System.Collections.Generic;
-using ImobSys.Domain;
+using ImobSys.Domain.Interfaces;
 using ImobSys.Domain.Entities;
 using ImobSys.Domain.Enums;
-using ImobSys.Domain.Interfaces;
+using ImobSys.Domain;
+using System;
 
 namespace ImobSys.Application.Services
 {
-    public class ImovelService
+    public class ImovelService 
     {
         private readonly IImovelRepository _imovelRepository;
-        private readonly IClienteRepository _clienteRepository;
+        private readonly IClienteRepository<Cliente> _clienteRepository;
 
-        public ImovelService(IImovelRepository imovelRepository, IClienteRepository clienteRepository)
+        public ImovelService(IImovelRepository imovelRepository, IClienteRepository<Cliente> clienteRepository)
         {
             _imovelRepository = imovelRepository;
             _clienteRepository = clienteRepository;

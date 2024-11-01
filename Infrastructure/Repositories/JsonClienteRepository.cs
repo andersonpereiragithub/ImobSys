@@ -55,8 +55,10 @@ namespace ImobSys.Infrastructure.Repositories
         public List<T> ListarTodosCliente()
         {
             var json = File.ReadAllText(_filePath);
-            
-            return JsonConvert.DeserializeObject<List<T>>(json) ?? new List<T>();
+            var settings = new JsonSerializerSettings();
+            settings.Converters.Add(new ClienteJsonConverter());
+
+            return JsonConvert.DeserializeObject<List<T>>(json, settings) ?? new List<T>();
         }
 
         bool IClienteRepository<T>.RemoverCliente(Guid id)
@@ -71,6 +73,7 @@ namespace ImobSys.Infrastructure.Repositories
                 File.WriteAllText(_filePath, JsonConvert.SerializeObject(clientes, Formatting.Indented));
                 return true;//VERIFICAR
             }
+            return false;
         }
     }
 }

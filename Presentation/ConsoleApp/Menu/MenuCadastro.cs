@@ -1,20 +1,17 @@
-﻿using ImobSys.Domain.Interfaces;
+﻿using ImobSys.Domain.Entities.Clientes;
 using ImobSys.Application.Services;
+using ImobSys.Domain.Interfaces;
 using System;
 
 namespace ImobSys.Presentation.ConsoleApp.Menu
 {
     public class MenuCadastro
     {
-        private readonly IClienteRepository _clienteRepository;
-        private readonly IImovelRepository _imovelRepository;
         private readonly ClienteService _clienteService;
         private readonly ImovelService _imovelService;
 
-        public MenuCadastro(IClienteRepository clienteRepository, IImovelRepository imovelRepository, ClienteService clienteService, ImovelService imovelService)
+        public MenuCadastro( ClienteService clienteService, ImovelService imovelService)
         {
-            _clienteRepository = clienteRepository;
-            _imovelRepository = imovelRepository;
             _clienteService = clienteService;
             _imovelService = imovelService;
         }
@@ -53,19 +50,5 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
                 }
             }
         }
-
-        //private void CadastrarNovoCliente()
-        //{
-        //    // Implementação ou chamada para cadastrar cliente
-        //    Console.WriteLine("Função de cadastro de cliente...");
-        //    Console.ReadKey();
-        //}
-
-        //private void CadastrarNovoImovel()
-        //{
-        //    // Implementação ou chamada para cadastrar imóvel
-        //    Console.WriteLine("Função de cadastro de imóvel...");
-        //    Console.ReadKey();
-        //}
     }
 }

@@ -6,10 +6,10 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
 {
     public class MenuListagem
     {
-        private readonly IClienteRepository _clienteRepository;
+        private readonly IClienteRepository<Cliente> _clienteRepository;
         private readonly IImovelRepository _imovelRepository;
 
-        public MenuListagem(IClienteRepository clienteRepository, IImovelRepository imovelRepository)
+        public MenuListagem(IClienteRepository<Cliente> clienteRepository, IImovelRepository imovelRepository)
         {
             _clienteRepository = clienteRepository;
             _imovelRepository = imovelRepository;

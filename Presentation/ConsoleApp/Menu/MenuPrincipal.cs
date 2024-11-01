@@ -1,4 +1,5 @@
 ﻿using ImobSys.Presentation.ConsoleApp.Menu;
+using ImobSys.Domain.Entities.Clientes;
 using ImobSys.Application.Services;
 using ImobSys.Domain.Interfaces;
 
@@ -8,13 +9,16 @@ public class MenuPrincipal
     private readonly MenuBusca _menuBusca;
     private readonly MenuListagem _menuListagem;
     private readonly MenuRemocao _menuRemocao;
-    private readonly ClienteService _clienteService;
+    private readonly IClienteRepository<Cliente> _clienteRepository;
+    private readonly IImovelRepository _imovelRepository;
     private readonly ImovelService _movelService;
 
-    public MenuPrincipal(IClienteRepository clienteRepository, IImovelRepository imovelRepository, ClienteService clienteService, ImovelService imovelService)
+    public MenuPrincipal(IClienteRepository<Cliente> clienteRepository, IImovelRepository imovelRepository, ClienteService clienteService, ImovelService imovelService)
     {
-        _menuCadastro = new MenuCadastro(clienteRepository, imovelRepository, clienteService, imovelService);
-        _menuBusca = new MenuBusca(clienteRepository, imovelRepository);
+        _clienteRepository = clienteRepository;
+        _imovelRepository = imovelRepository;
+        _menuCadastro = new MenuCadastro(clienteService, imovelService);
+        _menuBusca = new MenuBusca(_clienteRepository, _imovelRepository);
         _menuListagem = new MenuListagem(clienteRepository, imovelRepository);
         _menuRemocao = new MenuRemocao(clienteRepository, imovelRepository);
     }

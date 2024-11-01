@@ -10,9 +10,9 @@ namespace ImobSys.Application.Services
 {
     public class ClienteService
     {
-        private readonly IClienteRepository _clienteRepository;
+        private readonly IClienteRepository<Cliente> _clienteRepository;
 
-        public ClienteService(IClienteRepository clienteRepository)
+        public ClienteService(IClienteRepository<Cliente> clienteRepository)
         {
             _clienteRepository = clienteRepository;
         }
