@@ -5,7 +5,7 @@ using System;
 
 namespace ImobSys.Presentation.ConsoleApp.Menu
 {
-    public class MenuCadastro
+    public class MenuCadastro : BaseMenu
     {
         private readonly ClienteService _clienteService;
         private readonly ImovelService _imovelService;
@@ -22,25 +22,23 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
 
             while (!voltar)
             {
-                Console.Clear();
-                Console.WriteLine("=========== MENU DE CADASTRO ===========");
+                ExibirCabecalho("menu cadastro");
                 Console.WriteLine("1. Cadastrar Novo Cliente");
                 Console.WriteLine("2. Cadastrar Novo Imóvel");
                 Console.WriteLine("0. Voltar");
                 Console.WriteLine("========================================");
-                Console.Write("Escolha uma opção: ");
 
-                var opcao = Console.ReadLine();
+                var opcao = SolicitarOpcaoNumerica(0, 2);
 
                 switch (opcao)
                 {
-                    case "1":
+                    case 1:
                         _clienteService.CadastrarNovoCliente();
                         break;
-                    case "2":
+                    case 2:
                         _imovelService.CadastrarNovoImovel();
                         break;
-                    case "0":
+                    case 0:
                         voltar = true;
                         break;
                     default:

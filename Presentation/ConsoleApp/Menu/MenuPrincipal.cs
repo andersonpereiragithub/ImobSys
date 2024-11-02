@@ -3,7 +3,7 @@ using ImobSys.Domain.Entities.Clientes;
 using ImobSys.Domain.Interfaces;
 using ImobSys.Presentation.ConsoleApp.Menu;
 
-public class MenuPrincipal
+public class MenuPrincipal : BaseMenu
 {
     private readonly MenuCadastro _menuCadastro;
     private readonly MenuBusca _menuBusca;
@@ -30,35 +30,36 @@ public class MenuPrincipal
         bool sair = false;
         while (!sair)
         {
-            Console.Clear();
-            Console.WriteLine("=========== MENU PRINCIPAL ===========");
-            Console.WriteLine("1. Cadastro");
-            Console.WriteLine("\u001b[31m2. Busca\u001b[0m");
-            Console.WriteLine("3. Listagens");
-            Console.WriteLine("\u001b[31m4. Remoção\u001b[0m");
-            Console.WriteLine("0. Sair");
-            Console.WriteLine("======================================");
-            Console.Write("Escolha uma opção: ");
 
-            var opcao = Console.ReadLine();
+            ExibirCabecalho("Menu Principal");
+            Console.WriteLine("╔═════════════╦══════════╦═════════════╦════════════╦══════════╗");
+            Console.WriteLine("  Cadastro[1]   Busca[2]   Listagen[3]   Remoção[4]   Sair[0]   ");
+            Console.WriteLine("╚═════════════╩══════════╩═════════════╩════════════╩══════════╝");
+            //Console.WriteLine("1. Cadastro");
+            //Console.WriteLine("\u001b[31m2. Busca\u001b[0m");
+            //Console.WriteLine("3. Listagens");
+            //Console.WriteLine("\u001b[31m4. Remoção\u001b[0m");
+            //Console.WriteLine("0. Sair");
+
+            var opcao = SolicitarOpcaoNumerica(0, 4);
 
             switch (opcao)
             {
-                case "1":
+                case 1:
                     _menuCadastro.ExibirMenuCadastro();
                     break;
-                case "2":
+                case 2:
                     //_menuBusca.Exibir();
                     Console.WriteLine("Opção NÃO IMPLEMENTADA!");
                     break;
-                case "3":
+                case 3:
                     _menuSecundarioListagem.ExibirMenuListagem();
                     break;
-                 case "0":
+                 case 0:
                     sair = true;
                     break;
                 default:
-                    Console.WriteLine("Opção inválida. Pressione qualquer tecla para tentar novamente.");
+                    Console.WriteLine("\nOpção inválida. Pressione qualquer tecla para tentar novamente.");
                     Console.ReadKey();
                     break;
             }

@@ -5,7 +5,7 @@ using ImobSys.Presentation.ConsoleApp.Menu;
 
 namespace ImobSys.Presentation.ConsoleApp.Menu
 {
-    public class MenuSecundarioListagem
+    public class MenuSecundarioListagem : BaseMenu
     {
         private readonly MenuCadastro _menuCadastro;
         private readonly MenuBusca _menuBusca;
@@ -28,38 +28,33 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
             bool sair = false;
             while (!sair)
             {
-                Console.Clear();
-                Console.WriteLine("=========== MENU PRINCIPAL ===========");
-                Console.WriteLine("Cadastro");
-                Console.WriteLine("Busca");
-                Console.WriteLine("\u001b[33mListagens\u001b[0m");
+                ExibirCabecalho("\u001b[31mListagem\u001b[0m");
+                Console.WriteLine("   \u001b[33mListagens\u001b[0m");
                 Console.WriteLine("             1. Lista de Clientes");
                 Console.WriteLine("             2. Lista de Imóveis");
                 Console.WriteLine("             3. Lista de IPTUs");
                 Console.WriteLine("\u001b[31m4. Remoção\u001b[0m");
                 Console.WriteLine("0. Voltar");
                 Console.WriteLine("======================================");
-                Console.Write("Escolha uma opção: ");
 
-                var opcao = Console.ReadLine();
+                var opcao = SolicitarOpcaoNumerica(0, 4);
 
                 switch (opcao)
                 {
-                    case "1":
+                    case 1:
                         _menuListagem.ListarTodosClientes();
                         //_menuCadastro.ExibirMenuCadastro();
                         break;
-                    case "2":
+                    case 2:
                         _menuListagem.ListarTodosImoveis();
                         break;
-                    case "3":
+                    case 3:
                         _menuListagem.ListarTodosIPTUs();
                         break;
-                    case "4":
-
+                    case 4:
+                        Console.WriteLine("Opção NÃO IMPLEMENTADA!");
                         break;
-
-                    case "0":
+                    case 0:
                         sair = true;
                         break;
                     default:

@@ -1,4 +1,5 @@
 ﻿using System;
+using ImobSys.Domain;
 using ImobSys.Domain.Entities.Clientes;
 using ImobSys.Domain.Interfaces;
 
@@ -25,7 +26,13 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
                 {
                     if (cliente is PessoaFisica pessoaFisica)
                     {
-                        Console.WriteLine($"Nome: {cliente.Nome}, CPF: {pessoaFisica.CPF} ");
+                        string cpfFormatada = pessoaFisica.CPF;
+
+                        if (cpfFormatada.Length == 11)
+                        {
+                            cpfFormatada = cpfFormatada.Insert(3, ".").Insert(7, ".").Insert(11,"-");
+                        }
+                        Console.WriteLine($"Nome: {cliente.Nome}, CPF: {cpfFormatada} ");
                     }
                     else if (cliente is PessoaJuridica pessoaJuridica)
                     {
@@ -68,7 +75,13 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
                 Console.WriteLine("\n\n\u001b[33mIPTUs cadastrados:\u001b[0m");
                 foreach (var imovel in imoveis)
                 {
-                    Console.WriteLine($"IPTU: {imovel.InscricaoIPTU} Enderço: {imovel.Endereco.TipoLogradouro} {imovel.Endereco.Logradouro}, {imovel.Endereco.Numero} {imovel.Endereco.Complemento}");
+                    string inscricaoIPTUFormatada = imovel.InscricaoIPTU;
+
+                    if (inscricaoIPTUFormatada.Length == 9)
+                    {
+                        inscricaoIPTUFormatada = inscricaoIPTUFormatada.Insert(3, ".").Insert(7, "/");
+                    }
+                    Console.WriteLine($"IPTU: {inscricaoIPTUFormatada} Enderço: {imovel.Endereco.TipoLogradouro} {imovel.Endereco.Logradouro}, {imovel.Endereco.Numero} {imovel.Endereco.Complemento}");
                 }
             }
             else
