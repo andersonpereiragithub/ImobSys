@@ -7,22 +7,23 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
     {
         protected void ExibirCabecalho(string titulo)
         {
-            Console.Clear();
-            Console.WriteLine($"=========== \u001b[34m{titulo.ToUpper()}\u001b[0m ===========");
+            Console.WriteLine("╔════════════════════════════════════════════════════════════╗");
+            Console.WriteLine($"                         \u001b[32m{titulo.ToUpper()}\u001b[0m              ");
+            Console.WriteLine("╚════════════════════════════════════════════════════════════╝");
         }
         protected int SolicitarOpcaoNumerica(int min, int max)
         {
             string textOption = "Escolha uma opção: [ ]";
             int x = 2;
-            int y = 5;
+            int y = 7;
 
             int opcao;
             while (true)
             {
 
-                Console.WriteLine("╔══════════════════════════════════════════════════════════════╗");
+                Console.WriteLine("╔════════════════════════════════════════════════════════════╗");
                 Console.WriteLine();
-                Console.WriteLine("╚══════════════════════════════════════════════════════════════╝");
+                Console.WriteLine("╚════════════════════════════════════════════════════════════╝");
                 Console.SetCursorPosition(x, y);
                 Console.WriteLine($"{textOption}");
                 x = 22;

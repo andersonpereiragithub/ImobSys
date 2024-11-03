@@ -5,12 +5,12 @@ using ImobSys.Domain.Interfaces;
 
 namespace ImobSys.Presentation.ConsoleApp.Menu
 {
-    public class MenuListagem
+    public class ConsoleDataLister
     {
         private readonly IClienteRepository<Cliente> _clienteRepository;
         private readonly IImovelRepository _imovelRepository;
 
-        public MenuListagem(IClienteRepository<Cliente> clienteRepository, IImovelRepository imovelRepository)
+        public ConsoleDataLister(IClienteRepository<Cliente> clienteRepository, IImovelRepository imovelRepository)
         {
             _clienteRepository = clienteRepository;
             _imovelRepository = imovelRepository;

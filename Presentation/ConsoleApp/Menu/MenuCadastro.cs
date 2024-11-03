@@ -22,11 +22,11 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
 
             while (!voltar)
             {
-                ExibirCabecalho("menu cadastro");
-                Console.WriteLine("1. Cadastrar Novo Cliente");
-                Console.WriteLine("2. Cadastrar Novo Imóvel");
-                Console.WriteLine("0. Voltar");
-                Console.WriteLine("========================================");
+                Console.Clear();
+                ExibirCabecalho("Menu Cadastro");
+                Console.WriteLine("╔═════════════════════════╦═══════════════════════╦══════════╗");
+                Console.WriteLine("        Clientes[1]               Imóveis[2]       \u001b[31m Voltar[0]\u001b[0m   ");
+                Console.WriteLine("╚═════════════════════════╩═══════════════════════╩══════════╝");
 
                 var opcao = SolicitarOpcaoNumerica(0, 2);
 
