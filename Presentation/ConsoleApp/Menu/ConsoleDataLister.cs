@@ -28,21 +28,31 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
                 Console.WriteLine("║                NOME                 ║      CPF/CNPJ        ║");
                 Console.WriteLine("╠═════════════════════════════════════╬══════════════════════╣");
 
-                // Imprime cada cliente como uma linha na tabela
+                string nomeFormatado;
+
                 foreach (var cliente in clientes)
                 {
                     if (cliente is PessoaFisica pessoaFisica)
                     {
+                        nomeFormatado = pessoaFisica.Nome.Length > 35
+                        ? pessoaFisica.Nome.Substring(0, 32) + "..."
+                        : pessoaFisica.Nome.PadRight(35);
+
                         string cpfFormatada = pessoaFisica.CPF;
                         if (cpfFormatada.Length == 11)
                         {
                             cpfFormatada = cpfFormatada.Insert(3, ".").Insert(7, ".").Insert(11, "-");
                         }
-                        Console.WriteLine($"║ {cliente.Nome,-35} ║ {cpfFormatada,-20} ║");
+                        Console.WriteLine($"║ {nomeFormatado,-35} ║ {cpfFormatada,-20} ║");
                     }
                     else if (cliente is PessoaJuridica pessoaJuridica)
                     {
-                        Console.WriteLine($"║ {pessoaJuridica.RazaoSocial,-4} ║ {pessoaJuridica.CNPJ,-16} ║");
+                        nomeFormatado = pessoaJuridica.RazaoSocial.Length > 35
+                        ? pessoaJuridica.RazaoSocial.Substring(0, 32) + "..."
+                        : pessoaJuridica.RazaoSocial.PadRight(35);
+
+
+                        Console.WriteLine($"║ {nomeFormatado,-4} ║ {pessoaJuridica.CNPJ,-20} ║");
                     }
                 }
                 Console.WriteLine("╚═════════════════════════════════════╩══════════════════════╝");
