@@ -7,8 +7,16 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
     {
         protected void ExibirCabecalho(string titulo)
         {
+            string corTitulo = titulo switch
+            {
+                "MENU PRINCIPAL" => "\u001b[34m" + titulo + "\u001b[0m",
+                "LISTAGENS" => "\u001b[33m" + titulo + "\u001b[0m",
+                "CADASTRO" => "\u001b[32m" + titulo + "\u001b[0m",
+                _ => titulo
+            };
+
             Console.WriteLine("╔════════════════════════════════════════════════════════════╗");
-            Console.WriteLine($"                         \u001b[32m{titulo.ToUpper()}\u001b[0m              ");
+            Console.WriteLine($"                         {corTitulo}              ");
             Console.WriteLine("╚════════════════════════════════════════════════════════════╝");
         }
         protected int SolicitarOpcaoNumerica(int min, int max)

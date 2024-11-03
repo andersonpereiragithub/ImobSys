@@ -31,7 +31,7 @@ public class MenuPrincipal : BaseMenu
         while (!sair)
         {
             Console.Clear();
-            ExibirCabecalho("Menu Principal");
+            ExibirCabecalho("MENU PRINCIPAL");
             Console.WriteLine("╔═════════════╦══════════╦═════════════╦════════════╦════════╗");
             Console.WriteLine("  Cadastro[1]   Busca[2]   Listagen[3]   Remoção[4]  \u001b[31m Sair[0]\u001b[0m   ");
             Console.WriteLine("╚═════════════╩══════════╩═════════════╩════════════╩════════╝");

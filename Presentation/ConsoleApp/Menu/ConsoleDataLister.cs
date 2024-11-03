@@ -22,23 +22,30 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
             if (clientes.Count > 0)
             {
                 Console.WriteLine("\n\n\u001b[33mClientes cadastrados:\u001b[0m");
+
+                // Imprime o cabeçalho da tabela
+                Console.WriteLine("╔═════════════════════════════════════╦══════════════════════╗");
+                Console.WriteLine("║                NOME                 ║      CPF/CNPJ        ║");
+                Console.WriteLine("╠═════════════════════════════════════╬══════════════════════╣");
+
+                // Imprime cada cliente como uma linha na tabela
                 foreach (var cliente in clientes)
                 {
                     if (cliente is PessoaFisica pessoaFisica)
                     {
                         string cpfFormatada = pessoaFisica.CPF;
-
                         if (cpfFormatada.Length == 11)
                         {
-                            cpfFormatada = cpfFormatada.Insert(3, ".").Insert(7, ".").Insert(11,"-");
+                            cpfFormatada = cpfFormatada.Insert(3, ".").Insert(7, ".").Insert(11, "-");
                         }
-                        Console.WriteLine($"Nome: {cliente.Nome}, CPF: {cpfFormatada} ");
+                        Console.WriteLine($"║ {cliente.Nome,-35} ║ {cpfFormatada,-20} ║");
                     }
                     else if (cliente is PessoaJuridica pessoaJuridica)
                     {
-                        Console.WriteLine($"Razão Social: {pessoaJuridica.RazaoSocial}, CNPJ: {pessoaJuridica.CNPJ}");
+                        Console.WriteLine($"║ {pessoaJuridica.RazaoSocial,-4} ║ {pessoaJuridica.CNPJ,-16} ║");
                     }
                 }
+                Console.WriteLine("╚═════════════════════════════════════╩══════════════════════╝");
             }
             else
             {
@@ -46,6 +53,7 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
             }
             Console.WriteLine("\n\n\nPressione qualquer tecla para continuar...");
             Console.ReadKey();
+            ;
         }
 
         public void ListarTodosImoveis()

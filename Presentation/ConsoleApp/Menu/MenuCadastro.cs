@@ -23,7 +23,7 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
             while (!voltar)
             {
                 Console.Clear();
-                ExibirCabecalho("Menu Cadastro");
+                ExibirCabecalho("CADASTRO");
                 Console.WriteLine("╔═════════════════════════╦═══════════════════════╦══════════╗");
                 Console.WriteLine("        Clientes[1]               Imóveis[2]       \u001b[31m Voltar[0]\u001b[0m   ");
                 Console.WriteLine("╚═════════════════════════╩═══════════════════════╩══════════╝");

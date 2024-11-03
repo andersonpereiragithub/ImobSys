@@ -13,7 +13,7 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
         private readonly MenuRemocao _menuRemocao;
         private readonly IClienteRepository<Cliente> _clienteRepository;
         private readonly IImovelRepository _imovelRepository;
-        private readonly ImovelService _movelService;
+        private readonly ImovelService _imovelService;
 
         public MenuSecundarioListagem(IClienteRepository<Cliente> clienteRepository, IImovelRepository imovelRepository, ClienteService clienteService, ImovelService imovelService)
         {
@@ -28,18 +28,11 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
             bool sair = false;
             while (!sair)
             {
-                //ExibirCabecalho("\u001b[31mListagem\u001b[0m");
-                //Console.WriteLine("   \u001b[33mListagens\u001b[0m");
-                //Console.WriteLine("             1. Lista de Clientes");
-                //Console.WriteLine("             2. Lista de Imóveis");
-                //Console.WriteLine("             3. Lista de IPTUs");
-                //Console.WriteLine("\u001b[31m4. Remoção\u001b[0m");
-                //Console.WriteLine("0. Voltar");
-
                 Console.Clear();
-                ExibirCabecalho("\u001b[31mListagem\u001b[0m");
+                string tituloAmarelo = "LISTAGENS";
+                ExibirCabecalho(tituloAmarelo);
                 Console.WriteLine("╔═════════════╦════════════╦══════════╦════════════╦═════════╗");
-                Console.WriteLine("  Clientes[1]   Imóveis[2]   IPTUs[3]   Remoção[4]  \u001b[31m Voltar[0]\u001b[0m   ");
+                Console.WriteLine("  Clientes[1]   Imóveis[2]   IPTUs[3]   Remoção[4]  \u001b[31mVoltar[0]\u001b[0m");
                 Console.WriteLine("╚═════════════╩════════════╩══════════╩════════════╩═════════╝");
 
                 var opcao = SolicitarOpcaoNumerica(0, 4);
@@ -48,7 +41,6 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
                 {
                     case 1:
                         _menuListagem.ListarTodosClientes();
-                        //_menuCadastro.ExibirMenuCadastro();
                         break;
                     case 2:
                         _menuListagem.ListarTodosImoveis();
