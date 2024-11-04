@@ -16,54 +16,153 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
             _imovelRepository = imovelRepository;
         }
 
+        public void ExibirTabela(List<string> cabecalhos, List<List<string>> dados)
+        {
+            int larguraTotal = 62;
+            int espacoEntreColunas = 2;
+            List<int> largurasColunas = CalcularLargurasColunas(cabecalhos, dados, larguraTotal, espacoEntreColunas);
+
+            ExibirLinhaBordaSuperior(largurasColunas);
+            ExibirCabecalhos(cabecalhos, largurasColunas);
+            ExibirLinhaBordaSeparadora(largurasColunas);
+            ExibirDados(dados, largurasColunas);
+            ExibirLinhaBordaInferior(largurasColunas);
+        }
+        private List<int> CalcularLargurasColunas(List<string> cabecalhos, List<List<string>> dados, int larguraTotal, int espacoEntreColunas)
+        {
+            List<int> largurasColunas = new List<int>();
+
+            for (int i = 0; i < cabecalhos.Count; i++)
+            {
+                int larguraCabecalho = cabecalhos[i].Length;
+                int larguraMaximaDados = dados.Max(l => i < l.Count ? l[i].Length : 0);
+                int larguraColuna = Math.Max(larguraCabecalho, larguraMaximaDados) + espacoEntreColunas;
+                largurasColunas.Add(larguraColuna);
+            }
+
+            AjustarLargurasColunas(largurasColunas, larguraTotal);
+            return largurasColunas;
+        }
+        private void AjustarLargurasColunas(List<int> largurasColunas, int larguraTotal)
+        {
+            int larguraSomada = largurasColunas.Sum() + largurasColunas.Count + 1;
+
+            if (larguraSomada < larguraTotal)
+            {
+                int espacoExtra = larguraTotal - larguraSomada;
+                int espacoExtraPorColuna = espacoExtra / largurasColunas.Count;
+                for (int i = 0; i < largurasColunas.Count; i++)
+                {
+                    largurasColunas[i] += espacoExtraPorColuna;
+                }
+            }
+            else if (larguraSomada > larguraTotal)
+            {
+                double fatorAjuste = (double)larguraTotal / larguraSomada;
+                for (int i = 0; i < largurasColunas.Count; i++)
+                {
+                    largurasColunas[i] = (int)(largurasColunas[i] * fatorAjuste);
+                }
+            }
+        }
+
+        private void ExibirLinhaBordaSuperior(List<int> largurasColunas)
+        {
+            Console.WriteLine("╔" + string.Join("╦", largurasColunas.Select(l => new string('═', l))) + "╗");
+        }
+
+        private void ExibirCabecalhos(List<string> cabecalhos, List<int> largurasColunas)
+        {
+            for (int i = 0; i < cabecalhos.Count; i++)
+            {
+                int espacoParaEsquerda = (largurasColunas[i] - cabecalhos[i].Length) / 2;
+                string textoCabecalho = cabecalhos[i].PadLeft(cabecalhos[i].Length + espacoParaEsquerda).PadRight(largurasColunas[i]);
+                Console.Write($"║{textoCabecalho}");
+            }
+            Console.WriteLine("║");
+        }
+
+        private void ExibirLinhaBordaSeparadora(List<int> largurasColunas)
+        {
+            Console.WriteLine("╠" + string.Join("╬", largurasColunas.Select(l => new string('═', l))) + "╣");
+        }
+
+        private void ExibirDados(List<List<string>> dados, List<int> largurasColunas)
+        {
+            foreach (var linha in dados)
+            {
+                for (int i = 0; i < largurasColunas.Count; i++)
+                {
+                    string textoColuna = i < linha.Count ? linha[i] : "";
+
+                    // Alinhamento da segunda coluna à direita
+                    if (i == 1)
+                    {
+                        textoColuna = textoColuna.PadLeft(largurasColunas[i]);
+                    }
+                    else
+                    {
+                        textoColuna = textoColuna.PadRight(largurasColunas[i]);
+                    }
+                    Console.Write($"║{textoColuna}");
+                }
+                Console.WriteLine("║");
+            }
+        }
+
+        private void ExibirLinhaBordaInferior(List<int> largurasColunas)
+        {
+            Console.WriteLine("╚" + string.Join("╩", largurasColunas.Select(l => new string('═', l))) + "╝");
+        }
+        
         public void ListarTodosClientes()
         {
             var clientes = _clienteRepository.ListarTodosCliente();
+
             if (clientes.Count > 0)
             {
                 Console.WriteLine("\n\n\u001b[33mClientes cadastrados:\u001b[0m");
 
-                // Imprime o cabeçalho da tabela
-                Console.WriteLine("╔═════════════════════════════════════╦══════════════════════╗");
-                Console.WriteLine("║                NOME                 ║      CPF/CNPJ        ║");
-                Console.WriteLine("╠═════════════════════════════════════╬══════════════════════╣");
+                // Cabeçalhos da tabela
+                List<string> cabecalhos = new List<string> { "NOME", "CPF/CNPJ" };
 
-                string nomeFormatado;
+                // Dados da tabela
+                List<List<string>> dados = new List<List<string>>();
 
                 foreach (var cliente in clientes)
                 {
                     if (cliente is PessoaFisica pessoaFisica)
                     {
-                        nomeFormatado = pessoaFisica.Nome.Length > 35
-                        ? pessoaFisica.Nome.Substring(0, 32) + "..."
-                        : pessoaFisica.Nome.PadRight(35);
+                        string nomeFormatado = pessoaFisica.Nome.Length > 35
+                            ? pessoaFisica.Nome.Substring(0, 32) + "..."
+                            : pessoaFisica.Nome;
 
-                        string cpfFormatada = pessoaFisica.CPF;
-                        if (cpfFormatada.Length == 11)
-                        {
-                            cpfFormatada = cpfFormatada.Insert(3, ".").Insert(7, ".").Insert(11, "-");
-                        }
-                        Console.WriteLine($"║ {nomeFormatado,-35} ║ {cpfFormatada,-20} ║");
+                        string cpfFormatada = pessoaFisica.CPF.Length == 11
+                            ? pessoaFisica.CPF.Insert(3, ".").Insert(7, ".").Insert(11, "-")
+                            : pessoaFisica.CPF;
+
+                        dados.Add(new List<string> { nomeFormatado, cpfFormatada });
                     }
                     else if (cliente is PessoaJuridica pessoaJuridica)
                     {
-                        nomeFormatado = pessoaJuridica.RazaoSocial.Length > 35
-                        ? pessoaJuridica.RazaoSocial.Substring(0, 32) + "..."
-                        : pessoaJuridica.RazaoSocial.PadRight(35);
+                        string nomeFormatado = pessoaJuridica.RazaoSocial.Length > 35
+                            ? pessoaJuridica.RazaoSocial.Substring(0, 32) + "..."
+                            : pessoaJuridica.RazaoSocial;
 
-
-                        Console.WriteLine($"║ {nomeFormatado,-4} ║ {pessoaJuridica.CNPJ,-20} ║");
+                        dados.Add(new List<string> { nomeFormatado, pessoaJuridica.CNPJ });
                     }
                 }
-                Console.WriteLine("╚═════════════════════════════════════╩══════════════════════╝");
+
+                // Chama o método genérico para exibir a tabela
+                ExibirTabela(cabecalhos, dados);
             }
             else
             {
                 Console.WriteLine("Nenhum cliente cadastrado.");
             }
+
             Console.WriteLine("\n\n\nPressione qualquer tecla para continuar...");
             Console.ReadKey();
-            ;
         }
 
         public void ListarTodosImoveis()

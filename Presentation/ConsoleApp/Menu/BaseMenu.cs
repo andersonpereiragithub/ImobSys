@@ -5,8 +5,11 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
 {
     public abstract class BaseMenu
     {
+        const int larguraLinha = 60;
         protected void ExibirCabecalho(string titulo)
         {
+            int posicaoTitulo = (larguraLinha - titulo.Length) /2;
+            
             string corTitulo = titulo switch
             {
                 "MENU PRINCIPAL" => "\u001b[34m" + titulo + "\u001b[0m",
@@ -16,7 +19,8 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
             };
 
             Console.WriteLine("╔════════════════════════════════════════════════════════════╗");
-            Console.WriteLine($"                         {corTitulo}              ");
+            Console.SetCursorPosition(posicaoTitulo + 1, Console.CursorTop);
+            Console.WriteLine($"{corTitulo}");
             Console.WriteLine("╚════════════════════════════════════════════════════════════╝");
         }
         protected int SolicitarOpcaoNumerica(int min, int max)

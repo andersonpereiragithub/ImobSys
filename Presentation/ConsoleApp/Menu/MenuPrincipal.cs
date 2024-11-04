@@ -9,12 +9,12 @@ public class MenuPrincipal : BaseMenu
     private readonly MenuBusca _menuBusca;
     private readonly ConsoleDataLister _menuListagem;
     private readonly MenuRemocao _menuRemocao;
-    private readonly MenuSecundarioListagem _menuSecundarioListagem;
+    private readonly MenuListagemOperacoes _menuSecundarioListagem;
     private readonly IClienteRepository<Cliente> _clienteRepository;
     private readonly IImovelRepository _imovelRepository;
     private readonly ImovelService _movelService;
 
-    public MenuPrincipal(MenuSecundarioListagem menuSecundarioListagem, IClienteRepository<Cliente> clienteRepository, IImovelRepository imovelRepository, ClienteService clienteService, ImovelService imovelService)
+    public MenuPrincipal(MenuListagemOperacoes menuSecundarioListagem, IClienteRepository<Cliente> clienteRepository, IImovelRepository imovelRepository, ClienteService clienteService, ImovelService imovelService)
     {
         _clienteRepository = clienteRepository;
         _imovelRepository = imovelRepository;
@@ -22,7 +22,7 @@ public class MenuPrincipal : BaseMenu
         _menuBusca = new MenuBusca(_clienteRepository, _imovelRepository);
         _menuListagem = new ConsoleDataLister(clienteRepository, imovelRepository);
         _menuRemocao = new MenuRemocao(clienteRepository, imovelRepository);
-        _menuSecundarioListagem = new MenuSecundarioListagem(clienteRepository, imovelRepository, clienteService, imovelService);
+        _menuSecundarioListagem = new MenuListagemOperacoes(_menuCadastro, _menuBusca, _menuListagem, _menuRemocao);
     }
 
     public void Exibir()

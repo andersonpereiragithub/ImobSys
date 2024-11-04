@@ -22,7 +22,7 @@ namespace ImobSys.ConsoleApp
             var menuListagem = new ConsoleDataLister(clienteRepository, imovelRepository);
             var menuRemocao = new MenuRemocao(clienteRepository, imovelRepository);
 
-            var menuSecundarioListagem = new MenuSecundarioListagem(clienteRepository, imovelRepository, clienteService, imovelService);
+            var menuSecundarioListagem = new MenuListagemOperacoes(menuCadastro, menuBusca, menuListagem, menuRemocao);
 
             var menuPrincipal = new MenuPrincipal(menuSecundarioListagem, clienteRepository, imovelRepository, clienteService, imovelService);
 

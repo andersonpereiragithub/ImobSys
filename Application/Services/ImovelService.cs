@@ -8,7 +8,7 @@ using System;
 
 namespace ImobSys.Application.Services
 {
-    public class ImovelService 
+    public class ImovelService
     {
         private readonly IImovelRepository _imovelRepository;
         private readonly IClienteRepository<Cliente> _clienteRepository;
@@ -25,7 +25,7 @@ namespace ImobSys.Application.Services
             Console.WriteLine("==== Cadastro de Novo Imóvel ===");
 
             Console.Write("Inscricao IPTU: ");
-            string inscricaoIptu = Console.ReadLine(); //incluir validação
+            string inscricaoIptu = Console.ReadLine();
 
             string tipoImovel = "";
             do
@@ -71,7 +71,7 @@ namespace ImobSys.Application.Services
             string detalhesTipoImovel = Console.ReadLine();
 
             // ======================= Dados de locação e venda =======================
-            
+
             Console.Clear();
             Console.Write("O imóvel está disponível para locação? (S/N): ");
             bool paraLocacao = Console.ReadLine()?.Trim().ToUpper() == "S";
@@ -108,10 +108,10 @@ namespace ImobSys.Application.Services
 
 
             // ================ Coletando dados do endereço ================
-            
+
             Console.Clear();
             Console.WriteLine("==== Informações de Endereço ====");
-            
+
             string tipoLogradouro = SolicitarTipoLogradouro().ToString();
 
             Console.Write("Logradouro: ");
@@ -164,8 +164,16 @@ namespace ImobSys.Application.Services
 
                     if (cliente != null)
                     {
-                        proprietarios.Add(cliente.Id);
-                        Console.WriteLine($"Proprietário [{cliente.Nome}] adicionado com sucesso!");
+                        if (cliente is PessoaFisica pessoaFisica)
+                        {
+                            proprietarios.Add(pessoaFisica.Id);
+                            Console.WriteLine($"Proprietário [{pessoaFisica.Nome}] adicionado com sucesso!");
+                        }
+                        else if(cliente is PessoaJuridica pessoaJuridica)
+                        {
+                            proprietarios.Add(pessoaJuridica.Id);
+                            Console.WriteLine($"Proprietário [{pessoaJuridica.RazaoSocial}] adicionado com sucesso!");
+                        }
                     }
                     else
                     {
@@ -188,7 +196,7 @@ namespace ImobSys.Application.Services
             }
 
             // ================== Coleta de Detalhes Internos do Imóvel ==================
-            
+
             Console.Clear();
             Console.WriteLine("==== Detalhes Internos do Imóvel ====");
 

@@ -25,11 +25,11 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
                 var nome = Console.ReadLine();
                 if (nome != null)
                 {
-                    Cliente cliente = _clienteRepository.BuscarPorNomeCliente(nome);
+                    object cliente = _clienteRepository.BuscarPorNomeCliente(nome);
 
                     if (cliente != null)
                     {
-                        Console.WriteLine($"Cliente encontrado: {cliente.Nome}");
+                        Console.WriteLine($"Cliente encontrado: {nome}");
 
                         if (cliente is PessoaFisica pessoaFisica)
                         {
@@ -67,7 +67,7 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
         {
             Console.Write("Digite a Inscrição IPTU do imóvel: ");
             var inscricaoIptu = Console.ReadLine();
-            Imovel imovel = _imovelRepository.BuscarPorInscricaoIPTU(inscricaoIptu);  // Método hipotético em IImovelRepository
+            Imovel imovel = _imovelRepository.BuscarPorInscricaoIPTU(inscricaoIptu); 
 
             if (imovel != null)
             {

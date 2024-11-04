@@ -40,16 +40,20 @@ namespace ImobSys.Infrastructure.Repositories
             return clientes.FirstOrDefault(c => c.Id == id);
         }
 
-        public T BuscarPorNomeCliente(string nomeCliente)
+        public object BuscarPorNomeCliente(string nomeCliente)
         {
-            var cliente = ListarTodosCliente();
-            
-            if (cliente == null)
+            var clientes = ListarTodosCliente();
+
+            if (clientes == null || clientes.Count == 0)
             {
                 return null;
             }
+            var cliente = clientes.FirstOrDefault(c =>
+                (c is PessoaFisica pf && pf.Nome == nomeCliente) ||
+                (c is PessoaJuridica pj && pj.RazaoSocial == nomeCliente)
+            );
 
-            return ListarTodosCliente().FirstOrDefault(cliente => cliente.Nome == nomeCliente); ;
+            return cliente;
         }
 
         public List<T> ListarTodosCliente()

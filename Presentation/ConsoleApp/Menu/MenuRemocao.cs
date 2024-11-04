@@ -15,31 +15,31 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
             _imovelRepository = imovelRepository;
         }
 
-        public void RemoverCliente()
-        {
-            Console.Write("Digite o nome do cliente a ser removido: ");
-            var nome = Console.ReadLine();
-            var cliente = _clienteRepository.BuscarPorNomeCliente(nome);
+        //public void RemoverCliente()
+        //{
+        //    Console.Write("Digite o nome do cliente a ser removido: ");
+        //    var nome = Console.ReadLine();
+        //    var cliente = _clienteRepository.BuscarPorNomeCliente(nome);
 
-            if (cliente == null)
-            {
-                Console.WriteLine("Cliente não encontrado.");
-            }
-            else
-            {
-                try
-                {
-                    var removido = _clienteRepository.RemoverCliente(cliente.Id);
-                    Console.WriteLine(removido ? "Cliente removido com sucesso." : "Cliente não encontrado ou não pôde ser removido.");
-                }
-                catch (InvalidOperationException ex)
-                {
-                    Console.WriteLine($"Erro: {ex.Message}");
-                }
-            }
-            Console.WriteLine("Pressione qualquer tecla para continuar...");
-            Console.ReadKey();
-        }
+        //    if (cliente == null)
+        //    {
+        //        Console.WriteLine("Cliente não encontrado.");
+        //    }
+        //    else
+        //    {
+        //        try
+        //        {
+        //            var removido = _clienteRepository.RemoverCliente(cliente.Id);
+        //            Console.WriteLine(removido ? "Cliente removido com sucesso." : "Cliente não encontrado ou não pôde ser removido.");
+        //        }
+        //        catch (InvalidOperationException ex)
+        //        {
+        //            Console.WriteLine($"Erro: {ex.Message}");
+        //        }
+        //    }
+        //    Console.WriteLine("Pressione qualquer tecla para continuar...");
+        //    Console.ReadKey();
+        //}
 
         public void RemoverImovel()
         {
