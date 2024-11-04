@@ -10,5 +10,6 @@ namespace ImobSys.Domain.Interfaces
         void RemoverImovel(Guid id);
         bool ClientePossuiImovel(Guid clienteId);
         Imovel BuscarPorInscricaoIPTU(string? inscricaoIptu);
+        List<Imovel> ObterImoveisPorCliente(Guid clienteId);
     }
 }

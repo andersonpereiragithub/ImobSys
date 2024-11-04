@@ -9,11 +9,12 @@ namespace ImobSys.Domain.Entities.Clientes
         public Endereco Endereco { get; set; }
         public string Telefone {  get; set; }
         public List<TiposRelacao> TiposRelacoes { get; set; }
-
+        public List<Guid> ImoveisId { get; set; }
         public Cliente()
         {
             Id = Guid.NewGuid();
             TiposRelacoes = new List<TiposRelacao>();
+            ImoveisId = new List<Guid>();
         }
     }
 }
