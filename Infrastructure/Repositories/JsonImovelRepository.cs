@@ -74,6 +74,7 @@ namespace ImobSys.Infrastructure.Repositories
 
             return imovel;
         }
+
         public List<Imovel> ListarTodosImovel()
         {
             if (!File.Exists(_filePath))
