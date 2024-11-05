@@ -50,6 +50,9 @@ public class MenuPrincipal : BaseMenu
                 case 3:
                     _menuSecundarioListagem.ExibirMenuListagem();
                     break;
+                case 4:
+                    _menuRemocao.ExibirMenuDeRemocao();
+                    break;
                 case 0:
                     sair = true;
                     break;

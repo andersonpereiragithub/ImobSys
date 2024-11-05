@@ -32,7 +32,6 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
             int opcao;
             while (true)
             {
-
                 Console.WriteLine("╔════════════════════════════════════════════════════════════╗");
                 Console.WriteLine();
                 Console.WriteLine("╚════════════════════════════════════════════════════════════╝");

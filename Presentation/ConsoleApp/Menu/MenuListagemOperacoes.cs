@@ -42,7 +42,7 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
                     _menuListagem.ListarTodosIPTUs();
                     break;
                 case 4:
-                    Console.WriteLine("Opção NÃO IMPLEMENTADA!");
+                    _menuRemocao.RemoverCliente();
                     break;
                 case 0:
                     sair = true;
