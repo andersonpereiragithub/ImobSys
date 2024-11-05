@@ -45,40 +45,59 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
         public void RemoverCliente()
         {
             BoxDePesquisa("Digite o NOME:");
-            //Console.Write("Digite o nome do cliente a ser removido: ");
             var nome = Console.ReadLine();
             var cliente = _clienteRepository.BuscarPorNomeCliente(nome);
 
             if (cliente == null)
             {
+                Console.SetCursorPosition(2, 14);
                 Console.WriteLine("Cliente não encontrado.");
             }
-            else 
+            else
             {
                 if (cliente is PessoaFisica pf)
                 {
-                    if (cliente != null)
+                    Console.SetCursorPosition(2, 9);
+                    Console.WriteLine($"[{pf.Nome}] encontrado. \u001b[31mExcluir? (S/N)\u001b[0m");
+                    Console.SetCursorPosition(2 + pf.Nome.Length, 11);
+                    if (Console.ReadLine()?.Trim().ToUpper() == "S" ? true : false)
                     {
-                        Console.WriteLine($"Cliente: {pf.Nome} encontrado. Tem certeza que deseja excluir? (S/N)");
-                        Console.WriteLine(Console.ReadLine()?.Trim().ToUpper() == "S" ? "Cliente excluído." : "Operação cancelada.");
+                        _clienteRepository.RemoverCliente(pf.Id);
+                        Console.SetCursorPosition(2, 11);
+                        Console.WriteLine($"\u001b[31m{pf.Nome} Cliente removido com sucesso!\u001b[0m");
                     }
-                    var removido = _clienteRepository.RemoverCliente(pf.Id);
-                    Console.WriteLine($"{removido} Cliente removido com sucesso!");
+                    else
+                    {
+                        Console.SetCursorPosition(2, 11);
+                        Console.WriteLine("                                            ");
+                        Console.SetCursorPosition(6, 11);
+                        Console.WriteLine("\u001b[32mOperação Cancelado.\u001b[0m");
+                    }
                 }
                 else if (cliente is PessoaJuridica pj)
                 {
-                    if (cliente != null)
+                    Console.SetCursorPosition(2, 9);
+                    Console.WriteLine($"[{pj.RazaoSocial}] encontrado. \u001b[31mExcluir? (S/N)\u001b[0m");
+                    Console.SetCursorPosition(2 + pj.RazaoSocial.Length, 11);
+                    if (Console.ReadLine()?.Trim().ToUpper() == "S" ? true : false)
                     {
-                        Console.WriteLine($"Cliente: {pj.RazaoSocial} encontrado. Tem certeza que deseja excluir? (S/N)");
-                        Console.WriteLine(Console.ReadLine()?.Trim().ToUpper() == "S" ? "Cliente excluído." : "Operação cancelada.");
+                        _clienteRepository.RemoverCliente(pj.Id);
+                        Console.SetCursorPosition(2, 11);
+                        Console.WriteLine($"\u001b[31m{pj.RazaoSocial} Cliente removido com sucesso!\u001b[0m");
                     }
-                    var removido = _clienteRepository.RemoverCliente(pj.Id);
-                    Console.WriteLine($"{removido} Cliente removido com sucesso!");
+                    else
+                    {
+                        Console.SetCursorPosition(2, 11);
+                        Console.WriteLine("                                            ");
+                        Console.SetCursorPosition(6, 11);
+                        Console.WriteLine("\u001b[32mOperação Cancelado.\u001b[0m");
+                    }
                 }
                 else
                 {
                     Console.WriteLine($"Cliente não encontrado.");
                 }
+                Console.SetCursorPosition(2, 14);
                 Console.WriteLine("Pressione qualquer tecla para continuar...");
                 Console.ReadKey();
             }
@@ -113,13 +132,13 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
                 Console.Clear();
                 ExibirCabecalho("DELETAR IMÓVEIS E CLIENTES");
                 ExibirOpcoesRemocao();
-                
+
 
                 var opcao = SolicitarOpcaoNumerica(0, 2);
                 ProcessarOpcoesDeRemocao(opcao, ref sair);
             }
         }
-        
+
         public void BoxDePesquisa(string textoBusca)
         {
             int x = 2;
