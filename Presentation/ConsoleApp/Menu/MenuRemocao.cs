@@ -50,63 +50,60 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
 
             if (cliente == null)
             {
-                Console.SetCursorPosition(2, 14);
-                Console.WriteLine("Cliente não encontrado.");
+                LimparLinha(11);
+                ExibirMensagem($"[{nome}] - \u001b[31mCLIENTE NÃO ENCONTRADO!\u001b[0m", 2, 11);
+            }
+
+            if (cliente is PessoaFisica pf)
+            {
+                ConfirmarERemoverCliente(pf.Nome, pf.Id);
+            }
+            else if (cliente is PessoaJuridica pj)
+            {
+                ConfirmarERemoverCliente(pj.RazaoSocial, pj.Id);
+            }
+            
+            ExibirMensagem("Pressione qualquer tecla para continuar...", 2, 14);
+            Console.ReadKey();
+        }
+
+        private void ExibirMensagem(string mensagem, int x, int y)
+        {
+            Console.SetCursorPosition(x, y);
+            Console.WriteLine(mensagem);
+        }
+
+        private void ConfirmarERemoverCliente(string nomeCliente, Guid clienteId)
+        {
+            ExibirMensagem($"Cliente encontrado. \u001b[31mDeseja Excluir? (S/N)\u001b[0m [ ]", 2, 9);
+            Console.SetCursorPosition(45, 9);
+
+            if (SolicitarConfirmacao())
+            {
+                _clienteRepository.RemoverCliente(clienteId);
+                ExibirMensagem($"\u001b[31m{nomeCliente} Cliente removido com sucesso!\u001b[0m", 2, 11);
             }
             else
             {
-                if (cliente is PessoaFisica pf)
-                {
-                    Console.SetCursorPosition(2, 9);
-                    Console.WriteLine($"[{pf.Nome}] encontrado. \u001b[31mExcluir? (S/N)\u001b[0m");
-                    Console.SetCursorPosition(2 + pf.Nome.Length, 11);
-                    if (Console.ReadLine()?.Trim().ToUpper() == "S" ? true : false)
-                    {
-                        _clienteRepository.RemoverCliente(pf.Id);
-                        Console.SetCursorPosition(2, 11);
-                        Console.WriteLine($"\u001b[31m{pf.Nome} Cliente removido com sucesso!\u001b[0m");
-                    }
-                    else
-                    {
-                        Console.SetCursorPosition(2, 11);
-                        Console.WriteLine("                                            ");
-                        Console.SetCursorPosition(6, 11);
-                        Console.WriteLine("\u001b[32mOperação Cancelado.\u001b[0m");
-                    }
-                }
-                else if (cliente is PessoaJuridica pj)
-                {
-                    Console.SetCursorPosition(2, 9);
-                    Console.WriteLine($"[{pj.RazaoSocial}] encontrado. \u001b[31mExcluir? (S/N)\u001b[0m");
-                    Console.SetCursorPosition(2 + pj.RazaoSocial.Length, 11);
-                    if (Console.ReadLine()?.Trim().ToUpper() == "S" ? true : false)
-                    {
-                        _clienteRepository.RemoverCliente(pj.Id);
-                        Console.SetCursorPosition(2, 11);
-                        Console.WriteLine($"\u001b[31m{pj.RazaoSocial} Cliente removido com sucesso!\u001b[0m");
-                    }
-                    else
-                    {
-                        Console.SetCursorPosition(2, 11);
-                        Console.WriteLine("                                            ");
-                        Console.SetCursorPosition(6, 11);
-                        Console.WriteLine("\u001b[32mOperação Cancelado.\u001b[0m");
-                    }
-                }
-                else
-                {
-                    Console.WriteLine($"Cliente não encontrado.");
-                }
-                Console.SetCursorPosition(2, 14);
-                Console.WriteLine("Pressione qualquer tecla para continuar...");
-                Console.ReadKey();
+                LimparLinha(11);
+                ExibirMensagem("\u001b[32mOperação Cancelada.\u001b[0m", 6, 11);
             }
+        }
+
+        private bool SolicitarConfirmacao()
+        {
+            return Console.ReadLine()?.Trim().ToUpper() == "S";
+        }
+
+        private void LimparLinha(int y)
+        {
+            Console.SetCursorPosition(2, y);
+            Console.WriteLine(new string(' ', Console.WindowWidth - 2));
         }
 
         public void RemoverImovel()
         {
             BoxDePesquisa("Digite o ENDEREÇO: ");
-            //Console.Write("Digite a Inscrição IPTU do imóvel a ser removido: ");
             var inscricaoIptu = Console.ReadLine();
             var imovel = _imovelRepository.BuscarPorInscricaoIPTU(inscricaoIptu);
 
@@ -132,7 +129,6 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
                 Console.Clear();
                 ExibirCabecalho("DELETAR IMÓVEIS E CLIENTES");
                 ExibirOpcoesRemocao();
-
 
                 var opcao = SolicitarOpcaoNumerica(0, 2);
                 ProcessarOpcoesDeRemocao(opcao, ref sair);

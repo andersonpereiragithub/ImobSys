@@ -44,16 +44,10 @@ namespace ImobSys.Infrastructure.Repositories
         {
             var clientes = ListarTodosCliente();
 
-            if (clientes == null || clientes.Count == 0)
-            {
-                return null;
-            }
-            var cliente = clientes.FirstOrDefault(c =>
+            return clientes.FirstOrDefault(c =>
                 (c is PessoaFisica pf && pf.Nome == nomeCliente) ||
-                (c is PessoaJuridica pj && pj.RazaoSocial == nomeCliente)
-            );
+                (c is PessoaJuridica pj && pj.RazaoSocial == nomeCliente));
 
-            return cliente;
         }
 
         public List<T> ListarTodosCliente()
