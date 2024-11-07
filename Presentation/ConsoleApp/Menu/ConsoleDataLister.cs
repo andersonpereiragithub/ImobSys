@@ -150,7 +150,7 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
                         string nomeFormatado = pessoaJuridica.RazaoSocial.Length > 35
                             ? pessoaJuridica.RazaoSocial.Substring(0, 32) + "..."
                             : pessoaJuridica.RazaoSocial;
-                        
+
                         string cnpjFormatada = pessoaJuridica.CNPJ.Length == 14
                             ? pessoaJuridica.CNPJ.Insert(2, ".").Insert(6, ".").Insert(10, "/").Insert(15, "-")
                             : pessoaJuridica.CNPJ;
@@ -158,7 +158,7 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
                         dados.Add(new List<string> { nomeFormatado, cnpjFormatada });
                     }
                 }
-
+                dados = dados.OrderBy(d => d[0]).ToList();
                 // Chama o método genérico para exibir a tabela
                 ExibirTabela(cabecalhos, dados, alinhamentosDireita);
             }
@@ -195,6 +195,8 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
                     
                     dados.Add(new List<string> {endereco, tipo, area});
                 }
+                dados = dados.OrderBy(d => d[0]).ToList();
+
                 ExibirTabela(cabecalhos, dados, alinhamentosDireita);
             }
             else
