@@ -1,4 +1,5 @@
 ﻿using ImobSys.Domain.Entities.Clientes;
+using ImobSys.Application.Services.Interfaces;
 using System.Collections.Generic;
 using ImobSys.Domain.Interfaces;
 using ImobSys.Domain.Entities;
@@ -8,7 +9,7 @@ using System;
 
 namespace ImobSys.Application.Services
 {
-    public class ImovelService
+    public class ImovelService : IImovelService
     {
         private readonly IImovelRepository _imovelRepository;
         private readonly IClienteRepository<Cliente> _clienteRepository;
@@ -256,6 +257,11 @@ namespace ImobSys.Application.Services
             Console.WriteLine("Imóvel cadastrado com sucesso!");
             Console.WriteLine("Pressione qualquer tecla para retornar ao Menu.");
             Console.ReadKey();
+        }
+
+        public List<Imovel> ListarTodosImoveis()
+        {
+            return _imovelRepository.ListarTodosImovel();
         }
 
         public TipoLogradouro SolicitarTipoLogradouro()

@@ -1,28 +1,35 @@
 ﻿using ImobSys.Application.Services;
+using ImobSys.Application.Services.Interfaces;
 using ImobSys.Domain.Entities.Clientes;
 using ImobSys.Domain.Interfaces;
 using ImobSys.Presentation.ConsoleApp.Menu;
 
 public class MenuPrincipal : BaseMenu
 {
-    private readonly MenuCadastro _menuCadastro;
-    private readonly MenuBusca _menuBusca;
-    private readonly ConsoleDataLister _menuListagem;
-    private readonly MenuRemocao _menuRemocao;
     private readonly MenuListagemOperacoes _menuSecundarioListagem;
     private readonly IClienteRepository<Cliente> _clienteRepository;
     private readonly IImovelRepository _imovelRepository;
-    private readonly ImovelService _movelService;
+    private readonly IClienteService _clienteService;
+    private readonly IImovelService _imovelService;
+    private readonly MenuCadastro _menuCadastro;
+    private readonly MenuRemocao _menuRemocao;
 
-    public MenuPrincipal(MenuListagemOperacoes menuSecundarioListagem, IClienteRepository<Cliente> clienteRepository, IImovelRepository imovelRepository, ClienteService clienteService, ImovelService imovelService)
+    public MenuPrincipal(
+        MenuListagemOperacoes menuSecundarioListagem,
+        IClienteRepository<Cliente> clienteRepository,
+        IImovelRepository imovelRepository,
+        IClienteService clienteService,
+        IImovelService imovelService,
+        MenuCadastro menuCadastro,
+        MenuRemocao menuRemocao)
     {
+        _menuSecundarioListagem = menuSecundarioListagem;
         _clienteRepository = clienteRepository;
         _imovelRepository = imovelRepository;
-        _menuCadastro = new MenuCadastro(clienteService, imovelService);
-        _menuBusca = new MenuBusca(_clienteRepository, _imovelRepository);
-        _menuListagem = new ConsoleDataLister(clienteRepository, imovelRepository);
-        _menuRemocao = new MenuRemocao(clienteRepository, imovelRepository);
-        _menuSecundarioListagem = new MenuListagemOperacoes(_menuCadastro, _menuBusca, _menuListagem, _menuRemocao);
+        _clienteService = clienteService;
+        _imovelService = imovelService;
+        _menuCadastro = menuCadastro;   
+        _menuRemocao = menuRemocao;
     }
 
     public void Exibir()

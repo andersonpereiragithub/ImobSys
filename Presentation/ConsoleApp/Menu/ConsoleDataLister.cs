@@ -1,4 +1,5 @@
 ﻿using System;
+using ImobSys.Application.Services.Interfaces;
 using ImobSys.Domain;
 using ImobSys.Domain.Entities.Clientes;
 using ImobSys.Domain.Interfaces;
@@ -7,11 +8,15 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
 {
     public class ConsoleDataLister
     {
+        private readonly IClienteService _clienteService;
+        private readonly IImovelService _imovelService;
         private readonly IClienteRepository<Cliente> _clienteRepository;
         private readonly IImovelRepository _imovelRepository;
 
-        public ConsoleDataLister(IClienteRepository<Cliente> clienteRepository, IImovelRepository imovelRepository)
+        public ConsoleDataLister(IClienteService clienteService, IImovelService movelService, IClienteRepository<Cliente> clienteRepository, IImovelRepository imovelRepository)
         {
+            _clienteService = clienteService;
+            _imovelService = movelService;
             _clienteRepository = clienteRepository;
             _imovelRepository = imovelRepository;
         }
@@ -119,7 +124,7 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
         
         public void ListarTodosClientes()
         {
-            var clientes = _clienteRepository.ListarTodosCliente();
+            var clientes = _clienteService.ListarTodosClientes();
 
             if (clientes.Count > 0)
             {
@@ -173,7 +178,7 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
 
         public void ListarTodosImoveis()
         {
-            var imoveis = _imovelRepository.ListarTodosImovel();
+            var imoveis = _imovelService.ListarTodosImoveis();
             
             if (imoveis.Count > 0)
             {
@@ -209,7 +214,7 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
 
         public void ListarTodosIPTUs()
         {
-            var imoveis = _imovelRepository.ListarTodosImovel();
+            var imoveis = _imovelService.ListarTodosImoveis();
             if (imoveis.Count > 0)
             {
                 List<string> cabecalhos = new List<string> { "IPTU", "ENDEREÇO" };

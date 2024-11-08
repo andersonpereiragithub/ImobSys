@@ -1,5 +1,5 @@
 ﻿using ImobSys.Domain.Entities.Clientes;
-using ImobSys.Application.Services;
+using ImobSys.Application.Services.Interfaces;
 using ImobSys.Domain.Interfaces;
 using System;
 
@@ -7,10 +7,10 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
 {
     public class MenuCadastro : BaseMenu
     {
-        private readonly ClienteService _clienteService;
-        private readonly ImovelService _imovelService;
+        private readonly IClienteService _clienteService;
+        private readonly IImovelService _imovelService;
 
-        public MenuCadastro( ClienteService clienteService, ImovelService imovelService)
+        public MenuCadastro(IClienteService clienteService, IImovelService imovelService)
         {
             _clienteService = clienteService;
             _imovelService = imovelService;

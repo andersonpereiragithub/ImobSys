@@ -5,10 +5,11 @@ using ImobSys.Domain.Entities;
 using System.Collections.Generic;
 using ImobSys.Domain.Enums;
 using System;
+using ImobSys.Application.Services.Interfaces;
 
 namespace ImobSys.Application.Services
 {
-    public class ClienteService
+    public class ClienteService : IClienteService
     {
         private readonly IClienteRepository<Cliente> _clienteRepository;
 
@@ -45,6 +46,11 @@ namespace ImobSys.Application.Services
             Console.WriteLine("Cliente cadastrado com sucesso!");
             Console.WriteLine("\nPressione qualquer tecla para retornar ao menu...");
             Console.ReadKey();
+        }
+
+        public List<Cliente> ListarTodosClientes()
+        {
+            return _clienteRepository.ListarTodosCliente();
         }
 
         private PessoaFisica CadastrarPessoaFisica()
