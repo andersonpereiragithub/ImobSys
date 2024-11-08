@@ -5,11 +5,12 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
 {
     public abstract class BaseMenu
     {
-        const int larguraLinha = 60;
+        const int larguraLinha = 101;
+            
         protected void ExibirCabecalho(string titulo)
         {
-            int posicaoTitulo = (larguraLinha - titulo.Length) /2;
-            
+            int posicaoTitulo = (larguraLinha - titulo.Length) / 2;
+
             string corTitulo = titulo switch
             {
                 "MENU PRINCIPAL" => "\u001b[34m" + titulo + "\u001b[0m",
@@ -19,11 +20,21 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
                 _ => titulo
             };
 
-            Console.WriteLine("╔════════════════════════════════════════════════════════════╗");
-            Console.SetCursorPosition(posicaoTitulo + 1, Console.CursorTop);
+            LinhaSuperior();
+            Console.SetCursorPosition(posicaoTitulo, Console.CursorTop);
             Console.WriteLine($"{corTitulo}");
-            Console.WriteLine("╚════════════════════════════════════════════════════════════╝");
+            LinhaInferior();
         }
+
+        protected void LinhaSuperior()
+        {
+            Console.WriteLine("╔" + new string('═', larguraLinha) + '╗');
+        }
+        protected void LinhaInferior()
+        {
+            Console.WriteLine("╚" + new string('═', larguraLinha) + "╝");
+        }
+
         protected int SolicitarOpcaoNumerica(int min, int max)
         {
             string textOption = "Escolha uma opção: [ ]";
@@ -33,12 +44,11 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
             int opcao;
             while (true)
             {
-                Console.WriteLine("╔════════════════════════════════════════════════════════════╗");
-                Console.WriteLine();
-                Console.WriteLine("╚════════════════════════════════════════════════════════════╝");
+                LinhaSuperior();
                 Console.SetCursorPosition(x, y);
                 Console.WriteLine($"{textOption}");
                 x = 22;
+                LinhaInferior();
                 Console.SetCursorPosition(x, y);
 
                 if (int.TryParse(Console.ReadLine(), out opcao) && opcao >= min && opcao <= max)

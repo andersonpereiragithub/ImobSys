@@ -39,9 +39,9 @@ public class MenuPrincipal : BaseMenu
         {
             Console.Clear();
             ExibirCabecalho("MENU PRINCIPAL");
-            Console.WriteLine("╔═════════════╦══════════╦═════════════╦════════════╦════════╗");
-            Console.WriteLine("  Cadastro[1]   Busca[2]   Listagen[3]   Remoção[4]  \u001b[31m Sair[0]\u001b[0m   ");
-            Console.WriteLine("╚═════════════╩══════════╩═════════════╩════════════╩════════╝");
+            Console.WriteLine("╔═════════════════╦══════════════╦═════════════════╦════════════════╦════════════════╦════════════════╗");
+            Console.WriteLine("    Cadastro[1]       Busca[2]       Listagen[3]       Editar[4]        Deletar[5]        \u001b[31m Sair[0]\u001b[0m   ");
+            Console.WriteLine("╚═════════════════╩══════════════╩═════════════════╩════════════════╩════════════════╩════════════════╝");
 
             var opcao = SolicitarOpcaoNumerica(0, 4);
 
@@ -58,6 +58,9 @@ public class MenuPrincipal : BaseMenu
                     _menuSecundarioListagem.ExibirMenuListagem();
                     break;
                 case 4:
+                    Console.WriteLine("NÃO IMPLEMENTADO!");
+                    break;
+                case 5:
                     _menuRemocao.ExibirMenuDeRemocao();
                     break;
                 case 0:

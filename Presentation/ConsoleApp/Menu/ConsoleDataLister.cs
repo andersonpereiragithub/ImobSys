@@ -23,8 +23,8 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
 
         public void ExibirTabela(List<string> cabecalhos, List<List<string>> dados, List<bool> alinhamenstosDireita)
         {
-            int larguraTotal = 62;
-            int espacoEntreColunas = 2;
+            int larguraTotal = 102;
+            int espacoEntreColunas = 3;
             List<int> largurasColunas = CalcularLargurasColunas(cabecalhos, dados, larguraTotal, espacoEntreColunas);
 
             ExibirLinhaBordaSuperior(largurasColunas);
@@ -121,7 +121,7 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
         {
             Console.WriteLine("╚" + string.Join("╩", largurasColunas.Select(l => new string('═', l))) + "╝");
         }
-        
+
         public void ListarTodosClientes()
         {
             var clientes = _clienteService.ListarTodosClientes();
@@ -179,14 +179,14 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
         public void ListarTodosImoveis()
         {
             var imoveis = _imovelService.ListarTodosImoveis();
-            
+
             if (imoveis.Count > 0)
             {
-                List<string> cabecalhos = new List<string> { "Imóvel", "Tipo", "Área(m²)" };
+                List<string> cabecalhos = new List<string> { "Imóvel", "Tipo", "Área(m²)", "V Aluguel" };
 
                 List<List<string>> dados = new List<List<string>>();
 
-                List<bool> alinhamentosDireita = new List<bool> { false, false, true };
+                List<bool> alinhamentosDireita = new List<bool> { false, false, true, true };
 
                 Console.WriteLine("\n\n\u001b[33mImóveis cadastrados:\u001b[0m");
                 foreach (var imovel in imoveis)
@@ -197,8 +197,9 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
                                       $"{imovel.Endereco.Complemento}";
                     string tipo = $"{imovel.TipoImovel}";
                     string area = $"{imovel.AreaUtil}";
-                    
-                    dados.Add(new List<string> {endereco, tipo, area});
+                    string valorAluguel = imovel.ValorAluguel != null ? $"{imovel.ValorAluguel}" : "-";
+
+                    dados.Add(new List<string> { endereco, tipo, area, valorAluguel });
                 }
                 dados = dados.OrderBy(d => d[0]).ToList();
 
@@ -220,7 +221,7 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
                 List<string> cabecalhos = new List<string> { "IPTU", "ENDEREÇO" };
 
                 List<List<string>> dados = new List<List<string>>();
-                
+
                 List<bool> alinhamentosDireita = new List<bool> { true, false };
 
                 Console.WriteLine("\n\n\u001b[33mIPTUs cadastrados:\u001b[0m");

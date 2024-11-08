@@ -17,9 +17,9 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
 
         private void ExibirOpcoesRemocao()
         {
-            Console.WriteLine("╔══════════════════════╦════════════════════╦════════════════╗");
+            Console.WriteLine("╔══════════════════════╦════════════════════╦════════════════════════════════════════════════════════════════════════════╗");
             Console.WriteLine("   Buscar Clientes[1]    Buscar Imóveis[2]       \u001b[31mVoltar[0]\u001b[0m");
-            Console.WriteLine("╚══════════════════════╩════════════════════╩════════════════╝");
+            Console.WriteLine("╚══════════════════════╩════════════════════╩════════════════════════════════════════════════════════════════════════════╝");
         }
 
         public void ProcessarOpcoesDeRemocao(int opcao, ref bool sair)
@@ -142,9 +142,9 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
 
             Console.SetCursorPosition(x, y);
             Console.WriteLine($"\u001b[31m{textoBusca}\u001b[0m");
-            Console.WriteLine("╔════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("╔═════════════════════════════════════════════════════════════╗");
             Console.WriteLine();
-            Console.WriteLine("╚════════════════════════════════════════════════════════════╝");
+            Console.WriteLine("╚═════════════════════════════════════════════════════════════╝");
             Console.SetCursorPosition(x, 11);
         }
     }
