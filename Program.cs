@@ -15,7 +15,7 @@ namespace ImobSys.ConsoleApp
             IImovelRepository imovelRepository = new JsonImovelRepository("imoveis.json");
             IClienteRepository<Cliente> clienteRepository = new JsonClienteRepository<Cliente>("clientes.json");
 
-            IClienteService clienteService = new ClienteService(clienteRepository);
+            IClienteService clienteService = new ClienteService(clienteRepository, imovelRepository);
             IImovelService imovelService = new ImovelService(imovelRepository, clienteRepository);
             
             var menuCadastro = new MenuCadastro(clienteService, imovelService);

@@ -25,7 +25,7 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
         private void ExibirOpcoes()
         {
             Console.WriteLine("╔══════════════════════╦═════════════════════╦═══════════════════╦═════════════════════╦══════════════╗");
-            Console.WriteLine("      Clientes[1]            Imóveis[2]             IPTUs[3]           Remoção[4]          \u001b[31mVoltar[0]\u001b[0m");
+            Console.WriteLine("      Clientes[1]            Imóveis[2]             IPTUs[3]         Prop. Imóveis[4]      \u001b[31mVoltar[0]\u001b[0m");
             Console.WriteLine("╚══════════════════════╩═════════════════════╩═══════════════════╩═════════════════════╩══════════════╝");
         }
         public void ProcessarOpcao(int opcao, ref bool sair)
@@ -42,7 +42,7 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
                     _menuListagem.ListarTodosIPTUs();
                     break;
                 case 4:
-                    _menuRemocao.RemoverCliente();
+                    _menuListagem.ListarProprietarioESeusImoveis();
                     break;
                 case 0:
                     sair = true;

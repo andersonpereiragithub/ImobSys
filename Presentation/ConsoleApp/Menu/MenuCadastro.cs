@@ -24,9 +24,9 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
             {
                 Console.Clear();
                 ExibirCabecalho("CADASTRO");
-                Console.WriteLine("╔═════════════════════════╦═══════════════════════╦═══════════════════════════════════════════════════════╗");
-                Console.WriteLine("        Clientes[1]               Imóveis[2]       \u001b[31m Voltar[0]\u001b[0m   ");
-                Console.WriteLine("╚═════════════════════════╩═══════════════════════╩═══════════════════════════════════════════════════════╝");
+                Console.WriteLine("╔══════════════════╦═════════════════╦════════════════╦═══════════════╦═══════════════════════════════╗");
+                Console.WriteLine("    Clientes[1]        Imóveis[2]         Editar[3]       Deletar[4]            \u001b[31m Voltar[0]\u001b[0m   ");
+                Console.WriteLine("╚══════════════════╩═════════════════╩════════════════╩═══════════════╩═══════════════════════════════╝");
 
                 var opcao = SolicitarOpcaoNumerica(0, 2);
 

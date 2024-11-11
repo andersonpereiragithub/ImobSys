@@ -1,12 +1,13 @@
 ﻿using System;
 using ImobSys.Application.Services.Interfaces;
 using ImobSys.Domain;
+using ImobSys.Domain.Entities;
 using ImobSys.Domain.Entities.Clientes;
 using ImobSys.Domain.Interfaces;
 
 namespace ImobSys.Presentation.ConsoleApp.Menu
 {
-    public class ConsoleDataLister
+    public class ConsoleDataLister : BaseMenu
     {
         private readonly IClienteService _clienteService;
         private readonly IImovelService _imovelService;
@@ -164,7 +165,7 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
                     }
                 }
                 dados = dados.OrderBy(d => d[0]).ToList();
-                // Chama o método genérico para exibir a tabela
+                
                 ExibirTabela(cabecalhos, dados, alinhamentosDireita);
             }
             else
@@ -232,9 +233,9 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
                                       $"{imovel.Endereco.Numero} " +
                                       $"{imovel.Endereco.Complemento}";
 
-                    string inscricaoIPTUFormatada = imovel.InscricaoIPTU;
+                    string inscricaoIPTUFormatada = (imovel.InscricaoIPTU != null) ? imovel.InscricaoIPTU : "000000000";
 
-                    if (inscricaoIPTUFormatada.Length == 9)
+                     if (inscricaoIPTUFormatada.Length == 9)
                     {
                         inscricaoIPTUFormatada = inscricaoIPTUFormatada.Insert(3, ".").Insert(7, "/");
                     }
@@ -246,6 +247,42 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
             {
                 Console.WriteLine("Nenhum imóvel cadastrado.");
             }
+            Console.WriteLine("\n\n\nPressione qualquer tecla para continuar...");
+            Console.ReadKey();
+        }
+
+        public void ListarProprietarioESeusImoveis()
+        {
+            Console.SetCursorPosition(2, 7);
+            Console.Write("Informe nome do Proprietário: ");
+            var nomeProprietario = Console.ReadLine();
+
+            var (cliente, imoveis) = _clienteService.ObterClienteESeusImoveis(nomeProprietario);
+
+            List<string> cabecalhos = new List<string> { "Inscrição IPTU", "Endereço" };
+            
+            List<List<string>> dados = new List<List<string>>();
+
+            List<bool> alinhamentosDireita = new List<bool> { true, false };
+
+            foreach (var imovel in imoveis)
+            {
+                string endereco = $"{imovel.Endereco.TipoLogradouro} " +
+                                  $"{imovel.Endereco.Logradouro} " +
+                                  $"{imovel.Endereco.Numero} " +
+                                  $"{imovel.Endereco.Complemento}";
+
+                string inscricaoIPTUFormatada = (imovel.InscricaoIPTU != null) ? imovel.InscricaoIPTU : "000000000";
+
+                if (inscricaoIPTUFormatada.Length == 9)
+                {
+                    inscricaoIPTUFormatada = inscricaoIPTUFormatada.Insert(3, ".").Insert(7, "/");
+                }
+                dados.Add(new List<string> { inscricaoIPTUFormatada, endereco });
+            }
+            Console.SetCursorPosition(0, 9);
+            ExibirTabela(cabecalhos, dados, alinhamentosDireita);
+
             Console.WriteLine("\n\n\nPressione qualquer tecla para continuar...");
             Console.ReadKey();
         }

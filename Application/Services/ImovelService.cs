@@ -6,6 +6,7 @@ using ImobSys.Domain.Entities;
 using ImobSys.Domain.Enums;
 using ImobSys.Domain;
 using System;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ImobSys.Application.Services
 {
@@ -23,11 +24,34 @@ namespace ImobSys.Application.Services
         public void CadastrarNovoImovel()
         {
             Console.Clear();
-            Console.WriteLine("==== Cadastro de Novo Imóvel ===");
+            var novoImovel = new Imovel { Id = Guid.NewGuid() };
 
-            Console.Write("Inscricao IPTU: ");
-            string inscricaoIptu = Console.ReadLine();
+            // 1. Configura Tipo de Imóvel
+            novoImovel.TipoImovel = ConfigurarTipoImovel();
+            novoImovel.AreaUtil = ObterAreaUtil();
+            novoImovel.DetalhesTipoImovel = ObterDetalhesTipoImovel();
 
+            // 2. Configura Dados de Locação e Venda
+            ConfigurarLocacaoEVenda(novoImovel);
+
+            // 3. Configura Endereço
+            novoImovel.Endereco = ObterEndereco();
+
+            // 4. Configura Características Internas
+            ConfigurarCaracteristicasInternas(novoImovel);
+
+            // 5. Adiciona Proprietários
+            AtribuirProprietarios(novoImovel);
+
+            // Salva o novo imóvel
+            _imovelRepository.SalvarImovel(novoImovel);
+            Console.WriteLine("Imóvel cadastrado com sucesso!");
+            Console.WriteLine("Pressione qualquer tecla para retornar ao Menu.");
+            Console.ReadKey();
+        }
+
+        private string ConfigurarTipoImovel()
+        {
             string tipoImovel = "";
             do
             {
@@ -36,128 +60,135 @@ namespace ImobSys.Application.Services
                 Console.WriteLine("              (2)Comercial");
                 Console.WriteLine("              (3)Misto)");
                 Console.Write("                     Opção: ");
-                if (int.TryParse(Console.ReadLine(), out int escolherTipoImovel))
+                if (int.TryParse(Console.ReadLine(), out int escolha))
                 {
-                    switch (escolherTipoImovel)
+                    tipoImovel = escolha switch
                     {
-                        case 1:
-                            tipoImovel = "Residencial";
-                            break;
-                        case 2:
-                            tipoImovel = "Comercial";
-                            break;
-                        case 3:
-                            tipoImovel = "Misto";
-                            break;
-                        default:
-                            Console.WriteLine("Opção Inválida! Escolha 1, 2 ou 3.");
-                            continue;
-                    }
-                    break;
+                        1 => "Residencial",
+                        2 => "Comercial",
+                        3 => "Misto",
+                        _ => tipoImovel
+                    };
+                    if (!string.IsNullOrEmpty(tipoImovel)) break;
                 }
-                else
-                {
-                    Console.WriteLine("Entrada inválida! Digite um número (1, 2 ou 3).");
-                }
+                Console.WriteLine("Opção Inválida! Escolha 1, 2 ou 3.");
             } while (true);
+            return tipoImovel;
+        }
+
+        private float ObterAreaUtil()
+        {
+            float areaUtil;
 
             Console.Write("Área Útil (m²): ");
-            if (!float.TryParse(Console.ReadLine(), out float areaUtil))
+            while (!float.TryParse(Console.ReadLine(), out areaUtil))
             {
-                Console.WriteLine("Entrada inválida para área útil. Operação cancelada.");
-                return;
+                Console.Write("Entrada inválida para área útil. Digite novamente: ");
             }
+            return areaUtil;
+        }
 
+        private string ObterDetalhesTipoImovel()
+        {
             Console.Write("Detalhes do Tipo de Imóvel (Casa, Apto, Loja, etc.): ");
-            string detalhesTipoImovel = Console.ReadLine();
+            return Console.ReadLine();
+        }
 
-            // ======================= Dados de locação e venda =======================
-
-            Console.Clear();
+        private void ConfigurarLocacaoEVenda(Imovel imovel)
+        {
             Console.Write("O imóvel está disponível para locação? (S/N): ");
-            bool paraLocacao = Console.ReadLine()?.Trim().ToUpper() == "S";
-
-            string statusLocacao = "Disponível";
-            decimal? valorAluguel = null;
-            if (paraLocacao)
+            imovel.ParaLocacao = Console.ReadLine()?.Trim().ToUpper() == "S";
+            if (imovel.ParaLocacao)
             {
                 Console.Write("Status de Locação (1) Disponível / (2) Alugado: ");
-                if (int.TryParse(Console.ReadLine(), out int opcaoStatusLocacao) && (opcaoStatusLocacao == 1 || opcaoStatusLocacao == 2))
-                {
-                    statusLocacao = opcaoStatusLocacao == 1 ? "Disponível" : "Alugado";
-                }
+                imovel.StatusLocacao = int.TryParse(Console.ReadLine(), out int status) && status == 2 ? "Alugado" : "Disponível";
 
-                Console.Write("Valor do Aluguel (se disponível): ");
+                Console.Write("Valor do Aluguel: ");
                 if (decimal.TryParse(Console.ReadLine(), out decimal aluguel))
                 {
-                    valorAluguel = aluguel;
+                    imovel.ValorAluguel = aluguel;
                 }
             }
 
             Console.Write("O imóvel está disponível para venda? (S/N): ");
-            bool paraVenda = Console.ReadLine()?.Trim().ToUpper() == "S";
-
-            decimal? valorVenda = null;
-            if (paraVenda)
+            imovel.ParaVenda = Console.ReadLine()?.Trim().ToUpper() == "S";
+            if (imovel.ParaVenda)
             {
                 Console.Write("Valor de Venda: ");
                 if (decimal.TryParse(Console.ReadLine(), out decimal venda))
                 {
-                    valorVenda = venda;
+                    imovel.ValorVenda = venda;
                 }
             }
+        }
 
-
-            // ================ Coletando dados do endereço ================
-
+        private Endereco ObterEndereco()
+        {
             Console.Clear();
             Console.WriteLine("==== Informações de Endereço ====");
+            var endereco = new Endereco();
 
-            string tipoLogradouro = SolicitarTipoLogradouro().ToString();
+            endereco.TipoLogradouro = SolicitarTipoLogradouro().ToString();
 
             Console.Write("Logradouro: ");
-            string logradouro = Console.ReadLine();
+            endereco.Logradouro = Console.ReadLine();
 
             Console.Write("Número: ");
-            string numero = Console.ReadLine();
+            endereco.Numero = Console.ReadLine();
 
             Console.Write("Complemento (ex.: Casa 1, Apto 301): ");
-            string complemento = Console.ReadLine();
+            endereco.Complemento = Console.ReadLine();
 
             Console.Write("Bairro: ");
-            string bairro = Console.ReadLine();
+            endereco.Bairro = Console.ReadLine();
 
             Console.Write("Cidade (Localidade): ");
-            string cidade = Console.ReadLine();
+            endereco.Cidade = Console.ReadLine();
 
             Console.Write("UF: ");
-            string uf = Console.ReadLine();
+            endereco.UF = Console.ReadLine();
 
             Console.Write("CEP: ");
-            string cep = Console.ReadLine();
+            endereco.CEP = Console.ReadLine();
 
-            // Criando o objeto de endereço
-            var endereco = new Endereco
-            {
-                TipoLogradouro = tipoLogradouro,
-                Logradouro = logradouro,
-                Numero = numero,
-                Complemento = complemento,
-                Bairro = bairro,
-                Cidade = cidade,
-                UF = uf,
-                CEP = cep
-            };
+            return endereco;
+        }
 
+        private void ConfigurarCaracteristicasInternas(Imovel imovel)
+        {
+            Console.Write("Número de Quartos: ");
+            imovel.Quartos = LerIntPositivo();
+
+            Console.Write("Número de Salas: ");
+            imovel.Salas = LerIntPositivo();
+
+            Console.Write("Número de Banheiros: ");
+            imovel.Banheiros = LerIntPositivo();
+
+            Console.Write("Número de Garagens: ");
+            imovel.Garagens = LerIntPositivo();
+
+            Console.Write("Possui Cozinha? (S/N): ");
+            imovel.Cozinha = LerSimNao();
+
+            Console.Write("Possui Copa? (S/N): ");
+            imovel.Copa = LerSimNao();
+
+            Console.Write("Possui Quintal? (S/N): ");
+            imovel.Quintal = LerSimNao();
+        }
+
+        private void AtribuirProprietarios(Imovel imovel)
+        {
             var proprietarios = new List<Guid>();
             bool adicionarMaisProprietarios = true;
 
             while (adicionarMaisProprietarios)
             {
                 Console.Write("O Proprietário já está cadastrado? (S/N): ");
-                string proprietarioCadastrado = Console.ReadLine()?.Trim().ToUpper();
+                string resposta = Console.ReadLine()?.Trim().ToUpper();
 
-                if (proprietarioCadastrado == "S")
+                if (resposta == "S")
                 {
                     Console.Write("Informe o nome do proprietário: ");
                     string nomeProprietario = Console.ReadLine();
@@ -165,15 +196,25 @@ namespace ImobSys.Application.Services
 
                     if (cliente != null)
                     {
-                        if (cliente is PessoaFisica pessoaFisica)
+                        if (cliente is PessoaFisica pf)
                         {
-                            proprietarios.Add(pessoaFisica.Id);
-                            Console.WriteLine($"Proprietário [{pessoaFisica.Nome}] adicionado com sucesso!");
+                            if (!pf.ImoveisId.Contains(imovel.Id))
+                            {
+                                pf.ImoveisId.Add(imovel.Id);
+                            }
+                            proprietarios.Add(pf.Id);
+                            _clienteRepository.SalvarCliente(pf);
+                            Console.WriteLine($"Proprietário [{pf.Nome}] adicionado com sucesso!");
                         }
-                        else if(cliente is PessoaJuridica pessoaJuridica)
+                        else if (cliente is PessoaJuridica pj)
                         {
-                            proprietarios.Add(pessoaJuridica.Id);
-                            Console.WriteLine($"Proprietário [{pessoaJuridica.RazaoSocial}] adicionado com sucesso!");
+                            if (!pj.ImoveisId.Contains(imovel.Id))
+                            {
+                                pj.ImoveisId.Add(imovel.Id);
+                            }
+                            proprietarios.Add(pj.Id);
+                            _clienteRepository.SalvarCliente(pj);
+                            Console.WriteLine($"Proprietário [{pj.RazaoSocial}] adicionado com sucesso!");
                         }
                     }
                     else
@@ -181,11 +222,32 @@ namespace ImobSys.Application.Services
                         Console.WriteLine("Proprietário não encontrado. Verifique o nome e tente novamente.");
                     }
                 }
-                else if (proprietarioCadastrado == "N")
+                else if (resposta == "N")
                 {
                     Console.WriteLine("Cadastrar novo Proprietário:");
-                    var clienteService = new ClienteService(_clienteRepository);
+                    var clienteService = new ClienteService(_clienteRepository, _imovelRepository);
                     clienteService.CadastrarNovoCliente();
+
+                    Console.Write("Digite o nome do novo cliente: ");
+                    string nomeCliente = Console.ReadLine();
+
+                    var novoCliente = _clienteRepository.BuscarPorNomeCliente(nomeCliente);
+
+                    if (novoCliente != null)
+                    {
+                        if (novoCliente is PessoaFisica pf)
+                        {
+                            pf.ImoveisId.Add(imovel.Id);
+                            proprietarios.Add(pf.Id);
+                            _clienteRepository.SalvarCliente(pf);
+                        }
+                        else if (novoCliente is PessoaJuridica pj)
+                        {
+                            pj.ImoveisId.Add(imovel.Id);
+                            proprietarios.Add(pj.Id);
+                            _clienteRepository.SalvarCliente(pj);
+                        }
+                    }
                 }
                 else
                 {
@@ -196,67 +258,7 @@ namespace ImobSys.Application.Services
                 adicionarMaisProprietarios = Console.ReadLine()?.Trim().ToUpper() == "S";
             }
 
-            // ================== Coleta de Detalhes Internos do Imóvel ==================
-
-            Console.Clear();
-            Console.WriteLine("==== Detalhes Internos do Imóvel ====");
-
-            Console.Write("Número de Quartos: ");
-            int quartos = LerIntPositivo();
-
-            Console.Write("Número de Salas: ");
-            int salas = LerIntPositivo();
-
-            Console.Write("Número de Banheiros: ");
-            int banheiros = LerIntPositivo();
-
-            Console.Write("Número de Garagens: ");
-            int garagens = LerIntPositivo();
-
-            Console.Write("Possui Cozinha? (S/N): ");
-            bool cozinha = LerSimNao();
-
-            Console.Write("Possui Copa? (S/N): ");
-            bool copa = LerSimNao();
-
-            Console.Write("Possui Quintal? (S/N): ");
-            bool quintal = LerSimNao();
-
-            if (proprietarios.Count == 0)
-            {
-                Console.WriteLine("É necessário informar ao menos um proprietário. Cadastro cancelado.");
-                Console.WriteLine("Pressione qualquer tecla para retornar ao menu...");
-                Console.ReadKey();
-                return;
-            }
-
-            var novoImovel = new Imovel
-            {
-                Id = Guid.NewGuid(),
-                InscricaoIPTU = inscricaoIptu,
-                TipoImovel = tipoImovel,
-                DetalhesTipoImovel = detalhesTipoImovel,
-                AreaUtil = areaUtil,
-                Endereco = endereco,
-                Proprietarios = proprietarios,
-                ParaLocacao = paraLocacao,
-                StatusLocacao = statusLocacao,
-                ValorAluguel = valorAluguel,
-                ParaVenda = paraVenda,
-                ValorVenda = valorVenda,
-                Quartos = quartos,
-                Salas = salas,
-                Banheiros = banheiros,
-                Garagens = garagens,
-                Cozinha = cozinha,
-                Copa = copa,
-                Quintal = quintal
-            };
-
-            _imovelRepository.SalvarImovel(novoImovel);
-            Console.WriteLine("Imóvel cadastrado com sucesso!");
-            Console.WriteLine("Pressione qualquer tecla para retornar ao Menu.");
-            Console.ReadKey();
+            imovel.Proprietarios = proprietarios;
         }
 
         public List<Imovel> ListarTodosImoveis()

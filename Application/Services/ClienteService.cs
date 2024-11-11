@@ -6,16 +6,42 @@ using System.Collections.Generic;
 using ImobSys.Domain.Enums;
 using System;
 using ImobSys.Application.Services.Interfaces;
+using ImobSys.Domain;
 
 namespace ImobSys.Application.Services
 {
     public class ClienteService : IClienteService
     {
         private readonly IClienteRepository<Cliente> _clienteRepository;
+        private readonly IImovelRepository _imovelRepository;
 
-        public ClienteService(IClienteRepository<Cliente> clienteRepository)
+        public ClienteService(IClienteRepository<Cliente> clienteRepository, IImovelRepository imovelRepository)
         {
             _clienteRepository = clienteRepository;
+            _imovelRepository = imovelRepository;
+        }
+
+        public (object cliente, List<Imovel> imoveis) ObterClienteESeusImoveis(string nomeCliente)
+        {
+            var imoveis = new List<Imovel>();
+
+            var cliente = _clienteRepository.BuscarPorNomeCliente(nomeCliente);
+
+            if (cliente is PessoaFisica pf && pf.Nome == nomeCliente) {
+                
+                imoveis = _imovelRepository.ObterImoveisPorCliente(pf.Id);
+            }
+            else if (cliente is PessoaJuridica pj && pj.RazaoSocial == nomeCliente)
+            {
+                imoveis = _imovelRepository.ObterImoveisPorCliente(pj.Id);
+
+            }
+            if (cliente == null)
+            {
+                throw new Exception($"Cliente com nome '{nomeCliente}' não encontrado.");
+            }
+
+            return (cliente, imoveis);
         }
 
         public void CadastrarNovoCliente()
@@ -59,7 +85,7 @@ namespace ImobSys.Application.Services
             string cpf = AjudaEntradaDeDados.SolicitarEntrada("CPF: ", true);
             string endereco = AjudaEntradaDeDados.SolicitarEntrada("Endereço (opcional): ");
 
-            
+
             string telefone = AjudaEntradaDeDados.SolicitarEntrada("Telefone (opcional): ");
 
             Console.Write("Tipo de Relação (1) Locador / (2) Locatário / (3) Fiador: ");
