@@ -8,7 +8,7 @@ namespace ImobSys.Domain.Interfaces
         void SalvarCliente(T cliente);
         T BuscarPorIdCliente(Guid id);
         object BuscarPorNomeCliente(string nome);
-        List<T> ListarTodosCliente();
+        List<T> ListarTodosClientes();
         bool RemoverCliente(Guid id);
     }
 }

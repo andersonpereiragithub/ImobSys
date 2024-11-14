@@ -46,7 +46,8 @@ namespace ImobSys.Application.Services
 
         public void CadastrarNovoCliente()
         {
-            Console.Clear();
+            //Console.Clear();
+            Console.SetCursorPosition(2, 9);
             Console.WriteLine("==== Cadastro de Novo Cliente ====");
 
             Console.Write("Cliente (1)Pessoa Física / (2)Pessoa Jurídica? ");
@@ -76,7 +77,7 @@ namespace ImobSys.Application.Services
 
         public List<Cliente> ListarTodosClientes()
         {
-            return _clienteRepository.ListarTodosCliente();
+            return _clienteRepository.ListarTodosClientes();
         }
 
         private PessoaFisica CadastrarPessoaFisica()

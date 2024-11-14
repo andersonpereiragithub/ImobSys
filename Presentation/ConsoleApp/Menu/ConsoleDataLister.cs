@@ -11,15 +11,11 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
     {
         private readonly IClienteService _clienteService;
         private readonly IImovelService _imovelService;
-        private readonly IClienteRepository<Cliente> _clienteRepository;
-        private readonly IImovelRepository _imovelRepository;
-
-        public ConsoleDataLister(IClienteService clienteService, IImovelService movelService, IClienteRepository<Cliente> clienteRepository, IImovelRepository imovelRepository)
+        
+        public ConsoleDataLister(IClienteService clienteService, IImovelService movelService)
         {
             _clienteService = clienteService;
             _imovelService = movelService;
-            _clienteRepository = clienteRepository;
-            _imovelRepository = imovelRepository;
         }
 
         public void ExibirTabela(List<string> cabecalhos, List<List<string>> dados, List<bool> alinhamenstosDireita)
@@ -177,7 +173,7 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
             Console.ReadKey();
         }
 
-        public void ListarTodosImoveis()
+        public void ExibirListaDeTodosImoveis()
         {
             var imoveis = _imovelService.ListarTodosImoveis();
 
@@ -214,7 +210,7 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
             Console.ReadKey();
         }
 
-        public void ListarTodosIPTUs()
+        public void ExibirListaTodosIPTUs()
         {
             var imoveis = _imovelService.ListarTodosImoveis();
             if (imoveis.Count > 0)
@@ -251,7 +247,7 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
             Console.ReadKey();
         }
 
-        public void ListarProprietarioESeusImoveis()
+        public void ExibirProprietarioEListarSeusImoveis()
         {
             Console.SetCursorPosition(2, 7);
             Console.Write("Informe nome do Proprietário: ");

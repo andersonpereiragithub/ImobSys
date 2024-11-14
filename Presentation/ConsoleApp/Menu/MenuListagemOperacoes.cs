@@ -6,20 +6,11 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
 {
     public class MenuListagemOperacoes : BaseMenu
     {
-        private readonly MenuCadastro _menuCadastro;
-        private readonly MenuBusca _menuBusca;
         private readonly ConsoleDataLister _menuListagem;
-        private readonly MenuRemocao _menuRemocao;
-        private readonly IClienteRepository<Cliente> _clienteRepository;
-        private readonly IImovelRepository _imovelRepository;
-        private readonly ImovelService _imovelService;
 
-        public MenuListagemOperacoes(MenuCadastro menuCadastro, MenuBusca menuBusca, ConsoleDataLister menuListagem, MenuRemocao menuRemocao)
+        public MenuListagemOperacoes(ConsoleDataLister menuListagem)
         {
-            _menuCadastro = menuCadastro;
-            _menuBusca = menuBusca;
             _menuListagem = menuListagem;
-            _menuRemocao = menuRemocao;
         }
 
         private void ExibirOpcoes()
@@ -36,13 +27,13 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
                     _menuListagem.ListarTodosClientes();
                     break;
                 case 2:
-                    _menuListagem.ListarTodosImoveis();
+                    _menuListagem.ExibirListaDeTodosImoveis();
                     break;
                 case 3:
-                    _menuListagem.ListarTodosIPTUs();
+                    _menuListagem.ExibirListaTodosIPTUs();
                     break;
                 case 4:
-                    _menuListagem.ListarProprietarioESeusImoveis();
+                    _menuListagem.ExibirProprietarioEListarSeusImoveis();
                     break;
                 case 0:
                     sair = true;

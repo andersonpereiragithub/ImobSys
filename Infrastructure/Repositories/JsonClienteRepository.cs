@@ -20,7 +20,7 @@ namespace ImobSys.Infrastructure.Repositories
 
         public void SalvarCliente(T cliente)
         {
-            var clientes = ListarTodosCliente();
+            var clientes = ListarTodosClientes();
             var clienteExistente = clientes.FirstOrDefault(c => c.Id == cliente.Id);
 
             if (clienteExistente != null)
@@ -35,14 +35,14 @@ namespace ImobSys.Infrastructure.Repositories
 
         public T BuscarPorIdCliente(Guid id)
         {
-            var clientes = ListarTodosCliente();
+            var clientes = ListarTodosClientes();
 
             return clientes.FirstOrDefault(c => c.Id == id);
         }
 
         public object BuscarPorNomeCliente(string nomeCliente)
         {
-            var clientes = ListarTodosCliente();
+            var clientes = ListarTodosClientes();
 
             return clientes.FirstOrDefault(c =>
                 (c is PessoaFisica pf && pf.Nome == nomeCliente) ||
@@ -50,7 +50,7 @@ namespace ImobSys.Infrastructure.Repositories
 
         }
 
-        public List<T> ListarTodosCliente()
+        public List<T> ListarTodosClientes()
         {
             var json = File.ReadAllText(_filePath);
             var settings = new JsonSerializerSettings();
@@ -61,7 +61,7 @@ namespace ImobSys.Infrastructure.Repositories
 
         bool IClienteRepository<T>.RemoverCliente(Guid id)
         {
-            var clientes = ListarTodosCliente();
+            var clientes = ListarTodosClientes();
 
             var cliente = clientes.FirstOrDefault(c => c.Id == id);
 
