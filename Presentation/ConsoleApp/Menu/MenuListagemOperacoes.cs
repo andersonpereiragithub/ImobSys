@@ -1,8 +1,4 @@
-﻿using ImobSys.Application.Services;
-using ImobSys.Domain.Entities.Clientes;
-using ImobSys.Domain.Interfaces;
-
-namespace ImobSys.Presentation.ConsoleApp.Menu
+﻿namespace ImobSys.Presentation.ConsoleApp.Menu
 {
     public class MenuListagemOperacoes : BaseMenu
     {

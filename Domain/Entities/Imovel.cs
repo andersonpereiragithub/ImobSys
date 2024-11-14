@@ -9,6 +9,8 @@ namespace ImobSys.Domain
         public Guid Id { get; set; }
 
         public string InscricaoIPTU { get; set; }
+        public string MatriculaHidrometro { get; set; }
+        public string NumeroInstalacaoEletrica { get; set; }
         public string TipoImovel { get; set; }
         public string DetalhesTipoImovel { get; set; }
         public float AreaUtil { get; set; }

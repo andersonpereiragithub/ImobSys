@@ -7,6 +7,7 @@ using ImobSys.Domain.Enums;
 using ImobSys.Domain;
 using System;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using ImobSys.Application.Ajuda;
 
 namespace ImobSys.Application.Services
 {
@@ -26,24 +27,18 @@ namespace ImobSys.Application.Services
             Console.Clear();
             var novoImovel = new Imovel { Id = Guid.NewGuid() };
 
-            // 1. Configura Tipo de Imóvel
             novoImovel.TipoImovel = ConfigurarTipoImovel();
             novoImovel.AreaUtil = ObterAreaUtil();
-            novoImovel.DetalhesTipoImovel = ObterDetalhesTipoImovel();
+            novoImovel.DetalhesTipoImovel = ObterTipoImovel();
 
-            // 2. Configura Dados de Locação e Venda
             ConfigurarLocacaoEVenda(novoImovel);
 
-            // 3. Configura Endereço
             novoImovel.Endereco = ObterEndereco();
 
-            // 4. Configura Características Internas
             ConfigurarCaracteristicasInternas(novoImovel);
 
-            // 5. Adiciona Proprietários
             AtribuirProprietarios(novoImovel);
 
-            // Salva o novo imóvel
             _imovelRepository.SalvarImovel(novoImovel);
             Console.WriteLine("Imóvel cadastrado com sucesso!");
             Console.WriteLine("Pressione qualquer tecla para retornar ao Menu.");
@@ -88,10 +83,17 @@ namespace ImobSys.Application.Services
             return areaUtil;
         }
 
-        private string ObterDetalhesTipoImovel()
+        private string ObterTipoImovel()
         {
-            Console.Write("Detalhes do Tipo de Imóvel (Casa, Apto, Loja, etc.): ");
-            return Console.ReadLine();
+            Console.WriteLine("Selecione o Tipo de Imvel:");
+            var listaDeSubTiposImoveis = Enum.GetValues(typeof(SubtipoImovel));
+            
+            foreach (var tipo in listaDeSubTiposImoveis)
+            {
+                Console.WriteLine($" [{(int)tipo}] {tipo}");
+            }
+            
+            return AjudaEntradaDeDados.SolicitarEntrada("Tipo de Imóvel:", true);
         }
 
         private void ConfigurarLocacaoEVenda(Imovel imovel)
@@ -270,14 +272,13 @@ namespace ImobSys.Application.Services
         {
             Console.WriteLine("Selecione o Tipo de Logradouro:");
 
-            // Exibe todas as opções do enum com seus índices
             foreach (var tipo in Enum.GetValues(typeof(TipoLogradouro)))
             {
                 Console.WriteLine($" [{(int)tipo}] {tipo}");
             }
 
             Console.Write("Escolha o tipo de Logradouro: ");
-            // Lê a escolha do usuário
+            
             int escolha;
             while (!int.TryParse(Console.ReadLine(), out escolha) || !Enum.IsDefined(typeof(TipoLogradouro), escolha))
             {

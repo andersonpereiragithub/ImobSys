@@ -1,12 +1,10 @@
 ﻿using ImobSys.Application.Ajuda;
-using ImobSys.Domain.Entities.Clientes;
-using ImobSys.Domain.Interfaces;
-using ImobSys.Domain.Entities;
-using System.Collections.Generic;
-using ImobSys.Domain.Enums;
-using System;
 using ImobSys.Application.Services.Interfaces;
 using ImobSys.Domain;
+using ImobSys.Domain.Entities;
+using ImobSys.Domain.Entities.Clientes;
+using ImobSys.Domain.Enums;
+using ImobSys.Domain.Interfaces;
 
 namespace ImobSys.Application.Services
 {
@@ -50,8 +48,7 @@ namespace ImobSys.Application.Services
             Console.SetCursorPosition(2, 9);
             Console.WriteLine("==== Cadastro de Novo Cliente ====");
 
-            Console.Write("Cliente (1)Pessoa Física / (2)Pessoa Jurídica? ");
-            string tipoCliente = Console.ReadLine();
+            string tipoCliente = AjudaEntradaDeDados.SolicitarEntrada("Cliente (1)Pessoa Física / (2)Pessoa Jurídica? ", true);
 
             Cliente novoCliente;
 

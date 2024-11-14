@@ -8,13 +8,13 @@ namespace ImobSys.Domain.Enums
 {
     public enum SubtipoImovel
     {
+        Apto,
         Casa,
-        Sala,
-        Loja,
         Galpao,
-        Terreno,
         Garagem,
-        Apartamento,
-        Granja
+        Granja,
+        Loja,
+        Sala,
+        Terreno
     }
 }
