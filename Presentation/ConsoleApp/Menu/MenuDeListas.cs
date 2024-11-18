@@ -1,12 +1,12 @@
 ﻿namespace ImobSys.Presentation.ConsoleApp.Menu
 {
-    public class MenuListagemOperacoes : BaseMenu
+    public class MenuDeListas : BaseMenu
     {
-        private readonly ConsoleDataLister _menuListagem;
+        private readonly ConsoleDataLister _consoleDataLister;
 
-        public MenuListagemOperacoes(ConsoleDataLister menuListagem)
+        public MenuDeListas(ConsoleDataLister menuListagem)
         {
-            _menuListagem = menuListagem;
+            _consoleDataLister = menuListagem;
         }
 
         private void ExibirOpcoes()
@@ -20,16 +20,16 @@
             switch (opcao)
             {
                 case 1:
-                    _menuListagem.ListarTodosClientes();
+                    _consoleDataLister.ListarTodosClientes();
                     break;
                 case 2:
-                    _menuListagem.ExibirListaDeTodosImoveis();
+                    _consoleDataLister.ExibirListaDeTodosImoveis();
                     break;
                 case 3:
-                    _menuListagem.ExibirListaTodosIPTUs();
+                    _consoleDataLister.ExibirListaTodosIPTUs();
                     break;
                 case 4:
-                    _menuListagem.ExibirProprietarioEListarSeusImoveis();
+                    _consoleDataLister.ExibirProprietarioEListarSeusImoveis();
                     break;
                 case 0:
                     sair = true;

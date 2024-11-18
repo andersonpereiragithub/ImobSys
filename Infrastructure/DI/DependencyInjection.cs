@@ -26,7 +26,7 @@ namespace ImobSys.Infrastructure.DI
             services.AddTransient<MenuCadastro>();
             services.AddTransient<MenuBusca>();
             services.AddTransient<ConsoleDataLister>();
-            services.AddTransient<MenuListagemOperacoes>();
+            services.AddTransient<MenuDeListas>();
             services.AddTransient<MenuRemocao>();
             services.AddTransient<MenuPrincipal>();
 

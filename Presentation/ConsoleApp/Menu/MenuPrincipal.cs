@@ -6,7 +6,7 @@ using ImobSys.Presentation.ConsoleApp.Menu;
 
 public class MenuPrincipal : BaseMenu
 {
-    private readonly MenuListagemOperacoes _menuSecundarioListagem;
+    private readonly MenuDeListas _menuSecundarioListagem;
     private readonly IClienteRepository<Cliente> _clienteRepository;
     private readonly IImovelRepository _imovelRepository;
     private readonly IClienteService _clienteService;
@@ -15,7 +15,7 @@ public class MenuPrincipal : BaseMenu
     private readonly MenuRemocao _menuRemocao;
 
     public MenuPrincipal(
-        MenuListagemOperacoes menuSecundarioListagem,
+        MenuDeListas menuSecundarioListagem,
         IClienteRepository<Cliente> clienteRepository,
         IImovelRepository imovelRepository,
         IClienteService clienteService,
@@ -51,7 +51,6 @@ public class MenuPrincipal : BaseMenu
                     _menuCadastro.ExibirMenuCadastro();
                     break;
                 case 2:
-                    //_menuBusca.Exibir();
                     Console.WriteLine("Opção NÃO IMPLEMENTADA!");
                     break;
                 case 3:
