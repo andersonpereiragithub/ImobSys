@@ -25,8 +25,9 @@ namespace ImobSys.Application.Services
 
             var cliente = _clienteRepository.BuscarPorNomeCliente(nomeCliente);
 
-            if (cliente is PessoaFisica pf && pf.Nome == nomeCliente) {
-                
+            if (cliente is PessoaFisica pf && pf.Nome == nomeCliente)
+            {
+
                 imoveis = _imovelRepository.ObterImoveisPorCliente(pf.Id);
             }
             else if (cliente is PessoaJuridica pj && pj.RazaoSocial == nomeCliente)
@@ -139,6 +140,23 @@ namespace ImobSys.Application.Services
             } while (adicionarMais);
 
             return tipoRelacoes;
+        }
+
+        public bool RemoverCliente(Guid clienteId)
+        {
+            var cliente = _clienteRepository.BuscarPorIdCliente(clienteId);
+
+            if (cliente == null)
+            {
+                throw new Exception("Cliente não encotrado!");
+            }
+
+            if (((Cliente)cliente).ImoveisId.Count > 0)
+            {
+                throw new Exception("Não é possível remover um cliente associado a imóveis.");
+            }
+
+            return _clienteRepository.RemoverCliente(clienteId);
         }
     }
 }
