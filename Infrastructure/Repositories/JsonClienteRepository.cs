@@ -40,14 +40,20 @@ namespace ImobSys.Infrastructure.Repositories
             return clientes.FirstOrDefault(c => c.Id == id);
         }
 
-        public object BuscarPorNomeCliente(string nomeCliente)
+        public Guid ObterClientePorNome(string nomeCliente)
         {
             var clientes = ListarTodosClientes();
 
-            return clientes.FirstOrDefault(c =>
+            var clienteExistente = clientes.FirstOrDefault(c =>
                 (c is PessoaFisica pf && pf.Nome == nomeCliente) ||
                 (c is PessoaJuridica pj && pj.RazaoSocial == nomeCliente));
-
+            
+            if(clienteExistente == null)
+            {
+                throw new Exception($"Cliente com nome '{nomeCliente}' não encontrado."); 
+            }
+            
+            return clienteExistente.Id;
         }
 
         public List<T> ListarTodosClientes()

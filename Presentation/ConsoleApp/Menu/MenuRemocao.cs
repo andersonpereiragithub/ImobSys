@@ -46,7 +46,8 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
         {
             BoxDePesquisa("Digite o NOME:");
             var nome = Console.ReadLine();
-            var cliente = _clienteRepository.BuscarPorNomeCliente(nome);
+            var clienteId = _clienteRepository.ObterClientePorNome(nome);
+            var cliente = _clienteRepository.BuscarPorIdCliente(clienteId);
 
             if (cliente == null)
             {

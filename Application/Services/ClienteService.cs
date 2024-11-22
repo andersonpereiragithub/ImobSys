@@ -23,24 +23,16 @@ namespace ImobSys.Application.Services
         {
             var imoveis = new List<Imovel>();
 
-            var cliente = _clienteRepository.BuscarPorNomeCliente(nomeCliente);
+            var clienteId = _clienteRepository.ObterClientePorNome(nomeCliente);
 
-            if (cliente is PessoaFisica pf && pf.Nome == nomeCliente)
-            {
-
-                imoveis = _imovelRepository.ObterImoveisPorCliente(pf.Id);
-            }
-            else if (cliente is PessoaJuridica pj && pj.RazaoSocial == nomeCliente)
-            {
-                imoveis = _imovelRepository.ObterImoveisPorCliente(pj.Id);
-
-            }
-            if (cliente == null)
+            if (clienteId == null)
             {
                 throw new Exception($"Cliente com nome '{nomeCliente}' não encontrado.");
             }
+            
+            imoveis = _imovelRepository.ObterImoveisPorCliente(clienteId);
 
-            return (cliente, imoveis);
+            return (clienteId, imoveis);
         }
 
         public void CadastrarNovoCliente()
@@ -142,21 +134,16 @@ namespace ImobSys.Application.Services
             return tipoRelacoes;
         }
 
-        public bool RemoverCliente(Guid clienteId)
+        public void RemoverCliente(string nomeCliente)
         {
-            var cliente = _clienteRepository.BuscarPorIdCliente(clienteId);
+            var clienteId = _clienteRepository.ObterClientePorNome(nomeCliente);
 
-            if (cliente == null)
+            var sucesso = _clienteRepository.RemoverCliente(clienteId);
+
+            if (!sucesso)
             {
-                throw new Exception("Cliente não encotrado!");
+                throw new Exception($"Não foi possível remover o cliente [{nomeCliente}].");
             }
-
-            if (((Cliente)cliente).ImoveisId.Count > 0)
-            {
-                throw new Exception("Não é possível remover um cliente associado a imóveis.");
-            }
-
-            return _clienteRepository.RemoverCliente(clienteId);
         }
     }
 }

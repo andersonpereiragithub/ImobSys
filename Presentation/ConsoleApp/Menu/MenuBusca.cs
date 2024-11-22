@@ -17,57 +17,32 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
             _imovelRepository = imovelRepository;
         }
 
-        public void BuscarClientePorNome()
+        public Guid BuscarClientePorNome(string nomeCliente)
         {
-            try
+            if (string.IsNullOrWhiteSpace(nomeCliente))
             {
-                Console.Write("Digite o nome do cliente: ");
-                var nome = Console.ReadLine();
-                if (nome != null)
-                {
-                    object cliente = _clienteRepository.BuscarPorNomeCliente(nome);
-
-                    if (cliente != null)
-                    {
-                        Console.WriteLine($"Cliente encontrado: {nome}");
-
-                        if (cliente is PessoaFisica pessoaFisica)
-                        {
-                            Console.WriteLine($"CPF: {pessoaFisica.CPF} ");
-                        }
-                        else if (cliente is PessoaJuridica pessoaJuridica)
-                        {
-                            Console.WriteLine($"CNPJ: {pessoaJuridica.CNPJ}");
-                            if (!string.IsNullOrWhiteSpace(pessoaJuridica.NomeRepresentante))
-                            {
-                                Console.WriteLine($"Nome do Representante: {pessoaJuridica.NomeRepresentante}");
-                            }
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("Cliente não encontrado");
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Nome não pode ser vazio.");
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
+                throw new ArgumentException("O nome do cliente não pode ser vazio ou nulo.");
             }
 
-            Console.WriteLine("Pressione qualquer tecla para continuar...");
-            Console.ReadKey();
+            var clienteId = _clienteRepository.ObterClientePorNome(nomeCliente);
+
+            if (clienteId == null)
+            {
+                throw new Exception($"Cliente '{nomeCliente}' não encontrado.");
+            }
+            else
+            {
+                return clienteId;
+            }
+
+            throw new Exception($"Tipo de cliente desconhecido para '{nomeCliente}'.");
         }
 
         public void BuscarImovelPorInscricaoIPTU()
         {
             Console.Write("Digite a Inscrição IPTU do imóvel: ");
             var inscricaoIptu = Console.ReadLine();
-            Imovel imovel = _imovelRepository.BuscarPorInscricaoIPTU(inscricaoIptu); 
+            Imovel imovel = _imovelRepository.BuscarPorInscricaoIPTU(inscricaoIptu);
 
             if (imovel != null)
             {

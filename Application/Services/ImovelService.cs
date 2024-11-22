@@ -192,13 +192,14 @@ namespace ImobSys.Application.Services
 
                 if (resposta == "S")
                 {
-                    Console.Write("Informe o nome do proprietário: ");
-                    string nomeProprietario = Console.ReadLine();
-                    var cliente = _clienteRepository.BuscarPorNomeCliente(nomeProprietario);
+                    string nomeProprietario = AjudaEntradaDeDados.SolicitarEntrada("Informe o nome do proprietário: ", true);
 
-                    if (cliente != null)
+                    var cliente = _clienteRepository.ObterClientePorNome(nomeProprietario);
+                    var proprietario = _clienteRepository.BuscarPorIdCliente(cliente);
+
+                    if (proprietario != null)
                     {
-                        if (cliente is PessoaFisica pf)
+                        if (proprietario is PessoaFisica pf)
                         {
                             if (!pf.ImoveisId.Contains(imovel.Id))
                             {
@@ -208,7 +209,7 @@ namespace ImobSys.Application.Services
                             _clienteRepository.SalvarCliente(pf);
                             Console.WriteLine($"Proprietário [{pf.Nome}] adicionado com sucesso!");
                         }
-                        else if (cliente is PessoaJuridica pj)
+                        else if (proprietario is PessoaJuridica pj)
                         {
                             if (!pj.ImoveisId.Contains(imovel.Id))
                             {
@@ -233,17 +234,18 @@ namespace ImobSys.Application.Services
                     Console.Write("Digite o nome do novo cliente: ");
                     string nomeCliente = Console.ReadLine();
 
-                    var novoCliente = _clienteRepository.BuscarPorNomeCliente(nomeCliente);
+                    var clienteId = _clienteRepository.ObterClientePorNome(nomeCliente);
+                    var cliente = _clienteRepository.BuscarPorIdCliente(clienteId);
 
-                    if (novoCliente != null)
+                    if (cliente != null)
                     {
-                        if (novoCliente is PessoaFisica pf)
+                        if (cliente is PessoaFisica pf)
                         {
                             pf.ImoveisId.Add(imovel.Id);
                             proprietarios.Add(pf.Id);
                             _clienteRepository.SalvarCliente(pf);
                         }
-                        else if (novoCliente is PessoaJuridica pj)
+                        else if (cliente is PessoaJuridica pj)
                         {
                             pj.ImoveisId.Add(imovel.Id);
                             proprietarios.Add(pj.Id);

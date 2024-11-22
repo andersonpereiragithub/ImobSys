@@ -9,6 +9,6 @@ namespace ImobSys.Application.Services.Interfaces
         public (object cliente, List<Imovel> imoveis) ObterClienteESeusImoveis(string nomeCliente);
         List<Cliente> ListarTodosClientes();
         public void CadastrarNovoCliente();
-        bool RemoverCliente(Guid clienteId);
+        void RemoverCliente(string clienteId);
     }
 }

@@ -40,17 +40,11 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
                         _imovelService.CadastrarNovoImovel();
                         break;
                     case 4:
+                        Console.SetCursorPosition(2, 7);
                         var cliente = AjudaEntradaDeDados.SolicitarEntrada("Inserir o Nome do Cliente para Excluir:", true);
-                        var clientes = _clienteService.ListarTodosClientes();
 
-                        foreach (var c in clientes)
-                        {
-                            if (c.Nome == cliente && c is PessoaFisica pf && pf.Nome == cliente ||
-                               c is PessoaJuridica pj && pj.RazaoSocial == cliente)
-                            {
-                                _clienteService.RemoverCliente(c.Id);
-                            }
-                        }
+                        _clienteService.RemoverCliente(cliente);
+
                         break;
                     case 0:
                         voltar = true;
