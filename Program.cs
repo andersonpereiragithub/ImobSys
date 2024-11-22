@@ -3,6 +3,8 @@ using ImobSys.Infrastructure.DI;
 
 var serviceCollection = new ServiceCollection();
 serviceCollection.AddInfrastructure();
+serviceCollection.AddApplicationServices();
+serviceCollection.AddPresentation();
 
 var serviceProvider = serviceCollection.BuildServiceProvider();
 
