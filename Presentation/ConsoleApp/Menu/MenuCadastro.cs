@@ -3,6 +3,8 @@ using ImobSys.Application.Services.Interfaces;
 using ImobSys.Domain.Interfaces;
 using System;
 using ImobSys.Application.Ajuda;
+using ImobSys.Presentation.ConsoleApp.Handler;
+using ImobSys.Presentation.ConsoleApp.Handlers;
 
 namespace ImobSys.Presentation.ConsoleApp.Menu
 {
@@ -10,11 +12,15 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
     {
         private readonly IClienteService _clienteService;
         private readonly IImovelService _imovelService;
+        private readonly InputHandler _inputHandler;
+        private readonly OutputHandler _outputHandler;
 
-        public MenuCadastro(IClienteService clienteService, IImovelService imovelService)
-        {
+        public MenuCadastro(IClienteService clienteService, IImovelService imovelService, InputHandler inputHandler, OutputHandler outputHandler)
+        {   
             _clienteService = clienteService;
             _imovelService = imovelService;
+            _inputHandler = inputHandler;
+            _outputHandler = outputHandler;
         }
 
         public void ExibirMenuCadastro()
@@ -35,9 +41,11 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
                 {
                     case 1:
                         _clienteService.CadastrarNovoCliente();
+                        _outputHandler.ExibirSucesso("Cliente cadastrado com sucesso!");
                         break;
                     case 2:
                         _imovelService.CadastrarNovoImovel();
+                        _outputHandler.ExibirSucesso("Imóvel cadastrado com sucesso!");
                         break;
                     case 4:
                         Console.SetCursorPosition(2, 7);

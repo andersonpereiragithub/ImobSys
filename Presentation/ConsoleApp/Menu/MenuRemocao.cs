@@ -1,18 +1,25 @@
 ﻿using System;
+using ImobSys.Application.Services.Interfaces;
 using ImobSys.Domain.Entities.Clientes;
 using ImobSys.Domain.Interfaces;
+using ImobSys.Presentation.ConsoleApp.Handler;
+using ImobSys.Presentation.ConsoleApp.Handlers;
 
 namespace ImobSys.Presentation.ConsoleApp.Menu
 {
     public class MenuRemocao : BaseMenu
     {
-        private readonly IClienteRepository<Cliente> _clienteRepository;
-        private readonly IImovelRepository _imovelRepository;
+        private readonly IClienteService _clienteService;
+        private readonly IImovelService _imovelService;
+        private readonly InputHandler _inputHandler;
+        private readonly OutputHandler _outputHandler;
 
-        public MenuRemocao(IClienteRepository<Cliente> clienteRepository, IImovelRepository imovelRepository)
+        public MenuRemocao(IClienteService clienteService, IImovelService imovelService, InputHandler inputHandler, OutputHandler outputHandler)
         {
-            _clienteRepository = clienteRepository;
-            _imovelRepository = imovelRepository;
+            _clienteService = clienteService;
+            _imovelService = imovelService;
+            _inputHandler = inputHandler;
+            _outputHandler = outputHandler;
         }
 
         private void ExibirOpcoesRemocao()
@@ -27,10 +34,19 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
             switch (opcao)
             {
                 case 1:
-                    RemoverCliente();
+                    var nomeCliente = _inputHandler.SolicitarTexto("Digite o nome do cliente");
+                    try
+                    {
+                        _clienteService.RemoverCliente(nomeCliente);
+                        _outputHandler.ExibirSucesso($"Cliente [{nomeCliente}] removido com sucesso!");
+                    }
+                    catch (Exception ex)
+                    {
+                        _outputHandler.ExibirErro(ex.Message);
+                    }
                     break;
                 case 2:
-                    RemoverImovel();
+                    
                     break;
                 case 0:
                     sair = true;
@@ -42,31 +58,31 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
             }
         }
 
-        public void RemoverCliente()
-        {
-            BoxDePesquisa("Digite o NOME:");
-            var nome = Console.ReadLine();
-            var clienteId = _clienteRepository.ObterClientePorNome(nome);
-            var cliente = _clienteRepository.BuscarPorIdCliente(clienteId);
+        //public void RemoverCliente()
+        //{
+        //    BoxDePesquisa("Digite o NOME:");
+        //    var nome = Console.ReadLine();
+        //    var clienteId = _clienteRepository.ObterClientePorNome(nome);
+        //    var cliente = _clienteRepository.BuscarPorIdCliente(clienteId);
 
-            if (cliente == null)
-            {
-                LimparLinha(11);
-                ExibirMensagem($"[{nome}] - \u001b[31mCLIENTE NÃO ENCONTRADO!\u001b[0m", 2, 11);
-            }
+        //    if (cliente == null)
+        //    {
+        //        LimparLinha(11);
+        //        ExibirMensagem($"[{nome}] - \u001b[31mCLIENTE NÃO ENCONTRADO!\u001b[0m", 2, 11);
+        //    }
 
-            if (cliente is PessoaFisica pf)
-            {
-                ConfirmarERemoverCliente(pf.Nome, pf.Id);
-            }
-            else if (cliente is PessoaJuridica pj)
-            {
-                ConfirmarERemoverCliente(pj.RazaoSocial, pj.Id);
-            }
+        //    if (cliente is PessoaFisica pf)
+        //    {
+        //        ConfirmarERemoverCliente(pf.Nome, pf.Id);
+        //    }
+        //    else if (cliente is PessoaJuridica pj)
+        //    {
+        //        ConfirmarERemoverCliente(pj.RazaoSocial, pj.Id);
+        //    }
             
-            ExibirMensagem("Pressione qualquer tecla para continuar...", 2, 14);
-            Console.ReadKey();
-        }
+        //    ExibirMensagem("Pressione qualquer tecla para continuar...", 2, 14);
+        //    Console.ReadKey();
+        //}
 
         private void ExibirMensagem(string mensagem, int x, int y)
         {
@@ -74,22 +90,22 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
             Console.WriteLine(mensagem);
         }
 
-        private void ConfirmarERemoverCliente(string nomeCliente, Guid clienteId)
-        {
-            ExibirMensagem($"Cliente encontrado. \u001b[31mDeseja Excluir? (S/N)\u001b[0m [ ]", 2, 9);
-            Console.SetCursorPosition(45, 9);
+        //private void ConfirmarERemoverCliente(string nomeCliente, Guid clienteId)
+        //{
+        //    ExibirMensagem($"Cliente encontrado. \u001b[31mDeseja Excluir? (S/N)\u001b[0m [ ]", 2, 9);
+        //    Console.SetCursorPosition(45, 9);
 
-            if (SolicitarConfirmacao())
-            {
-                _clienteRepository.RemoverCliente(clienteId);
-                ExibirMensagem($"\u001b[31m{nomeCliente} Cliente removido com sucesso!\u001b[0m", 2, 11);
-            }
-            else
-            {
-                LimparLinha(11);
-                ExibirMensagem("\u001b[32mOperação Cancelada.\u001b[0m", 6, 11);
-            }
-        }
+        //    if (SolicitarConfirmacao())
+        //    {
+        //        _clienteRepository.RemoverCliente(clienteId);
+        //        ExibirMensagem($"\u001b[31m{nomeCliente} Cliente removido com sucesso!\u001b[0m", 2, 11);
+        //    }
+        //    else
+        //    {
+        //        LimparLinha(11);
+        //        ExibirMensagem("\u001b[32mOperação Cancelada.\u001b[0m", 6, 11);
+        //    }
+        //}
 
         private bool SolicitarConfirmacao()
         {
@@ -102,24 +118,24 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
             Console.WriteLine(new string(' ', Console.WindowWidth - 2));
         }
 
-        public void RemoverImovel()
-        {
-            BoxDePesquisa("Digite o ENDEREÇO: ");
-            var inscricaoIptu = Console.ReadLine();
-            var imovel = _imovelRepository.BuscarPorInscricaoIPTU(inscricaoIptu);
+        //public void RemoverImovel()
+        //{
+        //    BoxDePesquisa("Digite o ENDEREÇO: ");
+        //    var inscricaoIptu = Console.ReadLine();
+        //    var imovel = _imovelService. .BuscarPorInscricaoIPTU(inscricaoIptu);
 
-            if (imovel == null)
-            {
-                Console.WriteLine("Imóvel não encontrado.");
-            }
-            else
-            {
-                _imovelRepository.RemoverImovel(imovel.Id);
-                Console.WriteLine("Imóvel removido com sucesso.");
-            }
-            Console.WriteLine("Pressione qualquer tecla para continuar...");
-            Console.ReadKey();
-        }
+        //    if (imovel == null)
+        //    {
+        //        Console.WriteLine("Imóvel não encontrado.");
+        //    }
+        //    else
+        //    {
+        //        _imovelRepository.RemoverImovel(imovel.Id);
+        //        Console.WriteLine("Imóvel removido com sucesso.");
+        //    }
+        //    Console.WriteLine("Pressione qualquer tecla para continuar...");
+        //    Console.ReadKey();
+        //}
 
         public void ExibirMenuDeRemocao()
         {
