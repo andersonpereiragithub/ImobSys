@@ -50,15 +50,13 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
                     case 4:
                         Console.SetCursorPosition(2, 7);
                         var cliente = AjudaEntradaDeDados.SolicitarEntrada("Inserir o Nome do Cliente para Excluir:", true);
-
                         _clienteService.RemoverCliente(cliente);
-
                         break;
                     case 0:
                         voltar = true;
                         break;
                     default:
-                        Console.WriteLine("Opção inválida. Pressione qualquer tecla para tentar novamente.");
+                        _outputHandler.ExibirErro("Opção inválida. Pressione qualquer tecla para tentar novamente.");
                         Console.ReadKey();
                         break;
                 }

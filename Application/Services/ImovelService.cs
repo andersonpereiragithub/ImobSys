@@ -8,16 +8,22 @@ using ImobSys.Domain;
 using System;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using ImobSys.Application.Ajuda;
+using ImobSys.Presentation.ConsoleApp.Handler;
+using ImobSys.Presentation.ConsoleApp.Handlers;
 
 namespace ImobSys.Application.Services
 {
     public class ImovelService : IImovelService
     {
+        private readonly InputHandler _inputHandler;
+        private readonly OutputHandler _outputHandler;
         private readonly IImovelRepository _imovelRepository;
         private readonly IClienteRepository<Cliente> _clienteRepository;
 
-        public ImovelService(IImovelRepository imovelRepository, IClienteRepository<Cliente> clienteRepository)
+        public ImovelService(InputHandler inputHandler, OutputHandler outputHandler, IImovelRepository imovelRepository, IClienteRepository<Cliente> clienteRepository)
         {
+            _inputHandler = inputHandler;
+            _outputHandler = outputHandler;
             _imovelRepository = imovelRepository;
             _clienteRepository = clienteRepository;
         }
@@ -87,12 +93,12 @@ namespace ImobSys.Application.Services
         {
             Console.WriteLine("Selecione o Tipo de Imvel:");
             var listaDeSubTiposImoveis = Enum.GetValues(typeof(SubtipoImovel));
-            
+
             foreach (var tipo in listaDeSubTiposImoveis)
             {
                 Console.WriteLine($" [{(int)tipo}] {tipo}");
             }
-            
+
             return AjudaEntradaDeDados.SolicitarEntrada("Tipo de Imóvel:", true);
         }
 
@@ -132,23 +138,23 @@ namespace ImobSys.Application.Services
 
             endereco.TipoLogradouro = SolicitarTipoLogradouro().ToString();
 
-            Console.Write("Logradouro: ");
+            Console.Write($"Logradouro: {endereco.TipoLogradouro} ");
             endereco.Logradouro = Console.ReadLine();
 
-            Console.Write("Número: ");
+            Console.Write($"{endereco.TipoLogradouro} {endereco.Logradouro}, Número: ");
             endereco.Numero = Console.ReadLine();
 
-            Console.Write("Complemento (ex.: Casa 1, Apto 301): ");
+            Console.Write($"{endereco.TipoLogradouro} {endereco.Logradouro}, {endereco.Numero} Complemento (ex.: Casa 1, Apto 301): ");
             endereco.Complemento = Console.ReadLine();
 
             Console.Write("Bairro: ");
             endereco.Bairro = Console.ReadLine();
 
-            Console.Write("Cidade (Localidade): ");
-            endereco.Cidade = Console.ReadLine();
+            //Console.Write("Cidade (Localidade): ");
+            endereco.Cidade = "Juiz de Fora";
 
-            Console.Write("UF: ");
-            endereco.UF = Console.ReadLine();
+            //Console.Write("UF: ");
+            endereco.UF = "MG";
 
             Console.Write("CEP: ");
             endereco.CEP = Console.ReadLine();
@@ -280,7 +286,7 @@ namespace ImobSys.Application.Services
             }
 
             Console.Write("Escolha o tipo de Logradouro: ");
-            
+
             int escolha;
             while (!int.TryParse(Console.ReadLine(), out escolha) || !Enum.IsDefined(typeof(TipoLogradouro), escolha))
             {

@@ -13,10 +13,10 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
 
             string corTitulo = titulo switch
             {
-                "MENU PRINCIPAL" => "\u001b[34m" + titulo + "\u001b[0m",
-                "LISTAGENS" => "\u001b[33m" + titulo + "\u001b[0m",
-                "CADASTRO" => "\u001b[32m" + titulo + "\u001b[0m",
-                "DELETAR IMÓVEIS E CLIENTES" => "\u001b[31m" + titulo + "\u001b[0m",
+                "MENU PRINCIPAL" => "\u001b[34m=== " + titulo + " ===\u001b[0m",
+                "LISTAGENS" => "\u001b[33m=== " + titulo + " ===\u001b[0m",
+                "CADASTRO" => "\u001b[32m=== " + titulo + " ===\u001b[0m",
+                "DELETAR IMÓVEIS E CLIENTES" => "\u001b[31m=== " + titulo + " ===\u001b[0m",
                 _ => titulo
             };
 
