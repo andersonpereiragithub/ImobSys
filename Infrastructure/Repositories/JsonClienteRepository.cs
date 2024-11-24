@@ -50,7 +50,7 @@ namespace ImobSys.Infrastructure.Repositories
             
             if(clienteExistente == null)
             {
-                throw new Exception($"Cliente com nome '{nomeCliente}' não encontrado."); 
+                throw new Exception($"Cliente [{nomeCliente}] não encontrado!"); 
             }
             
             return clienteExistente.Id;

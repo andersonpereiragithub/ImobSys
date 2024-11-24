@@ -14,7 +14,6 @@ namespace ImobSys.Infrastructure.DI
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
-            // Registrar Repositórios (com caminhos configurados)
             services.AddSingleton<IImovelRepository>(provider =>
                 new JsonImovelRepository("imoveis.json"));
             services.AddSingleton<IClienteRepository<Cliente>>(provider =>

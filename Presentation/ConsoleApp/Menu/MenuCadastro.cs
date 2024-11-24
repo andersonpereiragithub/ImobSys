@@ -49,7 +49,7 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
                         break;
                     case 4:
                         Console.SetCursorPosition(2, 7);
-                        var cliente = AjudaEntradaDeDados.SolicitarEntrada("Inserir o Nome do Cliente para Excluir:", true);
+                        var cliente = _inputHandler.SolicitarEntrada("Inserir o Nome do Cliente para Excluir:", true);
                         _clienteService.RemoverCliente(cliente);
                         break;
                     case 0:

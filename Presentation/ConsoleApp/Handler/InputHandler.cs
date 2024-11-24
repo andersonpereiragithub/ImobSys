@@ -29,5 +29,30 @@ namespace ImobSys.Presentation.ConsoleApp.Handler
             var resposta = Console.ReadLine()?.Trim().ToUpper();
             return resposta == "S";
         }
+
+        public string SolicitarEntrada(string mensagem, bool obrigatorio = false,
+                                              Func<string, bool> validacaoExtra = null,
+                                              string mensagemErroValidacao = "Entrada inválida. Por favor, tente novamente.")
+        {
+            string entrada;
+            do
+            {
+                Console.Write(mensagem);
+                entrada = Console.ReadLine()?.Trim();
+
+                if (obrigatorio && string.IsNullOrWhiteSpace(entrada))
+                {
+                    Console.WriteLine("Este campo é obrigatório. Por favor, insira um valor.");
+                    continue;
+                }
+                if (!string.IsNullOrWhiteSpace(entrada) && validacaoExtra != null && !validacaoExtra(entrada))
+                {
+                    Console.WriteLine(mensagemErroValidacao);
+                    continue;
+                }
+
+                return string.IsNullOrWhiteSpace(entrada) ? null : entrada;
+            } while (true);
+        }
     }
 }

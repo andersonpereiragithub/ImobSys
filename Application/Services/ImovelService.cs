@@ -99,7 +99,7 @@ namespace ImobSys.Application.Services
                 Console.WriteLine($" [{(int)tipo}] {tipo}");
             }
 
-            return AjudaEntradaDeDados.SolicitarEntrada("Tipo de Imóvel:", true);
+            return _inputHandler.SolicitarEntrada("Tipo de Imóvel:", true);
         }
 
         private void ConfigurarLocacaoEVenda(Imovel imovel)
@@ -198,7 +198,7 @@ namespace ImobSys.Application.Services
 
                 if (resposta == "S")
                 {
-                    string nomeProprietario = AjudaEntradaDeDados.SolicitarEntrada("Informe o nome do proprietário: ", true);
+                    string nomeProprietario = _inputHandler.SolicitarEntrada("Informe o nome do proprietário: ", true);
 
                     var cliente = _clienteRepository.ObterClientePorNome(nomeProprietario);
                     var proprietario = _clienteRepository.BuscarPorIdCliente(cliente);
@@ -234,7 +234,7 @@ namespace ImobSys.Application.Services
                 else if (resposta == "N")
                 {
                     Console.WriteLine("Cadastrar novo Proprietário:");
-                    var clienteService = new ClienteService(_clienteRepository, _imovelRepository);
+                    var clienteService = new ClienteService(_clienteRepository, _imovelRepository, _outputHandler, _inputHandler);
                     clienteService.CadastrarNovoCliente();
 
                     Console.Write("Digite o nome do novo cliente: ");
