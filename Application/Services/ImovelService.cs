@@ -7,9 +7,7 @@ using ImobSys.Domain.Enums;
 using ImobSys.Domain;
 using System;
 using static System.Runtime.InteropServices.JavaScript.JSType;
-using ImobSys.Application.Ajuda;
 using ImobSys.Presentation.ConsoleApp.Handler;
-using ImobSys.Presentation.ConsoleApp.Handlers;
 
 namespace ImobSys.Application.Services
 {
@@ -46,8 +44,8 @@ namespace ImobSys.Application.Services
             AtribuirProprietarios(novoImovel);
 
             _imovelRepository.SalvarImovel(novoImovel);
-            Console.WriteLine("Imóvel cadastrado com sucesso!");
-            Console.WriteLine("Pressione qualquer tecla para retornar ao Menu.");
+            _outputHandler.ExibirSucesso("Imóvel cadastrado com sucesso!");
+            _outputHandler.ExibirMensagem("Pressione qualquer tecla para retornar ao Menu.");
             Console.ReadKey();
         }
 
@@ -56,11 +54,7 @@ namespace ImobSys.Application.Services
             string tipoImovel = "";
             do
             {
-                Console.WriteLine("Tipo do Imóvel");
-                Console.WriteLine("              (1)Residencial");
-                Console.WriteLine("              (2)Comercial");
-                Console.WriteLine("              (3)Misto)");
-                Console.Write("                     Opção: ");
+                _outputHandler.ExibirMensagem("Tipo do Imóvel \n    (1)Residencial\n    (2)Comercial\n    (3)Misto)\n          Opção: ");
                 if (int.TryParse(Console.ReadLine(), out int escolha))
                 {
                     tipoImovel = escolha switch
@@ -141,7 +135,7 @@ namespace ImobSys.Application.Services
             Console.Write($"Logradouro: {endereco.TipoLogradouro} ");
             endereco.Logradouro = Console.ReadLine();
 
-            Console.Write($"{endereco.TipoLogradouro} {endereco.Logradouro}, Número: ");
+            Console.Write($"{endereco.TipoLogradouro} {endereco.Logradouro}, Número:  ");
             endereco.Numero = Console.ReadLine();
 
             Console.Write($"{endereco.TipoLogradouro} {endereco.Logradouro}, {endereco.Numero} Complemento (ex.: Casa 1, Apto 301): ");
@@ -212,7 +206,7 @@ namespace ImobSys.Application.Services
                                 pf.ImoveisId.Add(imovel.Id);
                             }
                             proprietarios.Add(pf.Id);
-                            _clienteRepository.SalvarCliente(pf);
+                    //        _clienteRepository.SalvarCliente(pf);
                             Console.WriteLine($"Proprietário [{pf.Nome}] adicionado com sucesso!");
                         }
                         else if (proprietario is PessoaJuridica pj)
@@ -222,7 +216,7 @@ namespace ImobSys.Application.Services
                                 pj.ImoveisId.Add(imovel.Id);
                             }
                             proprietarios.Add(pj.Id);
-                            _clienteRepository.SalvarCliente(pj);
+                            //_clienteRepository.SalvarCliente(pj);
                             Console.WriteLine($"Proprietário [{pj.RazaoSocial}] adicionado com sucesso!");
                         }
                     }
@@ -236,11 +230,10 @@ namespace ImobSys.Application.Services
                     Console.WriteLine("Cadastrar novo Proprietário:");
                     var clienteService = new ClienteService(_clienteRepository, _imovelRepository, _outputHandler, _inputHandler);
                     clienteService.CadastrarNovoCliente();
+                    
+                    string clienteNovoCadastrado = _inputHandler.SolicitarEntrada("Digite do Cliente Cadastrado: ", true);
 
-                    Console.Write("Digite o nome do novo cliente: ");
-                    string nomeCliente = Console.ReadLine();
-
-                    var clienteId = _clienteRepository.ObterClientePorNome(nomeCliente);
+                    var clienteId = _clienteRepository.ObterClientePorNome(clienteNovoCadastrado);
                     var cliente = _clienteRepository.BuscarPorIdCliente(clienteId);
 
                     if (cliente != null)

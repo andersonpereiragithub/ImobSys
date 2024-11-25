@@ -1,12 +1,10 @@
-﻿using ImobSys.Application.Ajuda;
-using ImobSys.Application.Services.Interfaces;
+﻿using ImobSys.Application.Services.Interfaces;
 using ImobSys.Domain;
 using ImobSys.Domain.Entities;
 using ImobSys.Domain.Entities.Clientes;
 using ImobSys.Domain.Enums;
 using ImobSys.Domain.Interfaces;
 using ImobSys.Presentation.ConsoleApp.Handler;
-using ImobSys.Presentation.ConsoleApp.Handlers;
 
 namespace ImobSys.Application.Services
 {
@@ -30,8 +28,9 @@ namespace ImobSys.Application.Services
             var imoveis = new List<Imovel>();
 
             var clienteId = _clienteRepository.ObterClientePorNome(nomeCliente);
+            var isEmpty = clienteId == Guid.Empty;
 
-            if (clienteId == null)
+            if (isEmpty)
             {
                 throw new Exception($"Cliente com nome '{nomeCliente}' não encontrado.");
             }
@@ -43,8 +42,8 @@ namespace ImobSys.Application.Services
 
         public void CadastrarNovoCliente()
         {
-            //Console.Clear();
-            Console.SetCursorPosition(2, 9);
+            Console.Clear();
+            Console.SetCursorPosition(2, 2);
             Console.WriteLine("==== Cadastro de Novo Cliente ====");
 
             string tipoCliente = _inputHandler.SolicitarEntrada("Cliente (1)Pessoa Física / (2)Pessoa Jurídica? ", true);

@@ -2,9 +2,7 @@
 using ImobSys.Application.Services.Interfaces;
 using ImobSys.Domain.Interfaces;
 using System;
-using ImobSys.Application.Ajuda;
 using ImobSys.Presentation.ConsoleApp.Handler;
-using ImobSys.Presentation.ConsoleApp.Handlers;
 
 namespace ImobSys.Presentation.ConsoleApp.Menu
 {

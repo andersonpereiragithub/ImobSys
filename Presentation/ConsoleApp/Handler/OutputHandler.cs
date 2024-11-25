@@ -1,12 +1,12 @@
 ﻿using System;
 
-namespace ImobSys.Presentation.ConsoleApp.Handlers
+namespace ImobSys.Presentation.ConsoleApp.Handler
 {
     public class OutputHandler
     {
         public void ExibirMensagem(string mensagem)
         {
-            Console.WriteLine(mensagem);
+            Console.Write(mensagem);
         }
 
         public void ExibirErro(string mensagem)

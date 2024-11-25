@@ -3,7 +3,6 @@ using ImobSys.Application.Services.Interfaces;
 using ImobSys.Domain.Entities.Clientes;
 using ImobSys.Domain.Interfaces;
 using ImobSys.Presentation.ConsoleApp.Handler;
-using ImobSys.Presentation.ConsoleApp.Handlers;
 
 namespace ImobSys.Presentation.ConsoleApp.Menu
 {
@@ -52,7 +51,7 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
                     sair = true;
                     break;
                 default:
-                    Console.WriteLine("Opção inválida. Pressione qualquer tecla para tentar novamente.");
+                    _outputHandler.ExibirMensagem("Opção inválida. Pressione qualquer tecla para tentar novamente.");
                     Console.ReadKey();
                     break;
             }

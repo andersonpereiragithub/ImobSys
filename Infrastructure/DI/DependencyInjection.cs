@@ -4,7 +4,6 @@ using ImobSys.Domain.Entities.Clientes;
 using ImobSys.Domain.Interfaces;
 using ImobSys.Infrastructure.Repositories;
 using ImobSys.Presentation.ConsoleApp.Handler;
-using ImobSys.Presentation.ConsoleApp.Handlers;
 using ImobSys.Presentation.ConsoleApp.Menu;
 using Microsoft.Extensions.DependencyInjection;
 
