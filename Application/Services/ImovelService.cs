@@ -28,7 +28,7 @@ namespace ImobSys.Application.Services
 
         public void CadastrarNovoImovel()
         {
-            Console.Clear();
+            //Console.Clear();
             var novoImovel = new Imovel { Id = Guid.NewGuid() };
 
             novoImovel.TipoImovel = ConfigurarTipoImovel();
@@ -54,6 +54,7 @@ namespace ImobSys.Application.Services
             string tipoImovel = "";
             do
             {
+                Console.SetCursorPosition(2, 9);
                 _outputHandler.ExibirMensagem("Tipo do Imóvel \n    (1)Residencial\n    (2)Comercial\n    (3)Misto)\n          Opção: ");
                 if (int.TryParse(Console.ReadLine(), out int escolha))
                 {
@@ -102,7 +103,7 @@ namespace ImobSys.Application.Services
             imovel.ParaLocacao = Console.ReadLine()?.Trim().ToUpper() == "S";
             if (imovel.ParaLocacao)
             {
-                Console.Write("Status de Locação (1) Disponível / (2) Alugado: ");
+                Console.Write("Status ATUAL (1) Disponível / (2) Alugado: ");
                 imovel.StatusLocacao = int.TryParse(Console.ReadLine(), out int status) && status == 2 ? "Alugado" : "Disponível";
 
                 Console.Write("Valor do Aluguel: ");
@@ -126,22 +127,24 @@ namespace ImobSys.Application.Services
 
         private Endereco ObterEndereco()
         {
-            Console.Clear();
-            Console.WriteLine("==== Informações de Endereço ====");
+            //Console.SetCursorPosition(2, 9);
+            //Console.Clear();
+            Console.WriteLine("\n==== Informações de Endereço ====");
             var endereco = new Endereco();
 
             endereco.TipoLogradouro = SolicitarTipoLogradouro().ToString();
 
-            Console.Write($"Logradouro: {endereco.TipoLogradouro} ");
+            Console.Write($"Logradouro: \u001b[31m{endereco.TipoLogradouro}\u001b[0m ");
             endereco.Logradouro = Console.ReadLine();
 
-            Console.Write($"{endereco.TipoLogradouro} {endereco.Logradouro}, Número:  ");
+            Console.Write($"\u001b[31m{endereco.TipoLogradouro} {endereco.Logradouro}\u001b[0m, Número:  ");
             endereco.Numero = Console.ReadLine();
 
-            Console.Write($"{endereco.TipoLogradouro} {endereco.Logradouro}, {endereco.Numero} Complemento (ex.: Casa 1, Apto 301): ");
+            Console.Write($"\u001b[31m{endereco.TipoLogradouro} {endereco.Logradouro}, {endereco.Numero}\u001b[0m Complemento (ex.: Casa 1, Apto 301): ");
             endereco.Complemento = Console.ReadLine();
+            Console.WriteLine($"\u001b[31m{endereco.TipoLogradouro} {endereco.Logradouro}, {endereco.Numero} {endereco.Complemento}");
 
-            Console.Write("Bairro: ");
+            Console.Write("\u001b[31mBairro:\u001b[0m ");
             endereco.Bairro = Console.ReadLine();
 
             //Console.Write("Cidade (Localidade): ");
@@ -150,7 +153,7 @@ namespace ImobSys.Application.Services
             //Console.Write("UF: ");
             endereco.UF = "MG";
 
-            Console.Write("CEP: ");
+            Console.Write("\u001b[31mCEP:\u001b[0m ");
             endereco.CEP = Console.ReadLine();
 
             return endereco;
