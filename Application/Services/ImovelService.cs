@@ -88,13 +88,20 @@ namespace ImobSys.Application.Services
         {
             Console.WriteLine("Selecione o Tipo de Imvel:");
             var listaDeSubTiposImoveis = Enum.GetValues(typeof(SubtipoImovel));
-
+            int count = 0;
             foreach (var tipo in listaDeSubTiposImoveis)
             {
-                Console.WriteLine($" [{(int)tipo}] {tipo}");
+                Console.Write($" [{(int)tipo}] {tipo,-6}");
+                count++;
+
+                if (count == 4)
+                {
+                    Console.WriteLine();
+                    count = 0;
+                }
             }
 
-            return _inputHandler.SolicitarEntrada("Tipo de Imóvel:", true);
+            return _inputHandler.SolicitarEntrada("\nTipo de Imóvel:", true);
         }
 
         private void ConfigurarLocacaoEVenda(Imovel imovel)
@@ -275,10 +282,18 @@ namespace ImobSys.Application.Services
         public TipoLogradouro SolicitarTipoLogradouro()
         {
             Console.WriteLine("Selecione o Tipo de Logradouro:");
+            int count = 0;
 
             foreach (var tipo in Enum.GetValues(typeof(TipoLogradouro)))
             {
-                Console.WriteLine($" [{(int)tipo}] {tipo}");
+                Console.Write($" [{(int)tipo}] {tipo, -8}");
+                count++;
+
+                if(count == 5)
+                {
+                    Console.WriteLine();
+                    count = 0;
+                }
             }
 
             Console.Write("Escolha o tipo de Logradouro: ");
