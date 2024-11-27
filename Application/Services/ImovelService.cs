@@ -8,6 +8,7 @@ using ImobSys.Domain;
 using System;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using ImobSys.Presentation.ConsoleApp.Handler;
+using System.Linq.Expressions;
 
 namespace ImobSys.Application.Services
 {
@@ -28,11 +29,11 @@ namespace ImobSys.Application.Services
 
         public void CadastrarNovoImovel()
         {
-            //Console.Clear();
             var novoImovel = new Imovel { Id = Guid.NewGuid() };
 
             novoImovel.TipoImovel = ConfigurarTipoImovel();
             novoImovel.AreaUtil = ObterAreaUtil();
+            novoImovel.InscricaoIPTU = SolicitarCampo("Inscrição de IPTU:", false);
             novoImovel.DetalhesTipoImovel = ObterTipoImovel();
 
             ConfigurarLocacaoEVenda(novoImovel);
@@ -44,6 +45,7 @@ namespace ImobSys.Application.Services
             AtribuirProprietarios(novoImovel);
 
             _imovelRepository.SalvarImovel(novoImovel);
+            Console.Clear();
             _outputHandler.ExibirSucesso("Imóvel cadastrado com sucesso!");
             _outputHandler.ExibirMensagem("Pressione qualquer tecla para retornar ao Menu.");
             Console.ReadKey();
@@ -54,7 +56,6 @@ namespace ImobSys.Application.Services
             string tipoImovel = "";
             do
             {
-                Console.SetCursorPosition(2, 9);
                 _outputHandler.ExibirMensagem("Tipo do Imóvel \n    (1)Residencial\n    (2)Comercial\n    (3)Misto)\n          Opção: ");
                 if (int.TryParse(Console.ReadLine(), out int escolha))
                 {
@@ -134,36 +135,30 @@ namespace ImobSys.Application.Services
 
         private Endereco ObterEndereco()
         {
-            //Console.SetCursorPosition(2, 9);
-            //Console.Clear();
             Console.WriteLine("\n==== Informações de Endereço ====");
-            var endereco = new Endereco();
+            var endereco = new Endereco()
+            {
+                TipoLogradouro = SolicitarTipoLogradouro().ToString(),
+                Logradouro = SolicitarCampo("Logradouro:"),
+                Numero = SolicitarCampo("Número:"),
+                Complemento = SolicitarCampo("complemento:", false),
+                Bairro = SolicitarCampo("Bairro:"),
+                Cidade = "Juiz de Fora", // Pode ser parametrizado ou solicitado
+                UF = "MG", // Pode ser parametrizado ou solicitado
+                CEP = SolicitarCampo("CEP:")
+            };
 
-            endereco.TipoLogradouro = SolicitarTipoLogradouro().ToString();
-
-            Console.Write($"Logradouro: \u001b[31m{endereco.TipoLogradouro}\u001b[0m ");
-            endereco.Logradouro = Console.ReadLine();
-
-            Console.Write($"\u001b[31m{endereco.TipoLogradouro} {endereco.Logradouro}\u001b[0m, Número:  ");
-            endereco.Numero = Console.ReadLine();
-
-            Console.Write($"\u001b[31m{endereco.TipoLogradouro} {endereco.Logradouro}, {endereco.Numero}\u001b[0m Complemento (ex.: Casa 1, Apto 301): ");
-            endereco.Complemento = Console.ReadLine();
-            Console.WriteLine($"\u001b[31m{endereco.TipoLogradouro} {endereco.Logradouro}, {endereco.Numero} {endereco.Complemento}");
-
-            Console.Write("\u001b[31mBairro:\u001b[0m ");
-            endereco.Bairro = Console.ReadLine();
-
-            //Console.Write("Cidade (Localidade): ");
-            endereco.Cidade = "Juiz de Fora";
-
-            //Console.Write("UF: ");
-            endereco.UF = "MG";
-
-            Console.Write("\u001b[31mCEP:\u001b[0m ");
-            endereco.CEP = Console.ReadLine();
+            Console.WriteLine($"\nEndereço completo: {FormatarEndereco(endereco)}");
 
             return endereco;
+
+            
+
+            string FormatarEndereco(Endereco endereco)
+            {
+                return $"{endereco.TipoLogradouro} {endereco.Logradouro}, {endereco.Numero} {endereco.Complemento}, " +
+                       $"{endereco.Bairro}, {endereco.Cidade} - {endereco.UF}, CEP: {endereco.CEP}";
+            }
         }
 
         private void ConfigurarCaracteristicasInternas(Imovel imovel)
@@ -202,45 +197,49 @@ namespace ImobSys.Application.Services
 
                 if (resposta == "S")
                 {
-                    string nomeProprietario = _inputHandler.SolicitarEntrada("Informe o nome do proprietário: ", true);
-
-                    var cliente = _clienteRepository.ObterClientePorNome(nomeProprietario);
-                    var proprietario = _clienteRepository.BuscarPorIdCliente(cliente);
-
-                    if (proprietario != null)
+                    try
                     {
-                        if (proprietario is PessoaFisica pf)
+                        string nomeProprietario = _inputHandler.SolicitarEntrada("Informe o nome do proprietário: ", true);
+
+                        var cliente = _clienteRepository.ObterClientePorNome(nomeProprietario);
+                        var proprietario = _clienteRepository.BuscarPorIdCliente(cliente);
+
+                        if (proprietario != null)
                         {
-                            if (!pf.ImoveisId.Contains(imovel.Id))
+                            if (proprietario is PessoaFisica pf)
                             {
-                                pf.ImoveisId.Add(imovel.Id);
+                                if (!pf.ImoveisId.Contains(imovel.Id))
+                                {
+                                    pf.ImoveisId.Add(imovel.Id);
+                                }
+                                proprietarios.Add(pf.Id);
+                                _clienteRepository.SalvarCliente(pf);
+                                Console.WriteLine($"Proprietário [{pf.Nome}] adicionado com sucesso!");
                             }
-                            proprietarios.Add(pf.Id);
-                    //        _clienteRepository.SalvarCliente(pf);
-                            Console.WriteLine($"Proprietário [{pf.Nome}] adicionado com sucesso!");
-                        }
-                        else if (proprietario is PessoaJuridica pj)
-                        {
-                            if (!pj.ImoveisId.Contains(imovel.Id))
+                            else if (proprietario is PessoaJuridica pj)
                             {
-                                pj.ImoveisId.Add(imovel.Id);
+                                if (!pj.ImoveisId.Contains(imovel.Id))
+                                {
+                                    pj.ImoveisId.Add(imovel.Id);
+                                }
+                                proprietarios.Add(pj.Id);
+                                //_clienteRepository.SalvarCliente(pj);
+                                Console.WriteLine($"Proprietário [{pj.RazaoSocial}] adicionado com sucesso!");
                             }
-                            proprietarios.Add(pj.Id);
-                            //_clienteRepository.SalvarCliente(pj);
-                            Console.WriteLine($"Proprietário [{pj.RazaoSocial}] adicionado com sucesso!");
                         }
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        Console.WriteLine("Proprietário não encontrado. Verifique o nome e tente novamente.");
+                        Console.WriteLine($"Erro: {ex.Message}");
                     }
+
                 }
                 else if (resposta == "N")
                 {
                     Console.WriteLine("Cadastrar novo Proprietário:");
                     var clienteService = new ClienteService(_clienteRepository, _imovelRepository, _outputHandler, _inputHandler);
                     clienteService.CadastrarNovoCliente();
-                    
+
                     string clienteNovoCadastrado = _inputHandler.SolicitarEntrada("Digite do Cliente Cadastrado: ", true);
 
                     var clienteId = _clienteRepository.ObterClientePorNome(clienteNovoCadastrado);
@@ -286,10 +285,10 @@ namespace ImobSys.Application.Services
 
             foreach (var tipo in Enum.GetValues(typeof(TipoLogradouro)))
             {
-                Console.Write($" [{(int)tipo}] {tipo, -8}");
+                Console.Write($" [{(int)tipo}] {tipo,-8}");
                 count++;
 
-                if(count == 5)
+                if (count == 5)
                 {
                     Console.WriteLine();
                     count = 0;
@@ -327,6 +326,21 @@ namespace ImobSys.Application.Services
                 if (entrada == "N") return false;
 
                 Console.Write("Entrada inválida! Digite 'S' para Sim ou 'N' para Não: ");
+            }
+        }
+        private string SolicitarCampo(string mensagem, bool obrigatorio = true)
+        {
+            while (true)
+            {
+                Console.Write(mensagem + " ");
+                var entrada = Console.ReadLine();
+
+                if (!obrigatorio || !string.IsNullOrWhiteSpace(entrada))
+                {
+                    return entrada ?? string.Empty;
+                }
+
+                Console.WriteLine("Este campo é obrigatório. Tente novamente.");
             }
         }
     }

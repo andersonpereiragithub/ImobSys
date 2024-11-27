@@ -6,6 +6,7 @@ namespace ImobSys.Presentation.ConsoleApp.Handler
     {
         public void ExibirMensagem(string mensagem)
         {
+            Console.SetCursorPosition(2, 9);
             Console.Write(mensagem);
         }
 
