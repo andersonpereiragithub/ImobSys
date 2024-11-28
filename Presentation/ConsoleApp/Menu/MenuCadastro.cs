@@ -38,16 +38,12 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
                 {
                     case 1:
                         _clienteService.CadastrarNovoCliente();
-                        _userInteractionHandler.ExibirSucesso("Cliente cadastrado com sucesso!");
                         break;
                     case 2:
                         _imovelService.CadastrarNovoImovel();
-                        _userInteractionHandler.ExibirSucesso("Imóvel cadastrado com sucesso!");
                         break;
                     case 4:
-                        Console.SetCursorPosition(2, 7);
-                        var cliente = _userInteractionHandler.SolicitarEntrada("Inserir o Nome do Cliente para Excluir:", true);
-                        _clienteService.RemoverCliente(cliente);
+                        _clienteService.RemoverCliente();
                         break;
                     case 0:
                         voltar = true;

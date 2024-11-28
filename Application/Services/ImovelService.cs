@@ -15,13 +15,13 @@ namespace ImobSys.Application.Services
 {
     public class ImovelService : IImovelService
     {
-        private readonly UserInteractionHandler _interactionHandler;
+        private readonly UserInteractionHandler _userInteractionHandler;
         private readonly IImovelRepository _imovelRepository;
         private readonly IClienteRepository<Cliente> _clienteRepository;
 
         public ImovelService(UserInteractionHandler interactionHandler, IImovelRepository imovelRepository, IClienteRepository<Cliente> clienteRepository)
         {
-            _interactionHandler = interactionHandler;
+            _userInteractionHandler = interactionHandler;
             _imovelRepository = imovelRepository;
             _clienteRepository = clienteRepository;
         }
@@ -45,8 +45,9 @@ namespace ImobSys.Application.Services
 
             _imovelRepository.SalvarImovel(novoImovel);
             Console.Clear();
-            _interactionHandler.ExibirSucesso("Imóvel cadastrado!");
-            _interactionHandler.ExibirMensagem("Pressione qualquer tecla para retornar ao Menu.");
+            _userInteractionHandler.ExibirSucesso("Imóvel cadastrado com sucesso!");
+
+            _userInteractionHandler.ExibirMensagem("Pressione qualquer tecla para retornar ao Menu.");
             Console.ReadKey();
         }
 
@@ -55,7 +56,7 @@ namespace ImobSys.Application.Services
             string tipoImovel = "";
             do
             {
-                _interactionHandler.ExibirMensagem("Tipo do Imóvel \n    (1)Residencial\n    (2)Comercial\n    (3)Misto)\n          Opção: ");
+                _userInteractionHandler.ExibirMensagem("Tipo do Imóvel \n    (1)Residencial\n    (2)Comercial\n    (3)Misto)\n          Opção: ");
                 if (int.TryParse(Console.ReadLine(), out int escolha))
                 {
                     tipoImovel = escolha switch
@@ -101,7 +102,7 @@ namespace ImobSys.Application.Services
                 }
             }
 
-            return _interactionHandler.SolicitarEntrada("\nTipo de Imóvel:", true);
+            return _userInteractionHandler.SolicitarEntrada("\nTipo de Imóvel:", true);
         }
 
         private void ConfigurarLocacaoEVenda(Imovel imovel)
@@ -198,7 +199,7 @@ namespace ImobSys.Application.Services
                 {
                     try
                     {
-                        string nomeProprietario = _interactionHandler.SolicitarEntrada("Informe o nome do proprietário: ", true);
+                        string nomeProprietario = _userInteractionHandler.SolicitarEntrada("Informe o nome do proprietário: ", true);
 
                         var cliente = _clienteRepository.ObterClientePorNome(nomeProprietario);
                         var proprietario = _clienteRepository.BuscarPorIdCliente(cliente);
@@ -236,10 +237,10 @@ namespace ImobSys.Application.Services
                 else if (resposta == "N")
                 {
                     Console.WriteLine("Cadastrar novo Proprietário:");
-                    var clienteService = new ClienteService(_clienteRepository, _imovelRepository, _interactionHandler);
+                    var clienteService = new ClienteService(_clienteRepository, _imovelRepository, _userInteractionHandler);
                     clienteService.CadastrarNovoCliente();
 
-                    string clienteNovoCadastrado = _interactionHandler.SolicitarEntrada("Digite do Cliente Cadastrado: ", true);
+                    string clienteNovoCadastrado = _userInteractionHandler.SolicitarEntrada("Digite do Cliente Cadastrado: ", true);
 
                     var clienteId = _clienteRepository.ObterClientePorNome(clienteNovoCadastrado);
                     var cliente = _clienteRepository.BuscarPorIdCliente(clienteId);

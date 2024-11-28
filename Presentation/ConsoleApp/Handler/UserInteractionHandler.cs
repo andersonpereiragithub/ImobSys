@@ -46,9 +46,6 @@ namespace ImobSys.Presentation.Handler
             }
         }
 
-        /// <summary>
-        /// Exibe uma mensagem com a cor padrão (branca).
-        /// </summary>
         public void ExibirMensagem(string mensagem, ConsoleColor cor = ConsoleColor.White)
         {
             Console.ForegroundColor = cor;
@@ -56,17 +53,12 @@ namespace ImobSys.Presentation.Handler
             Console.ResetColor();
         }
 
-        /// <summary>
-        /// Exibe uma mensagem de erro em vermelho.
-        /// </summary>
         public void ExibirErro(string mensagem)
         {
+            Console.SetCursorPosition(2, 9);
             ExibirMensagem($"Erro: {mensagem}", ConsoleColor.Red);
         }
 
-        /// <summary>
-        /// Exibe uma mensagem de sucesso em verde.
-        /// </summary>
         public void ExibirSucesso(string mensagem)
         {
             ExibirMensagem($"Sucesso: {mensagem}", ConsoleColor.Green);

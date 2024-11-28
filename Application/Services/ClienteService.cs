@@ -13,7 +13,7 @@ namespace ImobSys.Application.Services
         private readonly IClienteRepository<Cliente> _clienteRepository;
         private readonly IImovelRepository _imovelRepository;
         private readonly UserInteractionHandler _userInteractionHandler;
-        
+
 
         public ClienteService(IClienteRepository<Cliente> clienteRepository, IImovelRepository imovelRepository, UserInteractionHandler userInteractionHandler)
         {
@@ -33,7 +33,7 @@ namespace ImobSys.Application.Services
             {
                 throw new Exception($"Cliente com nome '{nomeCliente}' não encontrado.");
             }
-            
+
             imoveis = _imovelRepository.ObterImoveisPorCliente(clienteId);
 
             return (clienteId, imoveis);
@@ -64,7 +64,8 @@ namespace ImobSys.Application.Services
             }
 
             _clienteRepository.SalvarCliente(novoCliente);
-            Console.WriteLine("Cliente cadastrado com sucesso!");
+            _userInteractionHandler.ExibirSucesso("Cliente cadastrado com sucesso!");
+
             Console.WriteLine("\nPressione qualquer tecla para retornar ao menu...");
             Console.ReadKey();
         }
@@ -138,10 +139,13 @@ namespace ImobSys.Application.Services
             return tipoRelacoes;
         }
 
-        public void RemoverCliente(string nomeCliente)
+        public void RemoverCliente()
         {
             try
             {
+                Console.SetCursorPosition(2, 7);
+                var nomeCliente = _userInteractionHandler.SolicitarEntrada("Inserir o Nome do Cliente para Excluir:", true);
+
                 var clienteId = _clienteRepository.ObterClientePorNome(nomeCliente);
 
                 var sucesso = _clienteRepository.RemoverCliente(clienteId);
@@ -151,10 +155,11 @@ namespace ImobSys.Application.Services
                     _userInteractionHandler.ExibirSucesso($"Cliente '{nomeCliente}' removido com sucesso!");
                 }
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 Console.SetCursorPosition(2, 7);
                 _userInteractionHandler.ExibirErro($"Erro: {ex.Message} Operação Cancelada.");
-                
+
                 Console.SetCursorPosition(2, 9);
                 Console.WriteLine("\nPressione qualquer tecla para retornar ao menu...");
                 Console.ReadKey();

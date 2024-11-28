@@ -1,5 +1,6 @@
 ﻿using ImobSys.Application.Services.Interfaces;
 using ImobSys.Domain.Entities.Clientes;
+using ImobSys.Presentation.Handler;
 
 namespace ImobSys.Presentation.ConsoleApp.Menu
 {
@@ -7,11 +8,13 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
     {
         private readonly IClienteService _clienteService;
         private readonly IImovelService _imovelService;
+        private readonly UserInteractionHandler _userInteractionHandler;
         
-        public ConsoleDataLister(IClienteService clienteService, IImovelService movelService)
+        public ConsoleDataLister(IClienteService clienteService, IImovelService movelService, UserInteractionHandler userInteractionHandler)
         {
             _clienteService = clienteService;
             _imovelService = movelService;
+            _userInteractionHandler = userInteractionHandler;
         }
 
         public void ExibirTabela(List<string> cabecalhos, List<List<string>> dados, List<bool> alinhamenstosDireita)
@@ -245,36 +248,41 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
 
         public void ExibirProprietarioEListarSeusImoveis()
         {
-            Console.SetCursorPosition(2, 7);
-            Console.Write("Informe nome do Proprietário: ");
-            var nomeProprietario = Console.ReadLine();
-
-            var (cliente, imoveis) = _clienteService.ObterClienteESeusImoveis(nomeProprietario);
-
-            List<string> cabecalhos = new List<string> { "Inscrição IPTU", "Endereço" };
-            
-            List<List<string>> dados = new List<List<string>>();
-
-            List<bool> alinhamentosDireita = new List<bool> { true, false };
-
-            foreach (var imovel in imoveis)
+                Console.SetCursorPosition(2, 7);
+                Console.Write("Informe nome do Proprietário: ");
+                var nomeProprietario = Console.ReadLine();
+            try
             {
-                string endereco = $"{imovel.Endereco.TipoLogradouro} " +
-                                  $"{imovel.Endereco.Logradouro} " +
-                                  $"{imovel.Endereco.Numero} " +
-                                  $"{imovel.Endereco.Complemento}";
+                var (cliente, imoveis) = _clienteService.ObterClienteESeusImoveis(nomeProprietario);
 
-                string inscricaoIPTUFormatada = (imovel.InscricaoIPTU != null) ? imovel.InscricaoIPTU : "000000000";
+                List<string> cabecalhos = new List<string> { "Inscrição IPTU", "Endereço" };
 
-                if (inscricaoIPTUFormatada.Length == 9)
+                List<List<string>> dados = new List<List<string>>();
+
+                List<bool> alinhamentosDireita = new List<bool> { true, false };
+
+                foreach (var imovel in imoveis)
                 {
-                    inscricaoIPTUFormatada = inscricaoIPTUFormatada.Insert(3, ".").Insert(7, "/");
-                }
-                dados.Add(new List<string> { inscricaoIPTUFormatada, endereco });
-            }
-            Console.SetCursorPosition(0, 9);
-            ExibirTabela(cabecalhos, dados, alinhamentosDireita);
+                    string endereco = $"{imovel.Endereco.TipoLogradouro} " +
+                                      $"{imovel.Endereco.Logradouro} " +
+                                      $"{imovel.Endereco.Numero} " +
+                                      $"{imovel.Endereco.Complemento}";
 
+                    string inscricaoIPTUFormatada = (imovel.InscricaoIPTU != null) ? imovel.InscricaoIPTU : "000000000";
+
+                    if (inscricaoIPTUFormatada.Length == 9)
+                    {
+                        inscricaoIPTUFormatada = inscricaoIPTUFormatada.Insert(3, ".").Insert(7, "/");
+                    }
+                    dados.Add(new List<string> { inscricaoIPTUFormatada, endereco });
+                }
+                Console.SetCursorPosition(0, 9);
+                ExibirTabela(cabecalhos, dados, alinhamentosDireita);
+            }
+            catch(Exception ex)
+            {
+                _userInteractionHandler.ExibirErro(ex.Message);
+            }
             Console.WriteLine("\n\n\nPressione qualquer tecla para continuar...");
             Console.ReadKey();
         }

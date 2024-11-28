@@ -75,7 +75,7 @@ namespace ImobSys.Infrastructure.Repositories
             {
                 clientes.Remove(cliente);
                 File.WriteAllText(_filePath, JsonConvert.SerializeObject(clientes, Formatting.Indented));
-                return true;//VERIFICAR
+                return true;
             }
             return false;
         }
