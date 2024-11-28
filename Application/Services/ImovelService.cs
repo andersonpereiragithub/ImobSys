@@ -9,20 +9,19 @@ using System;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using ImobSys.Presentation.ConsoleApp.Handler;
 using System.Linq.Expressions;
+using ImobSys.Presentation.Handler;
 
 namespace ImobSys.Application.Services
 {
     public class ImovelService : IImovelService
     {
-        private readonly InputHandler _inputHandler;
-        private readonly OutputHandler _outputHandler;
+        private readonly UserInteractionHandler _interactionHandler;
         private readonly IImovelRepository _imovelRepository;
         private readonly IClienteRepository<Cliente> _clienteRepository;
 
-        public ImovelService(InputHandler inputHandler, OutputHandler outputHandler, IImovelRepository imovelRepository, IClienteRepository<Cliente> clienteRepository)
+        public ImovelService(UserInteractionHandler interactionHandler, IImovelRepository imovelRepository, IClienteRepository<Cliente> clienteRepository)
         {
-            _inputHandler = inputHandler;
-            _outputHandler = outputHandler;
+            _interactionHandler = interactionHandler;
             _imovelRepository = imovelRepository;
             _clienteRepository = clienteRepository;
         }
@@ -46,8 +45,8 @@ namespace ImobSys.Application.Services
 
             _imovelRepository.SalvarImovel(novoImovel);
             Console.Clear();
-            _outputHandler.ExibirSucesso("Imóvel cadastrado com sucesso!");
-            _outputHandler.ExibirMensagem("Pressione qualquer tecla para retornar ao Menu.");
+            _interactionHandler.ExibirSucesso("Imóvel cadastrado!");
+            _interactionHandler.ExibirMensagem("Pressione qualquer tecla para retornar ao Menu.");
             Console.ReadKey();
         }
 
@@ -56,7 +55,7 @@ namespace ImobSys.Application.Services
             string tipoImovel = "";
             do
             {
-                _outputHandler.ExibirMensagem("Tipo do Imóvel \n    (1)Residencial\n    (2)Comercial\n    (3)Misto)\n          Opção: ");
+                _interactionHandler.ExibirMensagem("Tipo do Imóvel \n    (1)Residencial\n    (2)Comercial\n    (3)Misto)\n          Opção: ");
                 if (int.TryParse(Console.ReadLine(), out int escolha))
                 {
                     tipoImovel = escolha switch
@@ -102,7 +101,7 @@ namespace ImobSys.Application.Services
                 }
             }
 
-            return _inputHandler.SolicitarEntrada("\nTipo de Imóvel:", true);
+            return _interactionHandler.SolicitarEntrada("\nTipo de Imóvel:", true);
         }
 
         private void ConfigurarLocacaoEVenda(Imovel imovel)
@@ -199,7 +198,7 @@ namespace ImobSys.Application.Services
                 {
                     try
                     {
-                        string nomeProprietario = _inputHandler.SolicitarEntrada("Informe o nome do proprietário: ", true);
+                        string nomeProprietario = _interactionHandler.SolicitarEntrada("Informe o nome do proprietário: ", true);
 
                         var cliente = _clienteRepository.ObterClientePorNome(nomeProprietario);
                         var proprietario = _clienteRepository.BuscarPorIdCliente(cliente);
@@ -237,10 +236,10 @@ namespace ImobSys.Application.Services
                 else if (resposta == "N")
                 {
                     Console.WriteLine("Cadastrar novo Proprietário:");
-                    var clienteService = new ClienteService(_clienteRepository, _imovelRepository, _outputHandler, _inputHandler);
+                    var clienteService = new ClienteService(_clienteRepository, _imovelRepository, _interactionHandler);
                     clienteService.CadastrarNovoCliente();
 
-                    string clienteNovoCadastrado = _inputHandler.SolicitarEntrada("Digite do Cliente Cadastrado: ", true);
+                    string clienteNovoCadastrado = _interactionHandler.SolicitarEntrada("Digite do Cliente Cadastrado: ", true);
 
                     var clienteId = _clienteRepository.ObterClientePorNome(clienteNovoCadastrado);
                     var cliente = _clienteRepository.BuscarPorIdCliente(clienteId);

@@ -4,7 +4,7 @@ using ImobSys.Domain.Entities;
 using ImobSys.Domain.Entities.Clientes;
 using ImobSys.Domain.Enums;
 using ImobSys.Domain.Interfaces;
-using ImobSys.Presentation.ConsoleApp.Handler;
+using ImobSys.Presentation.Handler;
 
 namespace ImobSys.Application.Services
 {
@@ -12,15 +12,14 @@ namespace ImobSys.Application.Services
     {
         private readonly IClienteRepository<Cliente> _clienteRepository;
         private readonly IImovelRepository _imovelRepository;
-        private readonly OutputHandler _outputHandler;
-        private readonly InputHandler _inputHandler;
+        private readonly UserInteractionHandler _userInteractionHandler;
+        
 
-        public ClienteService(IClienteRepository<Cliente> clienteRepository, IImovelRepository imovelRepository, OutputHandler outputHandler, InputHandler inputHandler)
+        public ClienteService(IClienteRepository<Cliente> clienteRepository, IImovelRepository imovelRepository, UserInteractionHandler userInteractionHandler)
         {
             _clienteRepository = clienteRepository;
             _imovelRepository = imovelRepository;
-            _outputHandler = outputHandler;
-            _inputHandler = inputHandler;
+            _userInteractionHandler = userInteractionHandler;
         }
 
         public (object cliente, List<Imovel> imoveis) ObterClienteESeusImoveis(string nomeCliente)
@@ -46,7 +45,7 @@ namespace ImobSys.Application.Services
             Console.SetCursorPosition(2, 2);
             Console.WriteLine("==== Cadastro de Novo Cliente ====");
 
-            string tipoCliente = _inputHandler.SolicitarEntrada("Cliente (1)Pessoa Física / (2)Pessoa Jurídica? ", true);
+            string tipoCliente = _userInteractionHandler.SolicitarEntrada("Cliente (1)Pessoa Física / (2)Pessoa Jurídica? ", true);
 
             Cliente novoCliente;
 
@@ -77,12 +76,12 @@ namespace ImobSys.Application.Services
 
         private PessoaFisica CadastrarPessoaFisica()
         {
-            string nome = _inputHandler.SolicitarEntrada("Nome: ", true);
-            string cpf = _inputHandler.SolicitarEntrada("CPF: ", true);
-            string endereco = _inputHandler.SolicitarEntrada("Endereço (opcional): ");
+            string nome = _userInteractionHandler.SolicitarEntrada("Nome: ", true);
+            string cpf = _userInteractionHandler.SolicitarEntrada("CPF: ", true);
+            string endereco = _userInteractionHandler.SolicitarEntrada("Endereço (opcional): ");
 
 
-            string telefone = _inputHandler.SolicitarEntrada("Telefone (opcional): ");
+            string telefone = _userInteractionHandler.SolicitarEntrada("Telefone (opcional): ");
 
             Console.Write("Tipo de Relação (1) Locador / (2) Locatário / (3) Fiador: ");
             List<TiposRelacao> tipoRelacoes = ObterTiposRelacoes();
@@ -95,12 +94,12 @@ namespace ImobSys.Application.Services
 
         private PessoaJuridica CadastrarPessoaJuridica()
         {
-            string razaoSocial = _inputHandler.SolicitarEntrada("Razão Social: ", true);
-            string cnpj = _inputHandler.SolicitarEntrada("CNPJ: ", true);
-            string nomeRepresentante = _inputHandler.SolicitarEntrada("Nome do Representante (opcional): ");
-            string inscricaoEstadual = _inputHandler.SolicitarEntrada("Inscrição Estadual (opcional): ");
-            string endereco = _inputHandler.SolicitarEntrada("Endereço (opcional): ");
-            string telefone = _inputHandler.SolicitarEntrada("Telefone (opcional): ");
+            string razaoSocial = _userInteractionHandler.SolicitarEntrada("Razão Social: ", true);
+            string cnpj = _userInteractionHandler.SolicitarEntrada("CNPJ: ", true);
+            string nomeRepresentante = _userInteractionHandler.SolicitarEntrada("Nome do Representante (opcional): ");
+            string inscricaoEstadual = _userInteractionHandler.SolicitarEntrada("Inscrição Estadual (opcional): ");
+            string endereco = _userInteractionHandler.SolicitarEntrada("Endereço (opcional): ");
+            string telefone = _userInteractionHandler.SolicitarEntrada("Telefone (opcional): ");
 
             Console.Write("Tipo de Relação (1) Locador / (2) Locatário / (3) Fiador: ");
             List<TiposRelacao> tiposRelacoes = ObterTiposRelacoes();
@@ -149,12 +148,12 @@ namespace ImobSys.Application.Services
 
                 if (sucesso)
                 {
-                    _outputHandler.ExibirSucesso($"Cliente '{nomeCliente}' removido com sucesso!");
+                    _userInteractionHandler.ExibirSucesso($"Cliente '{nomeCliente}' removido com sucesso!");
                 }
             }
             catch (Exception ex) {
                 Console.SetCursorPosition(2, 7);
-                _outputHandler.ExibirErro($"Erro: {ex.Message} Operação Cancelada.");
+                _userInteractionHandler.ExibirErro($"Erro: {ex.Message} Operação Cancelada.");
                 
                 Console.SetCursorPosition(2, 9);
                 Console.WriteLine("\nPressione qualquer tecla para retornar ao menu...");

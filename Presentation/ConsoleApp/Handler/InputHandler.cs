@@ -23,6 +23,20 @@ namespace ImobSys.Presentation.ConsoleApp.Handler
             }
         }
 
+        public int SolicitarOpcaoNumerica(int minimo, int maximo)
+        {
+            while (true)
+            {
+                Console.Write("Escolha uma opção: ");
+                if (int.TryParse(Console.ReadLine(), out int opcao) && opcao >= minimo && opcao <= maximo)
+                {
+                    return opcao;
+                }
+
+                Console.WriteLine($"Por favor, insira um número entre {minimo} e {maximo}.");
+            }
+        }
+
         public bool SolicitarConfirmacao(string mensagem)
         {
             Console.Write($"{mensagem} (S/N): ");

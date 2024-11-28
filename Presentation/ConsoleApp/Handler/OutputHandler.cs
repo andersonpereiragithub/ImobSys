@@ -23,5 +23,10 @@ namespace ImobSys.Presentation.ConsoleApp.Handler
             Console.WriteLine(mensagem);
             Console.ResetColor();
         }
+
+        public void ExibirCabecalho(string titulo)
+        {
+            Console.WriteLine($"==== {titulo.ToUpper()} ====");
+        }
     }
 }

@@ -3,6 +3,7 @@ using ImobSys.Application.Services.Interfaces;
 using ImobSys.Domain.Interfaces;
 using System;
 using ImobSys.Presentation.ConsoleApp.Handler;
+using ImobSys.Presentation.Handler;
 
 namespace ImobSys.Presentation.ConsoleApp.Menu
 {
@@ -10,15 +11,13 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
     {
         private readonly IClienteService _clienteService;
         private readonly IImovelService _imovelService;
-        private readonly InputHandler _inputHandler;
-        private readonly OutputHandler _outputHandler;
+        private readonly UserInteractionHandler _userInteractionHandler;
 
-        public MenuCadastro(IClienteService clienteService, IImovelService imovelService, InputHandler inputHandler, OutputHandler outputHandler)
+        public MenuCadastro(IClienteService clienteService, IImovelService imovelService, UserInteractionHandler userInteractionHandler)
         {   
             _clienteService = clienteService;
             _imovelService = imovelService;
-            _inputHandler = inputHandler;
-            _outputHandler = outputHandler;
+            _userInteractionHandler = userInteractionHandler;
         }
 
         public void ExibirMenuCadastro()
@@ -39,22 +38,22 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
                 {
                     case 1:
                         _clienteService.CadastrarNovoCliente();
-                        _outputHandler.ExibirSucesso("Cliente cadastrado com sucesso!");
+                        _userInteractionHandler.ExibirSucesso("Cliente cadastrado com sucesso!");
                         break;
                     case 2:
                         _imovelService.CadastrarNovoImovel();
-                        _outputHandler.ExibirSucesso("Imóvel cadastrado com sucesso!");
+                        _userInteractionHandler.ExibirSucesso("Imóvel cadastrado com sucesso!");
                         break;
                     case 4:
                         Console.SetCursorPosition(2, 7);
-                        var cliente = _inputHandler.SolicitarEntrada("Inserir o Nome do Cliente para Excluir:", true);
+                        var cliente = _userInteractionHandler.SolicitarEntrada("Inserir o Nome do Cliente para Excluir:", true);
                         _clienteService.RemoverCliente(cliente);
                         break;
                     case 0:
                         voltar = true;
                         break;
                     default:
-                        _outputHandler.ExibirErro("Opção inválida. Pressione qualquer tecla para tentar novamente.");
+                        _userInteractionHandler.ExibirErro("Opção inválida. Pressione qualquer tecla para tentar novamente.");
                         Console.ReadKey();
                         break;
                 }

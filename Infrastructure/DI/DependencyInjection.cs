@@ -3,8 +3,8 @@ using ImobSys.Application.Services.Interfaces;
 using ImobSys.Domain.Entities.Clientes;
 using ImobSys.Domain.Interfaces;
 using ImobSys.Infrastructure.Repositories;
-using ImobSys.Presentation.ConsoleApp.Handler;
 using ImobSys.Presentation.ConsoleApp.Menu;
+using ImobSys.Presentation.Handler;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ImobSys.Infrastructure.DI
@@ -32,8 +32,7 @@ namespace ImobSys.Infrastructure.DI
 
         public static IServiceCollection AddPresentation(this IServiceCollection services)
         {
-            services.AddSingleton<InputHandler>();
-            services.AddSingleton<OutputHandler>();
+            services.AddSingleton<UserInteractionHandler>();
 
             services.AddTransient<MenuCadastro>();
             services.AddTransient<MenuBusca>();

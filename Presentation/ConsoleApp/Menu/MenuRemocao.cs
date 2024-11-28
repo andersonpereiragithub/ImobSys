@@ -3,6 +3,7 @@ using ImobSys.Application.Services.Interfaces;
 using ImobSys.Domain.Entities.Clientes;
 using ImobSys.Domain.Interfaces;
 using ImobSys.Presentation.ConsoleApp.Handler;
+using ImobSys.Presentation.Handler;
 
 namespace ImobSys.Presentation.ConsoleApp.Menu
 {
@@ -10,15 +11,13 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
     {
         private readonly IClienteService _clienteService;
         private readonly IImovelService _imovelService;
-        private readonly InputHandler _inputHandler;
-        private readonly OutputHandler _outputHandler;
+        private readonly UserInteractionHandler _userInteractionHandler;
 
-        public MenuRemocao(IClienteService clienteService, IImovelService imovelService, InputHandler inputHandler, OutputHandler outputHandler)
+        public MenuRemocao(IClienteService clienteService, IImovelService imovelService, UserInteractionHandler userInteractionHandler)
         {
             _clienteService = clienteService;
             _imovelService = imovelService;
-            _inputHandler = inputHandler;
-            _outputHandler = outputHandler;
+            _userInteractionHandler = userInteractionHandler;
         }
 
         private void ExibirOpcoesRemocao()
@@ -33,15 +32,15 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
             switch (opcao)
             {
                 case 1:
-                    var nomeCliente = _inputHandler.SolicitarTexto("Digite o nome do cliente");
+                    var nomeCliente = _userInteractionHandler.SolicitarEntrada("Digite o nome do cliente");
                     try
                     {
                         _clienteService.RemoverCliente(nomeCliente);
-                        _outputHandler.ExibirSucesso($"Cliente [{nomeCliente}] removido com sucesso!");
+                        _userInteractionHandler.ExibirSucesso($"Cliente [{nomeCliente}] removido com sucesso!");
                     }
                     catch (Exception ex)
                     {
-                        _outputHandler.ExibirErro(ex.Message);
+                        _userInteractionHandler.ExibirErro(ex.Message);
                     }
                     break;
                 case 2:
@@ -51,7 +50,7 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
                     sair = true;
                     break;
                 default:
-                    _outputHandler.ExibirMensagem("Opção inválida. Pressione qualquer tecla para tentar novamente.");
+                    _userInteractionHandler.ExibirMensagem("Opção inválida. Pressione qualquer tecla para tentar novamente.");
                     Console.ReadKey();
                     break;
             }
