@@ -2,14 +2,14 @@
 using ImobSys.Domain.Entities.Clientes;
 using ImobSys.Presentation.Handler;
 
-namespace ImobSys.Presentation.ConsoleApp.Menu
+namespace ImobSys.Presentation.Menu
 {
     public class ConsoleDataLister : BaseMenu
     {
         private readonly IClienteService _clienteService;
         private readonly IImovelService _imovelService;
         private readonly UserInteractionHandler _userInteractionHandler;
-        
+
         public ConsoleDataLister(IClienteService clienteService, IImovelService movelService, UserInteractionHandler userInteractionHandler)
         {
             _clienteService = clienteService;
@@ -160,7 +160,7 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
                     }
                 }
                 dados = dados.OrderBy(d => d[0]).ToList();
-                
+
                 ExibirTabela(cabecalhos, dados, alinhamentosDireita);
             }
             else
@@ -228,9 +228,9 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
                                       $"{imovel.Endereco.Numero} " +
                                       $"{imovel.Endereco.Complemento}";
 
-                    string inscricaoIPTUFormatada = (imovel.InscricaoIPTU != null) ? imovel.InscricaoIPTU : "000000000";
+                    string inscricaoIPTUFormatada = imovel.InscricaoIPTU != null ? imovel.InscricaoIPTU : "000000000";
 
-                     if (inscricaoIPTUFormatada.Length == 9)
+                    if (inscricaoIPTUFormatada.Length == 9)
                     {
                         inscricaoIPTUFormatada = inscricaoIPTUFormatada.Insert(3, ".").Insert(7, "/");
                     }
@@ -248,9 +248,9 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
 
         public void ExibirProprietarioEListarSeusImoveis()
         {
-                Console.SetCursorPosition(2, 7);
-                Console.Write("Informe nome do Proprietário: ");
-                var nomeProprietario = Console.ReadLine();
+            Console.SetCursorPosition(2, 7);
+            Console.Write("Informe nome do Proprietário: ");
+            var nomeProprietario = Console.ReadLine();
             try
             {
                 var (cliente, imoveis) = _clienteService.ObterClienteESeusImoveis(nomeProprietario);
@@ -268,7 +268,7 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
                                       $"{imovel.Endereco.Numero} " +
                                       $"{imovel.Endereco.Complemento}";
 
-                    string inscricaoIPTUFormatada = (imovel.InscricaoIPTU != null) ? imovel.InscricaoIPTU : "000000000";
+                    string inscricaoIPTUFormatada = imovel.InscricaoIPTU != null ? imovel.InscricaoIPTU : "000000000";
 
                     if (inscricaoIPTUFormatada.Length == 9)
                     {
@@ -279,7 +279,7 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
                 Console.SetCursorPosition(0, 9);
                 ExibirTabela(cabecalhos, dados, alinhamentosDireita);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _userInteractionHandler.ExibirErro(ex.Message);
             }

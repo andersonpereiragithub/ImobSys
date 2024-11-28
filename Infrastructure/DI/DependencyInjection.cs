@@ -3,8 +3,8 @@ using ImobSys.Application.Services.Interfaces;
 using ImobSys.Domain.Entities.Clientes;
 using ImobSys.Domain.Interfaces;
 using ImobSys.Infrastructure.Repositories;
-using ImobSys.Presentation.ConsoleApp.Menu;
 using ImobSys.Presentation.Handler;
+using ImobSys.Presentation.Menu;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ImobSys.Infrastructure.DI

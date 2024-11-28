@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Runtime.Intrinsics.X86;
 
-namespace ImobSys.Presentation.ConsoleApp.Menu
+namespace ImobSys.Presentation.Menu
 {
     public abstract class BaseMenu
     {
         const int larguraLinha = 101;
-            
+
         protected void ExibirCabecalho(string titulo)
         {
             int posicaoTitulo = (larguraLinha - titulo.Length) / 2;

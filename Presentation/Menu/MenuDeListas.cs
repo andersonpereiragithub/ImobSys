@@ -1,4 +1,4 @@
-﻿namespace ImobSys.Presentation.ConsoleApp.Menu
+﻿namespace ImobSys.Presentation.Menu
 {
     public class MenuDeListas : BaseMenu
     {

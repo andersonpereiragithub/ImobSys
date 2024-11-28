@@ -1,14 +1,9 @@
-﻿using ImobSys.Domain.Entities.Clientes;
-using ImobSys.Application.Services.Interfaces;
-using System.Collections.Generic;
-using ImobSys.Domain.Interfaces;
-using ImobSys.Domain.Entities;
-using ImobSys.Domain.Enums;
+﻿using ImobSys.Application.Services.Interfaces;
 using ImobSys.Domain;
-using System;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using ImobSys.Presentation.ConsoleApp.Handler;
-using System.Linq.Expressions;
+using ImobSys.Domain.Entities;
+using ImobSys.Domain.Entities.Clientes;
+using ImobSys.Domain.Enums;
+using ImobSys.Domain.Interfaces;
 using ImobSys.Presentation.Handler;
 
 namespace ImobSys.Application.Services

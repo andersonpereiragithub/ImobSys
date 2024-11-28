@@ -2,7 +2,7 @@
 using ImobSys.Application.Services.Interfaces;
 using ImobSys.Domain.Entities.Clientes;
 using ImobSys.Domain.Interfaces;
-using ImobSys.Presentation.ConsoleApp.Menu;
+using ImobSys.Presentation.Menu;
 
 public class MenuPrincipal : BaseMenu
 {

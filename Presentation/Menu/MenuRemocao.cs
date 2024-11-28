@@ -2,10 +2,9 @@
 using ImobSys.Application.Services.Interfaces;
 using ImobSys.Domain.Entities.Clientes;
 using ImobSys.Domain.Interfaces;
-using ImobSys.Presentation.ConsoleApp.Handler;
 using ImobSys.Presentation.Handler;
 
-namespace ImobSys.Presentation.ConsoleApp.Menu
+namespace ImobSys.Presentation.Menu
 {
     public class MenuRemocao : BaseMenu
     {

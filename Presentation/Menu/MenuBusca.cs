@@ -4,7 +4,7 @@ using ImobSys.Domain.Interfaces;
 using ImobSys.Domain;
 using System;
 
-namespace ImobSys.Presentation.ConsoleApp.Menu
+namespace ImobSys.Presentation.Menu
 {
     public class MenuBusca
     {
@@ -26,7 +26,7 @@ namespace ImobSys.Presentation.ConsoleApp.Menu
 
             var clienteId = _clienteRepository.ObterClientePorNome(nomeCliente);
 
-            if (clienteId == null)
+            if (clienteId == Guid.Empty)
             {
                 throw new Exception($"Cliente '{nomeCliente}' não encontrado.");
             }
