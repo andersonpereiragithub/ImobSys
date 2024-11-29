@@ -1,7 +1,6 @@
-﻿using System;
-using System.Runtime.Intrinsics.X86;
+﻿using ImobSys.Presentation.Handler;
 
-namespace ImobSys.Presentation.Menu
+    namespace ImobSys.Presentation.Menu
 {
     public abstract class BaseMenu
     {
@@ -24,6 +23,10 @@ namespace ImobSys.Presentation.Menu
             Console.SetCursorPosition(posicaoTitulo, Console.CursorTop);
             Console.WriteLine($"{corTitulo}");
             LinhaInferior();
+            
+            int linhaAdicional = 6;
+
+            MenuStateManager.Instance.AtivarMenu(Console.CursorTop, linhaAdicional);
         }
 
         protected void LinhaSuperior()

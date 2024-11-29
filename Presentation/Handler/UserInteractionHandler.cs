@@ -48,19 +48,24 @@ namespace ImobSys.Presentation.Handler
 
         public void ExibirMensagem(string mensagem, ConsoleColor cor = ConsoleColor.White)
         {
+            int linhaParaExibir = MenuStateManager.Instance.ObterProximaLinha();
+            Console.SetCursorPosition(2, linhaParaExibir);
             Console.ForegroundColor = cor;
-            Console.WriteLine(mensagem);
+            Console.Write(mensagem);
             Console.ResetColor();
         }
 
         public void ExibirErro(string mensagem)
         {
-            Console.SetCursorPosition(2, 9);
+            int linhaParaExibir = MenuStateManager.Instance.ObterProximaLinha();
+            Console.SetCursorPosition(2, linhaParaExibir);
             ExibirMensagem($"Erro: {mensagem}", ConsoleColor.Red);
         }
 
         public void ExibirSucesso(string mensagem)
         {
+            int linhaParaExibir = MenuStateManager.Instance.ObterProximaLinha();
+            Console.SetCursorPosition(2, linhaParaExibir);
             ExibirMensagem($"Sucesso: {mensagem}", ConsoleColor.Green);
         }
     }

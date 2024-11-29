@@ -82,12 +82,12 @@ namespace ImobSys.Application.Services
 
         private string ObterTipoImovel()
         {
-            Console.WriteLine("Selecione o Tipo de Imvel:");
+            _userInteractionHandler.ExibirMensagem("Selecione o Tipo de Imvel:");
             var listaDeSubTiposImoveis = Enum.GetValues(typeof(SubtipoImovel));
             int count = 0;
             foreach (var tipo in listaDeSubTiposImoveis)
             {
-                Console.Write($" [{(int)tipo}] {tipo,-6}");
+                _userInteractionHandler.ExibirMensagem($" [{(int)tipo}] {tipo,-6}");
                 count++;
 
                 if (count == 4)
@@ -158,26 +158,27 @@ namespace ImobSys.Application.Services
 
         private void ConfigurarCaracteristicasInternas(Imovel imovel)
         {
-            Console.Write("Número de Quartos: ");
-            imovel.Quartos = LerIntPositivo();
+            Console.WriteLine("\n==== Configuração de Características Internas ====");
 
-            Console.Write("Número de Salas: ");
-            imovel.Salas = LerIntPositivo();
+            imovel.Quartos = SolicitarCaracteristicaNumerica("Número de Quartos: ");
+            imovel.Salas = SolicitarCaracteristicaNumerica("Número de Salas: ");
+            imovel.Banheiros = SolicitarCaracteristicaNumerica("Número de Banheiros: ");
+            imovel.Garagens = SolicitarCaracteristicaNumerica("Número de Garagens: ");
+            imovel.Cozinha = SolicitarCaracteristicaBoolean("Possui Cozinha? [1]Sim / [2]Não: ");
+            imovel.Copa = SolicitarCaracteristicaBoolean("Possui Copa? [1]Sim / [2]Não: ");
+            imovel.Quintal = SolicitarCaracteristicaBoolean("Possui Quintal? [1]Sim / [2] Não: ");
+        }
 
-            Console.Write("Número de Banheiros: ");
-            imovel.Banheiros = LerIntPositivo();
+        private int SolicitarCaracteristicaNumerica(string mensagem)
+        {
+            Console.Write(mensagem);
+            return LerIntPositivo();
+        }
 
-            Console.Write("Número de Garagens: ");
-            imovel.Garagens = LerIntPositivo();
-
-            Console.Write("Possui Cozinha? (S/N): ");
-            imovel.Cozinha = LerSimNao();
-
-            Console.Write("Possui Copa? (S/N): ");
-            imovel.Copa = LerSimNao();
-
-            Console.Write("Possui Quintal? (S/N): ");
-            imovel.Quintal = LerSimNao();
+        private bool SolicitarCaracteristicaBoolean(string mensagem)
+        {
+            Console.WriteLine(mensagem);
+            return LerOpcaoSimNao();
         }
 
         private void AtribuirProprietarios(Imovel imovel)
@@ -218,7 +219,7 @@ namespace ImobSys.Application.Services
                                     pj.ImoveisId.Add(imovel.Id);
                                 }
                                 proprietarios.Add(pj.Id);
-                                //_clienteRepository.SalvarCliente(pj);
+                                _clienteRepository.SalvarCliente(pj);
                                 Console.WriteLine($"Proprietário [{pj.RazaoSocial}] adicionado com sucesso!");
                             }
                         }
@@ -312,15 +313,16 @@ namespace ImobSys.Application.Services
             }
         }
 
-        private bool LerSimNao()
+        private bool LerOpcaoSimNao()
         {
             while (true)
             {
-                string entrada = Console.ReadLine()?.Trim().ToUpper();
-                if (entrada == "S") return true;
-                if (entrada == "N") return false;
-
-                Console.Write("Entrada inválida! Digite 'S' para Sim ou 'N' para Não: ");
+                Console.Write("(1) Sim / (2) Não: ");
+                if (int.TryParse(Console.ReadLine(), out int escolha) && (escolha == 1 || escolha == 2))
+                {
+                    return escolha == 1;
+                }
+                Console.WriteLine("Opção inválida! Digite 1 para Sim ou 2 para Não.");
             }
         }
         private string SolicitarCampo(string mensagem, bool obrigatorio = true)
