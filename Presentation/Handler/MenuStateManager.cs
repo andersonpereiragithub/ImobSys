@@ -1,37 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ImobSys.Presentation.Handler
+﻿namespace ImobSys.Presentation.Handler
 {
     public class MenuStateManager
     {
         private static MenuStateManager _instance;
         public static MenuStateManager Instance => _instance ??= new MenuStateManager();
 
+        private const int LinhasMenuPadrao = 9;
+
         public bool MenuAtivo { get; private set; }
         public int UltimaLinhaMenu { get; private set; }
+        public int LinhasMenu { get; private set; }
 
-        private MenuStateManager() { }
+        private MenuStateManager()
+        {
+            LinhasMenu = LinhasMenuPadrao;
+        }
 
-        public void AtivarMenu(int ultimaLinhaMenu, int linhasAdicionais)
+        public void AtivarMenu(int ultimaLinhaMenu)
         {
             MenuAtivo = true;
-            UltimaLinhaMenu = ultimaLinhaMenu + linhasAdicionais;
+
+            UltimaLinhaMenu = ultimaLinhaMenu + LinhasMenu;
         }
 
         public void DesativarMenu()
         {
             MenuAtivo = false;
+
             UltimaLinhaMenu = 0;
         }
 
         public int ObterProximaLinha()
         {
-            return MenuAtivo ? UltimaLinhaMenu + 1 : Console.CursorTop + 1;
+            return MenuAtivo ? UltimaLinhaMenu : Console.CursorTop;
+        }
+
+        public void DefinirLinhasMenu(int linhas)
+        {
+            LinhasMenu = linhas > 0 ? linhas : LinhasMenuPadrao;
         }
     }
-
 }

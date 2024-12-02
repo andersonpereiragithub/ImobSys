@@ -29,7 +29,7 @@ namespace ImobSys.Presentation.Menu
                 ExibirCabecalho("CADASTRO");
                 ExibirOpcoesMenu();
 
-                var opcao = SolicitarOpcaoNumerica(0, 4);
+                var opcao = SolicitarOpcaoNumerica(0, 5);
 
                 try
                 {
@@ -52,7 +52,13 @@ namespace ImobSys.Presentation.Menu
                 case 2:
                     _imovelService.CadastrarNovoImovel();
                     break;
+                case 3:
+                    //_clienteService.AlterarClientel();
+                    break;
                 case 4:
+                    _imovelService.CadastrarNovoImovel();
+                    break;
+                case 5:
                     _clienteService.RemoverCliente();
                     break;
                 case 0:
@@ -67,9 +73,9 @@ namespace ImobSys.Presentation.Menu
 
         private void ExibirOpcoesMenu()
         {
-            Console.WriteLine("╔══════════════════╦═════════════════╦════════════════╦═══════════════╦═══════════════════════════════╗");
-            Console.WriteLine("    Clientes[1]        Imóveis[2]         Editar[3]       Deletar[4]            \u001b[31m Voltar[0]\u001b[0m   ");
-            Console.WriteLine("╚══════════════════╩═════════════════╩════════════════╩═══════════════╩═══════════════════════════════╝");
+            Console.WriteLine("╔═════════════════════════════════════════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("  [\u001b[31m1\u001b[0m]Clientes   [\u001b[31m2\u001b[0m]Imóveis   [\u001b[31m3\u001b[0m]Alterar Cliente   [\u001b[31m4\u001b[0m]Alterar Imóveis   [\u001b[31m5\u001b[0m]Deletar  \u001b[31m[0]Voltar\u001b[0m   ");
+            Console.WriteLine("╚═════════════════════════════════════════════════════════════════════════════════════════════════════╝");
         }
     }
 }

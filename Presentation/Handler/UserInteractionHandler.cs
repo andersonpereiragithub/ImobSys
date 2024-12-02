@@ -21,7 +21,7 @@ namespace ImobSys.Presentation.Handler
         {
             while (true)
             {
-                ExibirMensagem($"{mensagem}: ", ConsoleColor.Cyan);
+                ExibirMensagem($"{mensagem} ", ConsoleColor.Cyan);
                 var entrada = Console.ReadLine()?.Trim();
 
                 if (!string.IsNullOrEmpty(entrada) || permitirVazio)
@@ -49,24 +49,38 @@ namespace ImobSys.Presentation.Handler
         public void ExibirMensagem(string mensagem, ConsoleColor cor = ConsoleColor.White)
         {
             int linhaParaExibir = MenuStateManager.Instance.ObterProximaLinha();
-            Console.SetCursorPosition(2, linhaParaExibir);
-            Console.ForegroundColor = cor;
-            Console.Write(mensagem);
-            Console.ResetColor();
+            if (MenuStateManager.Instance.MenuAtivo == true)
+            {
+                Console.SetCursorPosition(2, linhaParaExibir - 5);
+                Console.ForegroundColor = cor;
+                Console.Write(mensagem);
+                Console.ResetColor();
+            }
+            else
+            {
+                Console.SetCursorPosition(2, linhaParaExibir);
+                Console.ForegroundColor = cor;
+                Console.Write(mensagem);
+                Console.ResetColor();
+            }
+
         }
 
         public void ExibirErro(string mensagem)
         {
-            int linhaParaExibir = MenuStateManager.Instance.ObterProximaLinha();
-            Console.SetCursorPosition(2, linhaParaExibir);
             ExibirMensagem($"Erro: {mensagem}", ConsoleColor.Red);
         }
 
         public void ExibirSucesso(string mensagem)
         {
+            ExibirMensagem($"Sucesso: {mensagem}", ConsoleColor.Green);
+        }
+
+        public void ExibirMensagemRetornoMenu(string mensagem)
+        {
             int linhaParaExibir = MenuStateManager.Instance.ObterProximaLinha();
             Console.SetCursorPosition(2, linhaParaExibir);
-            ExibirMensagem($"Sucesso: {mensagem}", ConsoleColor.Green);
+            Console.WriteLine($"{mensagem}", ConsoleColor.Green);
         }
     }
 }

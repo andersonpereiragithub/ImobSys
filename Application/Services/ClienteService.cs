@@ -143,8 +143,7 @@ namespace ImobSys.Application.Services
         {
             try
             {
-                Console.SetCursorPosition(2, 7);
-                var nomeCliente = _userInteractionHandler.SolicitarEntrada("Inserir o Nome do Cliente para Excluir:", true);
+                var nomeCliente = _userInteractionHandler.SolicitarEntrada("Digite o Nome para Excluir:", true);
 
                 var clienteId = _clienteRepository.ObterClientePorNome(nomeCliente);
 
@@ -157,11 +156,9 @@ namespace ImobSys.Application.Services
             }
             catch (Exception ex)
             {
-                Console.SetCursorPosition(2, 7);
-                _userInteractionHandler.ExibirErro($"Erro: {ex.Message} Operação Cancelada.");
+                _userInteractionHandler.ExibirErro(ex.Message);
 
-                Console.SetCursorPosition(2, 9);
-                Console.WriteLine("\nPressione qualquer tecla para retornar ao menu...");
+                _userInteractionHandler.ExibirMensagemRetornoMenu("\nPressione qualquer tecla para retornar ao menu...");
                 Console.ReadKey();
             }
         }

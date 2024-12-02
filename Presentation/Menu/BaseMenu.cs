@@ -24,9 +24,7 @@
             Console.WriteLine($"{corTitulo}");
             LinhaInferior();
             
-            int linhaAdicional = 6;
-
-            MenuStateManager.Instance.AtivarMenu(Console.CursorTop, linhaAdicional);
+            MenuStateManager.Instance.AtivarMenu(Console.CursorTop);
         }
 
         protected void LinhaSuperior()
