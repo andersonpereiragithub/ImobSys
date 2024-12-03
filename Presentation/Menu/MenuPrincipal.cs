@@ -40,7 +40,7 @@ public class MenuPrincipal : BaseMenu
             Console.Clear();
             ExibirCabecalho("MENU PRINCIPAL");
             Console.WriteLine("╔═════════════════╦══════════════╦═════════════════╦════════════════╦════════════════╦════════════════╗");
-            Console.WriteLine("    Cadastro[1]       Busca[2]       Listagen[3]      Indefinido[4]    indefinido[5]        \u001b[31m Sair[0]\u001b[0m   ");
+            Console.WriteLine("    Cadastro[1]       Busca[2]       Listagens[3]      Indefinido[4]    indefinido[5]        \u001b[31m Sair[0]\u001b[0m   ");
             Console.WriteLine("╚═════════════════╩══════════════╩═════════════════╩════════════════╩════════════════╩════════════════╝");
 
             var opcao = SolicitarOpcaoNumerica(0, 4);

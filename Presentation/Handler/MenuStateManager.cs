@@ -23,6 +23,12 @@
             UltimaLinhaMenu = ultimaLinhaMenu + LinhasMenu;
         }
 
+        public void EscreverAbaixoDoMenu(string mensagem)
+        {
+            Console.SetCursorPosition(0, ObterProximaLinha());
+            Console.WriteLine(mensagem);
+        }
+
         public void DesativarMenu()
         {
             MenuAtivo = false;
