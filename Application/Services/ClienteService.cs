@@ -35,7 +35,7 @@ namespace ImobSys.Application.Services
             }
 
             imoveis = _imovelRepository.ObterImoveisPorCliente(clienteId);
-
+            
             return (clienteId, imoveis);
         }
 

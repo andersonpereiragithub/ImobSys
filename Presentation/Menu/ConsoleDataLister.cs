@@ -255,6 +255,14 @@ namespace ImobSys.Presentation.Menu
             {
                 var (cliente, imoveis) = _clienteService.ObterClienteESeusImoveis(nomeProprietario);
 
+                if (imoveis == null || !imoveis.Any())
+                {
+                    Console.WriteLine($"\nO cliente '{nomeProprietario}' não possui imóveis cadastrados.");
+                    Console.WriteLine("\nPressione qualquer tecla para continuar...");
+                    Console.ReadKey();
+                    return;
+                }
+
                 List<string> cabecalhos = new List<string> { "Inscrição IPTU", "Endereço" };
 
                 List<List<string>> dados = new List<List<string>>();

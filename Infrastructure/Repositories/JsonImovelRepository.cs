@@ -120,6 +120,7 @@ namespace ImobSys.Infrastructure.Repositories
         public List<Imovel> ObterImoveisPorCliente(Guid clienteId)
         {
             var imoveis = ListarTodosImovel();
+
             return imoveis.Where(imovel => imovel.Proprietarios.Contains(clienteId)).ToList();
         }
     }

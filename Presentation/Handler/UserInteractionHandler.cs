@@ -24,7 +24,7 @@ namespace ImobSys.Presentation.Handler
                 ExibirMensagem($"{mensagem} ", ConsoleColor.Cyan);
                 var entrada = Console.ReadLine()?.Trim();
 
-                if (!string.IsNullOrEmpty(entrada) || permitirVazio)
+                if (!string.IsNullOrEmpty(entrada) || !permitirVazio)
                 {
                     return entrada;
                 }
@@ -49,26 +49,19 @@ namespace ImobSys.Presentation.Handler
         public void ExibirMensagem(string mensagem, ConsoleColor cor = ConsoleColor.White)
         {
             int linhaParaExibir = MenuStateManager.Instance.ObterProximaLinha();
-            if (MenuStateManager.Instance.MenuAtivo == true)
-            {
-                Console.SetCursorPosition(2, linhaParaExibir - 5);
-                Console.ForegroundColor = cor;
-                Console.Write(mensagem);
-                Console.ResetColor();
-            }
-            else
-            {
-                Console.SetCursorPosition(2, linhaParaExibir);
-                Console.ForegroundColor = cor;
-                Console.Write(mensagem);
-                Console.ResetColor();
-            }
 
+            Console.SetCursorPosition(2, linhaParaExibir);
+            Console.ForegroundColor = cor;
+            Console.Write(mensagem);
+            Console.ResetColor();
         }
 
         public void ExibirErro(string mensagem)
         {
-            ExibirMensagem($"Erro: {mensagem}", ConsoleColor.Red);
+            int linhaParaExibir = MenuStateManager.Instance.ObterProximaLinha() + 2;
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"Erro: {mensagem}");
+            Console.ResetColor();
         }
 
         public void ExibirSucesso(string mensagem)
@@ -78,9 +71,11 @@ namespace ImobSys.Presentation.Handler
 
         public void ExibirMensagemRetornoMenu(string mensagem)
         {
-            int linhaParaExibir = MenuStateManager.Instance.ObterProximaLinha();
+            int linhaParaExibir = MenuStateManager.Instance.ObterProximaLinha() + 2;
             Console.SetCursorPosition(2, linhaParaExibir);
-            Console.WriteLine($"{mensagem}", ConsoleColor.Green);
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"{mensagem}");
+            Console.ResetColor();
         }
     }
 }

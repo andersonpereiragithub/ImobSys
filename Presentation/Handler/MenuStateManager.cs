@@ -5,7 +5,7 @@
         private static MenuStateManager _instance;
         public static MenuStateManager Instance => _instance ??= new MenuStateManager();
 
-        private const int LinhasMenuPadrao = 9;
+        private const int LinhasMenuPadrao = 6;
 
         public bool MenuAtivo { get; private set; }
         public int UltimaLinhaMenu { get; private set; }
