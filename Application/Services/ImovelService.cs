@@ -87,7 +87,7 @@ namespace ImobSys.Application.Services
             int count = 0;
             foreach (var tipo in listaDeSubTiposImoveis)
             {
-                _userInteractionHandler.ExibirMensagem($" [{(int)tipo}] {tipo,-6}");
+                _userInteractionHandler.ExibirMensagem($" [{(int)tipo}] {tipo}");
                 count++;
 
                 if (count == 4)

@@ -13,17 +13,19 @@ namespace ImobSys.Infrastructure.DI
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
+            string clienteJsonPath = "clientes.json";
+            string imovelJsonPath = "imoveis.json";
+
             services.AddSingleton<IImovelRepository>(provider =>
-                new JsonImovelRepository("imoveis.json"));
+                       new JsonImovelRepository(imovelJsonPath));
             services.AddSingleton<IClienteRepository<Cliente>>(provider =>
-                new JsonClienteRepository<Cliente>("clientes.json"));
+                       new JsonClienteRepository<Cliente>(clienteJsonPath));
 
             return services;
         }
 
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
-            // Registrar Serviços de Aplicação
             services.AddSingleton<IClienteService, ClienteService>();
             services.AddSingleton<IImovelService, ImovelService>();
 
