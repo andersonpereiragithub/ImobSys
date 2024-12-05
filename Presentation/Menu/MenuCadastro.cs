@@ -47,9 +47,11 @@ namespace ImobSys.Presentation.Menu
             switch (opcao)
             {
                 case 1:
+                    MenuStateManager.Instance.DesativarMenu();
                     _clienteService.CadastrarNovoCliente();
                     break;
                 case 2:
+                    MenuStateManager.Instance.DesativarMenu();
                     _imovelService.CadastrarNovoImovel();
                     break;
                 case 3:

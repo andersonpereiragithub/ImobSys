@@ -139,6 +139,7 @@ namespace ImobSys.Application.Services
             return tipoRelacoes;
         }
 
+
         public void RemoverCliente()
         {
             try
@@ -161,6 +162,21 @@ namespace ImobSys.Application.Services
                 _userInteractionHandler.ExibirMensagemRetornoMenu("\nPressione qualquer tecla para retornar ao menu...");
                 Console.ReadKey();
             }
+        }
+
+        public Guid ObterClientePorNome(string nomeProprietario)
+        {
+            return _clienteRepository.ObterClientePorNome(nomeProprietario);
+        }
+
+        public Cliente BuscarPorClienteId(Guid id)
+        {
+            return _clienteRepository.BuscarPorClienteId(id);
+        }
+
+        public void SalvarCliente(Cliente cliente)
+        {
+            _clienteRepository.SalvarCliente(cliente);
         }
     }
 }

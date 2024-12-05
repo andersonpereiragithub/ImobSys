@@ -12,22 +12,26 @@ namespace ImobSys.Application.Services
     {
         private readonly UserInteractionHandler _userInteractionHandler;
         private readonly IImovelRepository _imovelRepository;
-        private readonly IClienteRepository<Cliente> _clienteRepository;
+        private readonly IClienteService _clienteService;
 
-        public ImovelService(UserInteractionHandler interactionHandler, IImovelRepository imovelRepository, IClienteRepository<Cliente> clienteRepository)
+        public ImovelService(UserInteractionHandler interactionHandler, IImovelRepository imovelRepository, IClienteService clienteService)
         {
             _userInteractionHandler = interactionHandler;
             _imovelRepository = imovelRepository;
-            _clienteRepository = clienteRepository;
+            _clienteService = clienteService;
         }
 
         public void CadastrarNovoImovel()
         {
+            Console.Clear();
+            Console.SetCursorPosition(2, 2);
+            _userInteractionHandler.ExibirMensagem("==== Cadastro de Novo Imóvel ====");
+
             var novoImovel = new Imovel { Id = Guid.NewGuid() };
 
             novoImovel.TipoImovel = _userInteractionHandler.ConfigurarTipoImovel();
             novoImovel.AreaUtil = _userInteractionHandler.ObterAreaUtil();
-            
+
             novoImovel.InscricaoIPTU = _userInteractionHandler.SolicitarCampo("Inscrição de IPTU:", false);
             novoImovel.DetalhesTipoImovel = _userInteractionHandler.ObterTipoImovel();
 
@@ -49,22 +53,21 @@ namespace ImobSys.Application.Services
 
         private void AtribuirProprietarios(Imovel imovel)
         {
+            bool respostaAfirmativa = _userInteractionHandler.LerOpcaoSimNao("O Proprietário já está cadastrado? (S/N): ");
+
             var proprietarios = new List<Guid>();
             bool adicionarMaisProprietarios = true;
 
             while (adicionarMaisProprietarios)
             {
-                Console.Write("O Proprietário já está cadastrado? (S/N): ");
-                string resposta = Console.ReadLine()?.Trim().ToUpper();
-
-                if (resposta == "S")
+                if (respostaAfirmativa)
                 {
                     try
                     {
                         string nomeProprietario = _userInteractionHandler.SolicitarEntrada("Informe o nome do proprietário: ", true);
 
-                        var cliente = _clienteRepository.ObterClientePorNome(nomeProprietario);
-                        var proprietario = _clienteRepository.BuscarPorIdCliente(cliente);
+                        var idCliente = _clienteService.ObterClientePorNome(nomeProprietario);
+                        var proprietario = _clienteService.BuscarPorClienteId(idCliente);
 
                         if (proprietario != null)
                         {
@@ -75,7 +78,7 @@ namespace ImobSys.Application.Services
                                     pf.ImoveisId.Add(imovel.Id);
                                 }
                                 proprietarios.Add(pf.Id);
-                                _clienteRepository.SalvarCliente(pf);
+                                _clienteService.SalvarCliente(pf);
                                 Console.WriteLine($"Proprietário [{pf.Nome}] adicionado com sucesso!");
                             }
                             else if (proprietario is PessoaJuridica pj)
@@ -85,7 +88,7 @@ namespace ImobSys.Application.Services
                                     pj.ImoveisId.Add(imovel.Id);
                                 }
                                 proprietarios.Add(pj.Id);
-                                _clienteRepository.SalvarCliente(pj);
+                                _clienteService.SalvarCliente(pj);
                                 Console.WriteLine($"Proprietário [{pj.RazaoSocial}] adicionado com sucesso!");
                             }
                         }
@@ -96,16 +99,15 @@ namespace ImobSys.Application.Services
                     }
 
                 }
-                else if (resposta == "N")
+                else if (!respostaAfirmativa)
                 {
                     Console.WriteLine("Cadastrar novo Proprietário:");
-                    var clienteService = new ClienteService(_clienteRepository, _imovelRepository, _userInteractionHandler);
-                    clienteService.CadastrarNovoCliente();
+                    var clienteService = _clienteService.CadastrarNovoCliente;
+                    
+                    string clienteNovoCadastrado = _userInteractionHandler.SolicitarEntrada("Digite Nome do Cliente Cadastrado: ", true);
 
-                    string clienteNovoCadastrado = _userInteractionHandler.SolicitarEntrada("Digite do Cliente Cadastrado: ", true);
-
-                    var clienteId = _clienteRepository.ObterClientePorNome(clienteNovoCadastrado);
-                    var cliente = _clienteRepository.BuscarPorIdCliente(clienteId);
+                    var clienteId = _clienteService.ObterClientePorNome(clienteNovoCadastrado);
+                    var cliente = _clienteService.BuscarPorClienteId(clienteId);
 
                     if (cliente != null)
                     {
@@ -113,13 +115,13 @@ namespace ImobSys.Application.Services
                         {
                             pf.ImoveisId.Add(imovel.Id);
                             proprietarios.Add(pf.Id);
-                            _clienteRepository.SalvarCliente(pf);
+                            _clienteService.SalvarCliente(pf);
                         }
                         else if (cliente is PessoaJuridica pj)
                         {
                             pj.ImoveisId.Add(imovel.Id);
                             proprietarios.Add(pj.Id);
-                            _clienteRepository.SalvarCliente(pj);
+                            _clienteService.SalvarCliente(pj);
                         }
                     }
                 }

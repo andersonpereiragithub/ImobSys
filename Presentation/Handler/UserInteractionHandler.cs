@@ -250,7 +250,7 @@ namespace ImobSys.Presentation.Handler
             }
         }
 
-        public bool LerOpcaoSimNao()
+        public bool LerOpcaoSimNao(string mensagem = "")
         {
             while (true)
             {
@@ -262,6 +262,7 @@ namespace ImobSys.Presentation.Handler
                 Console.WriteLine("Opção inválida! Digite 1 para Sim ou 2 para Não.");
             }
         }
+
         private int SolicitarCaracteristicaNumerica(string mensagem)
         {
             Console.Write(mensagem);

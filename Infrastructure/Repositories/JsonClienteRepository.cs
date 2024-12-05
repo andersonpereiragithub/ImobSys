@@ -33,7 +33,7 @@ namespace ImobSys.Infrastructure.Repositories
             File.WriteAllText(_filePath, JsonConvert.SerializeObject(clientes, Formatting.Indented));
         }
 
-        public T BuscarPorIdCliente(Guid id)
+        public T BuscarPorClienteId(Guid id)
         {
             var clientes = ListarTodosClientes();
 
