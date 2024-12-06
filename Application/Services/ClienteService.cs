@@ -80,8 +80,6 @@ namespace ImobSys.Application.Services
             string nome = _userInteractionHandler.SolicitarEntrada("Nome: ", true);
             string cpf = _userInteractionHandler.SolicitarEntrada("CPF: ", true);
             string endereco = _userInteractionHandler.SolicitarEntrada("Endereço (opcional): ");
-
-
             string telefone = _userInteractionHandler.SolicitarEntrada("Telefone (opcional): ");
 
             Console.Write("Tipo de Relação (1) Locador / (2) Locatário / (3) Fiador: ");
@@ -139,6 +137,71 @@ namespace ImobSys.Application.Services
             return tipoRelacoes;
         }
 
+        public void AtribuirProprietarios(Imovel imovel)
+        {
+            var proprietarios = new List<Guid>();
+            bool adicionarMaisProprietarios = true;
+
+            while (adicionarMaisProprietarios)
+            {
+                bool respostaAfirmativa = _userInteractionHandler.LerOpcaoSimNao("O Proprietário já está cadastrado? (S/N): ");
+
+                if (respostaAfirmativa)
+                {
+                    try
+                    {
+                        string nomeProprietario = _userInteractionHandler.SolicitarEntrada("Informe o nome do proprietário: ", true);
+
+                        var idCliente = ObterClientePorNome(nomeProprietario);
+                        var proprietario = BuscarPorClienteId(idCliente);
+
+                        if (proprietario != null)
+                        {
+                            if (!proprietario.ImoveisId.Contains(imovel.Id))
+                            {
+                                proprietario.ImoveisId.Add(imovel.Id);
+                            }
+                            proprietarios.Add(proprietario.Id);
+                            SalvarCliente(proprietario);
+                            _userInteractionHandler.ExibirSucesso($"Proprietário [{(proprietario is PessoaFisica ?
+                                               ((PessoaFisica)proprietario).Nome :
+                                               ((PessoaJuridica)proprietario).RazaoSocial)}] adicionado com sucesso!");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        _userInteractionHandler.ExibirErro($"Erro: {ex.Message}");
+                    }
+                }
+                else if (!respostaAfirmativa)
+                {
+                    var clienteService = CadastrarNovoCliente;
+
+                    string clienteNovoCadastrado = _userInteractionHandler.SolicitarEntrada("Digite Nome do Cliente Cadastrado: ", true);
+
+                    var idCliente = ObterClientePorNome(clienteNovoCadastrado);
+                    var proprietario = BuscarPorClienteId(idCliente);
+
+                    if (proprietario != null)
+                    {
+                        proprietario.ImoveisId.Add(imovel.Id);
+                        proprietarios.Add(proprietario.Id);
+                        SalvarCliente(proprietario);
+                    }
+                }
+                else
+                {
+                    _userInteractionHandler.ExibirErro("Resposta inválida! Tente novamente...");
+                }
+
+                bool adicionarOutro = _userInteractionHandler.LerOpcaoSimNao("Deseja adicionar outro proprietário? (S/N): ");
+                if (adicionarOutro)
+                {
+                    adicionarMaisProprietarios = true;
+                }
+            }
+            imovel.Proprietarios = proprietarios;
+        }
 
         public void RemoverCliente()
         {

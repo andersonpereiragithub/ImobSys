@@ -54,6 +54,7 @@ namespace ImobSys.Presentation.Handler
             int linhaParaExibir = MenuStateManager.Instance.ObterProximaLinha();
 
             Console.SetCursorPosition(2, linhaParaExibir);
+
             Console.ForegroundColor = cor;
             Console.Write(mensagem);
             Console.ResetColor();
@@ -75,6 +76,7 @@ namespace ImobSys.Presentation.Handler
         public void ExibirMensagemRetornoMenu(string mensagem)
         {
             int linhaParaExibir = MenuStateManager.Instance.ObterProximaLinha() + 2;
+
             Console.SetCursorPosition(2, linhaParaExibir);
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"{mensagem}");
@@ -86,6 +88,8 @@ namespace ImobSys.Presentation.Handler
             string tipoImovel = "";
             do
             {
+                MenuStateManager.Instance.ObterProximaLinha();
+
                 ExibirMensagem("Tipo do Imóvel \n    (1)Residencial\n    (2)Comercial\n    (3)Misto)\n          Opção: ");
                 if (int.TryParse(Console.ReadLine(), out int escolha))
                 {
@@ -147,8 +151,6 @@ namespace ImobSys.Presentation.Handler
 
             return endereco;
 
-
-
             string FormatarEndereco(Endereco endereco)
             {
                 return $"{endereco.TipoLogradouro} {endereco.Logradouro}, {endereco.Numero} {endereco.Complemento}, " +
@@ -194,7 +196,6 @@ namespace ImobSys.Presentation.Handler
                     count = 0;
                 }
             }
-
             Console.Write("Escolha o tipo de Logradouro: ");
 
             int escolha;
@@ -265,7 +266,7 @@ namespace ImobSys.Presentation.Handler
 
         private int SolicitarCaracteristicaNumerica(string mensagem)
         {
-            Console.Write(mensagem);
+            ExibirMensagem(mensagem);
             return LerIntPositivo();
         }
 
@@ -274,6 +275,7 @@ namespace ImobSys.Presentation.Handler
             Console.WriteLine(mensagem);
             return LerOpcaoSimNao();
         }
+
         private int LerIntPositivo()
         {
             while (true)

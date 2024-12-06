@@ -38,7 +38,7 @@
 
         public int ObterProximaLinha()
         {
-            return MenuAtivo ? UltimaLinhaMenu : Console.CursorTop;
+            return MenuAtivo ? UltimaLinhaMenu : Console.CursorTop++;
         }
 
         public void DefinirLinhasMenu(int linhas)
