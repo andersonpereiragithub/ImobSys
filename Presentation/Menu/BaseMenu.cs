@@ -66,5 +66,17 @@
             Console.WriteLine("Pressione qualquer tecla para continuar...");
             Console.ReadKey();
         }
+        
+        protected void CriarMenus(string titulo)
+        {
+            LinhaSuperior();
+            ExibirCabecalho(titulo);
+            LinhaInferior();
+
+            Console.WriteLine("╔═════════════════════════════╦═══════════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("  [\u001b[31m1\u001b[0m]Clientes   [\u001b[31m2\u001b[0m]Imóveis          [\u001b[31m3\u001b[0m]Alterar Cliente   [\u001b[31m4\u001b[0m]Alterar Imóveis   [\u001b[31m5\u001b[0m]Deletar   \u001b[31m[0]Voltar\u001b[0m   ");
+            Console.WriteLine("╚═════════════════════════════╩═══════════════════════════════════════════════════════════════════════╝");
+
+        }
     }
 }

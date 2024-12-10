@@ -107,6 +107,19 @@ namespace ImobSys.Presentation.Handler
             return tipoImovel;
         }
 
+        public string ObterInscricaoIPTU()
+        {
+            while (true)
+            {
+                var inscricaoIPTU = SolicitarCampo("Inscrição de IPTU: ", false);
+
+                if (!string.IsNullOrWhiteSpace(inscricaoIPTU) && inscricaoIPTU.Length == 9)
+                {
+                    return inscricaoIPTU ?? string.Empty;
+                }
+                ExibirErro("Número de inscrição Inválida!");
+            }
+        }
         public float ObterAreaUtil()
         {
             float areaUtil;

@@ -30,7 +30,7 @@ namespace ImobSys.Application.Services
             novoImovel.TipoImovel = _userInteractionHandler.ConfigurarTipoImovel();
             novoImovel.AreaUtil = _userInteractionHandler.ObterAreaUtil();
 
-            novoImovel.InscricaoIPTU = _userInteractionHandler.SolicitarCampo("Inscrição de IPTU:", false);
+            novoImovel.InscricaoIPTU = _userInteractionHandler.ObterInscricaoIPTU();
             novoImovel.DetalhesTipoImovel = _userInteractionHandler.ObterTipoImovel();
 
             _userInteractionHandler.ConfigurarLocacaoEVenda(novoImovel);
