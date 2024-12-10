@@ -23,7 +23,6 @@ namespace ImobSys.Application.Services
 
         public void CadastrarNovoImovel()
         {
-            Console.Clear();
             _userInteractionHandler.ExibirMensagem("==== Cadastro de Novo Imóvel ====", ConsoleColor.Cyan);
 
             var novoImovel = new Imovel { Id = Guid.NewGuid() };

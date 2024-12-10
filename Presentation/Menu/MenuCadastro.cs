@@ -51,7 +51,7 @@ namespace ImobSys.Presentation.Menu
                     _clienteService.CadastrarNovoCliente();
                     break;
                 case 2:
-                    MenuStateManager.Instance.DesativarMenu();
+                    //MenuStateManager.Instance.DesativarMenu();
                     _imovelService.CadastrarNovoImovel();
                     break;
                 case 3:

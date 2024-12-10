@@ -51,9 +51,9 @@ namespace ImobSys.Presentation.Handler
 
         public void ExibirMensagem(string mensagem, ConsoleColor cor = ConsoleColor.White)
         {
-            int linhaParaExibir = MenuStateManager.Instance.ObterProximaLinha();
+            //int linhaParaExibir = MenuStateManager.Instance.ObterProximaLinha();
 
-            Console.SetCursorPosition(2, linhaParaExibir);
+            Console.SetCursorPosition(2, Console.CursorTop + 1);
 
             Console.ForegroundColor = cor;
             Console.Write(mensagem);
