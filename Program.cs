@@ -8,8 +8,5 @@ serviceCollection.AddPresentation();
 
 var serviceProvider = serviceCollection.BuildServiceProvider();
 
-Console.SetWindowSize(103, 40);
-Console.SetBufferSize(110, 40);
-
 var menuPrincipal = serviceProvider.GetRequiredService<MenuPrincipal>();
 menuPrincipal.Exibir();

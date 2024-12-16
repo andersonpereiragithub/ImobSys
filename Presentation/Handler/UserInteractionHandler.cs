@@ -1,6 +1,7 @@
 ﻿using ImobSys.Domain;
 using ImobSys.Domain.Entities;
 using ImobSys.Domain.Enums;
+using ImobSys.Domain.Interfaces;
 using System;
 
 namespace ImobSys.Presentation.Handler
@@ -75,12 +76,14 @@ namespace ImobSys.Presentation.Handler
 
         public void ExibirMensagemRetornoMenu(string mensagem)
         {
-            int linhaParaExibir = MenuStateManager.Instance.ObterProximaLinha() + 2;
+            //int linhaParaExibir = MenuStateManager.Instance.ObterProximaLinha() + 2;
 
-            Console.SetCursorPosition(2, linhaParaExibir);
+            Console.SetCursorPosition(2, Console.CursorTop);
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"{mensagem}");
             Console.ResetColor();
+            Console.ReadKey();
+
         }
 
         public string ConfigurarTipoImovel()

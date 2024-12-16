@@ -23,8 +23,6 @@
             Console.SetCursorPosition(posicaoTitulo, Console.CursorTop);
             Console.WriteLine($"{corTitulo}");
             LinhaInferior();
-            
-            //MenuStateManager.Instance.AtivarMenu(Console.CursorTop);
         }
 
         protected void LinhaSuperior()
@@ -38,19 +36,12 @@
 
         protected int SolicitarOpcaoNumerica(int min, int max)
         {
-            string textOption = "Escolha uma opção: [ ]";
-            int x = 2;
-            int y = 7;
+            string textOption = "Escolha uma opção: ";
 
             int opcao;
             while (true)
             {
-                LinhaSuperior();
-                Console.SetCursorPosition(x, y);
-                Console.WriteLine($"{textOption}");
-                x = 22;
-                LinhaInferior();
-                Console.SetCursorPosition(x, y);
+                Console.Write($"{textOption}");
 
                 if (int.TryParse(Console.ReadLine(), out opcao) && opcao >= min && opcao <= max)
                 {

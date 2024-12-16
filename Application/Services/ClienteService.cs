@@ -35,7 +35,7 @@ namespace ImobSys.Application.Services
             }
 
             imoveis = _imovelRepository.ObterImoveisPorCliente(clienteId);
-            
+
             return (clienteId, imoveis);
         }
 
@@ -211,11 +211,18 @@ namespace ImobSys.Application.Services
 
                 var clienteId = _clienteRepository.ObterClientePorNome(nomeCliente);
 
-                var sucesso = _clienteRepository.RemoverCliente(clienteId);
+                var imoveis = _imovelRepository.ObterImoveisPorCliente(clienteId);
 
-                if (sucesso)
+                if (imoveis != null && imoveis.Count > 0)
                 {
-                    _userInteractionHandler.ExibirSucesso($"Cliente '{nomeCliente}' removido com sucesso!");
+                    _userInteractionHandler.ExibirErro($"Cliente '{nomeCliente}' possui imóveis e não pode ser removido.");
+                    _userInteractionHandler.ExibirMensagemRetornoMenu("\nPressione qualquer tecla para retornar ao menu...");
+                }
+                else
+                {
+                    _imovelRepository.RemoverImovel(clienteId);
+                    _userInteractionHandler.ExibirSucesso($"Cliente '{nomeCliente}' excluido com sucesso!");
+                    _userInteractionHandler.ExibirMensagemRetornoMenu("\nPressione qualquer tecla para retornar ao menu...");
                 }
             }
             catch (Exception ex)
