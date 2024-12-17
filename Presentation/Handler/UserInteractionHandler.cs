@@ -52,18 +52,15 @@ namespace ImobSys.Presentation.Handler
 
         public void ExibirMensagem(string mensagem, ConsoleColor cor = ConsoleColor.White)
         {
-            //int linhaParaExibir = MenuStateManager.Instance.ObterProximaLinha();
-
             Console.SetCursorPosition(2, Console.CursorTop + 1);
 
             Console.ForegroundColor = cor;
-            Console.Write(mensagem);
+            Console.WriteLine(mensagem);
             Console.ResetColor();
         }
 
         public void ExibirErro(string mensagem)
         {
-            int linhaParaExibir = MenuStateManager.Instance.ObterProximaLinha() + 2;
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine($"Erro: {mensagem}");
             Console.ResetColor();
@@ -292,10 +289,11 @@ namespace ImobSys.Presentation.Handler
             return LerOpcaoSimNao();
         }
 
-        private int LerIntPositivo()
+        public int LerIntPositivo(string mensagem = "")
         {
             while (true)
             {
+                Console.WriteLine(mensagem);
                 if (int.TryParse(Console.ReadLine(), out int numero) && numero >= 0)
                     return numero;
 

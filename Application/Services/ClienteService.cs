@@ -43,23 +43,23 @@ namespace ImobSys.Application.Services
         {
             Console.Clear();
             Console.SetCursorPosition(2, 2);
-            Console.WriteLine("==== Cadastro de Novo Cliente ====");
+            _userInteractionHandler.ExibirMensagem("==== Cadastro de Novo Cliente ====");
 
-            string tipoCliente = _userInteractionHandler.SolicitarEntrada("Cliente (1)Pessoa Física / (2)Pessoa Jurídica? ", true);
+            var tipoCliente = _userInteractionHandler.LerIntPositivo("Cliente (1)Pessoa Física / (2)Pessoa Jurídica? ");
 
             Cliente novoCliente;
 
-            if (tipoCliente == "1")
+            if (tipoCliente == 1)
             {
                 novoCliente = CadastrarPessoaFisica();
             }
-            else if (tipoCliente == "2")
+            else if (tipoCliente == 2)
             {
                 novoCliente = CadastrarPessoaJuridica();
             }
             else
             {
-                Console.WriteLine("Tipode de cliente inválido. Cadastro cancelado.");
+                _userInteractionHandler.ExibirErro("Tipode de cliente inválido. Cadastro cancelado.");
                 return;
             }
 
@@ -78,11 +78,11 @@ namespace ImobSys.Application.Services
         private PessoaFisica CadastrarPessoaFisica()
         {
             string nome = _userInteractionHandler.SolicitarEntrada("Nome: ", true);
-            string cpf = _userInteractionHandler.SolicitarEntrada("CPF: ", true);
+            string cpf = _userInteractionHandler.SolicitarEntrada($"{nome} seu CPF: ", true);
             string endereco = _userInteractionHandler.SolicitarEntrada("Endereço (opcional): ");
             string telefone = _userInteractionHandler.SolicitarEntrada("Telefone (opcional): ");
 
-            Console.Write("Tipo de Relação (1) Locador / (2) Locatário / (3) Fiador: ");
+            Console.Write($" {nome} é: (1) Locador / (2) Locatário / (3) Fiador: ");
             List<TiposRelacao> tipoRelacoes = ObterTiposRelacoes();
 
             return new PessoaFisica(nome, cpf, new Endereco { Logradouro = endereco }, tipoRelacoes)
@@ -94,13 +94,13 @@ namespace ImobSys.Application.Services
         private PessoaJuridica CadastrarPessoaJuridica()
         {
             string razaoSocial = _userInteractionHandler.SolicitarEntrada("Razão Social: ", true);
-            string cnpj = _userInteractionHandler.SolicitarEntrada("CNPJ: ", true);
+            string cnpj = _userInteractionHandler.SolicitarEntrada($"{razaoSocial} seu CNPJ: ", true);
             string nomeRepresentante = _userInteractionHandler.SolicitarEntrada("Nome do Representante (opcional): ");
             string inscricaoEstadual = _userInteractionHandler.SolicitarEntrada("Inscrição Estadual (opcional): ");
             string endereco = _userInteractionHandler.SolicitarEntrada("Endereço (opcional): ");
             string telefone = _userInteractionHandler.SolicitarEntrada("Telefone (opcional): ");
 
-            Console.Write("Tipo de Relação (1) Locador / (2) Locatário / (3) Fiador: ");
+            Console.Write($"{razaoSocial} é: (1) Locador / (2) Locatário / (3) Fiador: ");
             List<TiposRelacao> tiposRelacoes = ObterTiposRelacoes();
             return new PessoaJuridica(razaoSocial, cnpj, new Endereco { Logradouro = endereco }, tiposRelacoes, nomeRepresentante, inscricaoEstadual)
             {
@@ -115,12 +115,6 @@ namespace ImobSys.Application.Services
             bool adicionarMais;
             do
             {
-                Console.WriteLine("Escolha o Tipo de Relação:");
-                Console.WriteLine("1. Locador");
-                Console.WriteLine("2. Locatário");
-                Console.WriteLine("3. Fiador");
-                Console.Write("Opção: ");
-
                 if (Enum.TryParse(Console.ReadLine(), out TiposRelacao tipoRelacao))
                 {
                     tipoRelacoes.Add(tipoRelacao);
@@ -220,7 +214,7 @@ namespace ImobSys.Application.Services
                 }
                 else
                 {
-                    _imovelRepository.RemoverImovel(clienteId);
+                    _clienteRepository.RemoverCliente(clienteId);
                     _userInteractionHandler.ExibirSucesso($"Cliente '{nomeCliente}' excluido com sucesso!");
                     _userInteractionHandler.ExibirMensagemRetornoMenu("\nPressione qualquer tecla para retornar ao menu...");
                 }
