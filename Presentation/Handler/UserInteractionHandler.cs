@@ -55,7 +55,7 @@ namespace ImobSys.Presentation.Handler
             Console.SetCursorPosition(2, Console.CursorTop + 1);
 
             Console.ForegroundColor = cor;
-            Console.WriteLine(mensagem);
+            Console.Write(mensagem);
             Console.ResetColor();
         }
 
@@ -73,14 +73,11 @@ namespace ImobSys.Presentation.Handler
 
         public void ExibirMensagemRetornoMenu(string mensagem)
         {
-            //int linhaParaExibir = MenuStateManager.Instance.ObterProximaLinha() + 2;
-
             Console.SetCursorPosition(2, Console.CursorTop);
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"{mensagem}");
             Console.ResetColor();
             Console.ReadKey();
-
         }
 
         public string ConfigurarTipoImovel()
@@ -88,10 +85,8 @@ namespace ImobSys.Presentation.Handler
             string tipoImovel = "";
             do
             {
-                MenuStateManager.Instance.ObterProximaLinha();
-
-                ExibirMensagem("Tipo do Imóvel \n    (1)Residencial\n    (2)Comercial\n    (3)Misto)\n          Opção: ");
-                if (int.TryParse(Console.ReadLine(), out int escolha))
+                int escolha = SolicitarOpcaoNumerica("Tipo do Imóvel \n    (1)Residencial\n    (2)Comercial\n    (3)Misto)\n          Opção: ", 1, 3);
+                if (escolha > 0 && escolha <= 3)
                 {
                     tipoImovel = escolha switch
                     {
