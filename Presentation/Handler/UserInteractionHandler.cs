@@ -8,6 +8,7 @@ namespace ImobSys.Presentation.Handler
 {
     public class UserInteractionHandler
     {
+        
         public int SolicitarOpcaoNumerica(string mensagem, int min, int max)
         {
             while (true)

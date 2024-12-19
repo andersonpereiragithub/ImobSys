@@ -242,5 +242,49 @@ namespace ImobSys.Application.Services
         {
             _clienteRepository.SalvarCliente(cliente);
         }
+
+        private bool RemoverImovelDoCliente(Guid clienteId, Guid ImovelId)
+        {
+            var cliente = _clienteRepository.BuscarPorClienteId(clienteId);
+
+            if (cliente == null)
+            {
+                throw new Exception("Cliente não encontrado!");
+            }
+
+            if (!cliente.ImoveisId.Contains(ImovelId))
+            {
+                throw new Exception("O cliente não possui este imóvel!");
+            }
+
+            cliente.ImoveisId.Remove(ImovelId);
+            _clienteRepository.SalvarCliente(cliente);
+
+            return true;
+        }
+
+        public void RemoverImovelDeCliente()
+        {
+            var clienteNome = _userInteractionHandler.SolicitarEntrada("Digite o nome do cliente: ");
+            var clienteId = ObterClientePorNome(clienteNome);
+
+            var imovelIdStr = _userInteractionHandler.SolicitarEntrada("Digite o ID do imóvel: ");
+            if (Guid.TryParse(imovelIdStr, out Guid imovelId))
+            {
+                try
+                {
+                    RemoverImovelDoCliente(clienteId, imovelId);
+                    _userInteractionHandler.ExibirSucesso("Imóvel removido do cliente com sucesso!");
+                }
+                catch (Exception ex)
+                {
+                    _userInteractionHandler.ExibirErro(ex.Message);
+                }
+            }
+            else
+            {
+                _userInteractionHandler.ExibirErro("ID do imóvel inválido.");
+            }
+        }
     }
 }

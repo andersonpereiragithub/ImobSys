@@ -14,5 +14,6 @@ namespace ImobSys.Application.Services.Interfaces
         public Cliente BuscarPorClienteId(Guid id);
         public void AtribuirProprietarios(Imovel imovel);
         void RemoverCliente();
+        void RemoverImovelDeCliente();
     }
 }

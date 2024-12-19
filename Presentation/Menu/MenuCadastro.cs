@@ -56,7 +56,7 @@ namespace ImobSys.Presentation.Menu
                     //_clienteService.AlterarClientel();
                     break;
                 case 4:
-                    _imovelService.CadastrarNovoImovel();
+                    _clienteService.RemoverImovelDeCliente();
                     break;
                 case 5:
                     _clienteService.RemoverCliente();
@@ -74,7 +74,7 @@ namespace ImobSys.Presentation.Menu
         private void ExibirOpcoesMenu()
         {
             Console.WriteLine("╔═════════════════════════════╦═══════════════════════════════════════════════════════════════════════╗");
-            Console.WriteLine("  [\u001b[31m1\u001b[0m]Clientes   [\u001b[31m2\u001b[0m]Imóveis          [\u001b[31m3\u001b[0m]Alterar Cliente   [\u001b[31m4\u001b[0m]Alterar Imóveis   [\u001b[31m5\u001b[0m]Deletar   \u001b[31m[0]Voltar\u001b[0m   ");
+            Console.WriteLine("  [\u001b[31m1\u001b[0m]Clientes   [\u001b[31m2\u001b[0m]Imóveis          [\u001b[31m3\u001b[0m]Alterar Cliente   [\u001b[31m4\u001b[0m]Deletar Imóveis   [\u001b[31m5\u001b[0m]Deletar   \u001b[31m[0]Voltar\u001b[0m   ");
             Console.WriteLine("╚═════════════════════════════╩═══════════════════════════════════════════════════════════════════════╝");
         }
     }
