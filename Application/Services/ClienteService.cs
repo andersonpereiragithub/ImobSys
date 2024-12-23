@@ -80,6 +80,7 @@ namespace ImobSys.Application.Services
             string nome = _userInteractionHandler.SolicitarEntrada("Nome: ", true);
             string cpf = _userInteractionHandler.SolicitarEntrada($"{nome} seu CPF: ", true);
             string endereco = _userInteractionHandler.SolicitarEntrada("Endereço (opcional): ");
+            
             string telefone = _userInteractionHandler.SolicitarEntrada("Telefone (opcional): ");
 
             Console.Write($" {nome} é: (1) Locador / (2) Locatário / (3) Fiador: ");
@@ -169,9 +170,9 @@ namespace ImobSys.Application.Services
                 }
                 else if (!respostaAfirmativa)
                 {
-                    var clienteService = CadastrarNovoCliente;
+                    CadastrarNovoCliente();
 
-                    string clienteNovoCadastrado = _userInteractionHandler.SolicitarEntrada("Digite Nome do Cliente Cadastrado: ", true);
+                    string clienteNovoCadastrado = _userInteractionHandler.SolicitarEntrada("Confirme o Nome do Cliente cadastrado: ", true);
 
                     var idCliente = ObterClientePorNome(clienteNovoCadastrado);
                     var proprietario = BuscarPorClienteId(idCliente);
@@ -189,7 +190,7 @@ namespace ImobSys.Application.Services
                 }
 
                 bool adicionarOutro = _userInteractionHandler.LerOpcaoSimNao("Deseja adicionar outro proprietário? (S/N): ");
-                if (adicionarOutro)
+                if (!adicionarOutro)
                 {
                     adicionarMaisProprietarios = true;
                 }

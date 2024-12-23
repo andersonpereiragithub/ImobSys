@@ -105,22 +105,32 @@ namespace ImobSys.Presentation.Handler
 
         public string ObterInscricaoIPTU()
         {
-            while (true)
-            {
-                var inscricaoIPTU = SolicitarCampo("Inscrição de IPTU: ", false);
 
-                if (!string.IsNullOrWhiteSpace(inscricaoIPTU) && inscricaoIPTU.Length == 9)
-                {
-                    return inscricaoIPTU ?? string.Empty;
-                }
-                ExibirErro("Número de inscrição Inválida!");
+            ExibirMensagem("Inscrição de IPTU: ", ConsoleColor.Cyan);
+            string novaInscricaoIPTU = Console.ReadLine();
+            
+            while (!string.IsNullOrWhiteSpace(novaInscricaoIPTU))
+            {
+                Console.Write("Número de inscrição Inválida! Digite novamente: ");
             }
+            return novaInscricaoIPTU;
+
+            //while (true)
+            //{
+            //    var inscricaoIPTU = SolicitarCampo("Inscrição de IPTU: ", false);
+
+            //    if (!string.IsNullOrWhiteSpace(inscricaoIPTU) && inscricaoIPTU.Length == 9)
+            //    {
+            //        return inscricaoIPTU ?? string.Empty;
+            //    }
+            //    ExibirErro("Número de inscrição Inválida!");
+            //}
         }
         public float ObterAreaUtil()
         {
             float areaUtil;
 
-            Console.Write("Área Útil (m²): ");
+            ExibirMensagem("Área Útil (m²): ", ConsoleColor.Cyan);
             while (!float.TryParse(Console.ReadLine(), out areaUtil))
             {
                 Console.Write("Entrada inválida para área útil. Digite novamente: ");
@@ -264,7 +274,7 @@ namespace ImobSys.Presentation.Handler
         {
             while (true)
             {
-                Console.Write("(1) Sim / (2) Não: ");
+                Console.Write($"{mensagem} (1) Sim / (2) Não: ");
                 if (int.TryParse(Console.ReadLine(), out int escolha) && (escolha == 1 || escolha == 2))
                 {
                     return escolha == 1;
