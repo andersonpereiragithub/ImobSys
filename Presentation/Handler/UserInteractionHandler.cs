@@ -3,6 +3,8 @@ using ImobSys.Domain.Entities;
 using ImobSys.Domain.Enums;
 using ImobSys.Domain.Interfaces;
 using System;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Runtime.ConstrainedExecution;
 
 namespace ImobSys.Presentation.Handler
 {
@@ -114,18 +116,8 @@ namespace ImobSys.Presentation.Handler
                 Console.Write("Número de inscrição Inválida! Digite novamente: ");
             }
             return novaInscricaoIPTU;
-
-            //while (true)
-            //{
-            //    var inscricaoIPTU = SolicitarCampo("Inscrição de IPTU: ", false);
-
-            //    if (!string.IsNullOrWhiteSpace(inscricaoIPTU) && inscricaoIPTU.Length == 9)
-            //    {
-            //        return inscricaoIPTU ?? string.Empty;
-            //    }
-            //    ExibirErro("Número de inscrição Inválida!");
-            //}
         }
+
         public float ObterAreaUtil()
         {
             float areaUtil;
@@ -153,16 +145,22 @@ namespace ImobSys.Presentation.Handler
 
         public Endereco ObterEndereco()
         {
-            Console.WriteLine("\n==== Informações de Endereço ====");
+            ExibirMensagem("==== Informações de Endereço ====", ConsoleColor.Cyan);
+
+            var tipoLogradouro = SolicitarTipoLogradouro().ToString();
+            var logradouro = SolicitarCampo($"Logradouro {tipoLogradouro}:");
+            var numero = SolicitarCampo($"{tipoLogradouro} {logradouro} Número:");
+            var complemento = SolicitarCampo($"{tipoLogradouro} {logradouro} {numero} complemento:", false);
+            
             var endereco = new Endereco()
             {
-                TipoLogradouro = SolicitarTipoLogradouro().ToString(),
-                Logradouro = SolicitarCampo("Logradouro:"),
-                Numero = SolicitarCampo("Número:"),
-                Complemento = SolicitarCampo("complemento:", false),
+                TipoLogradouro = tipoLogradouro,
+                Logradouro = logradouro,
+                Numero = numero,
+                Complemento = complemento,
                 Bairro = SolicitarCampo("Bairro:"),
-                Cidade = "Juiz de Fora", // Pode ser parametrizado ou solicitado
-                UF = "MG", // Pode ser parametrizado ou solicitado
+                Cidade = "Juiz de Fora", 
+                UF = "MG", 
                 CEP = SolicitarCampo("CEP:")
             };
 
@@ -186,22 +184,18 @@ namespace ImobSys.Presentation.Handler
 
             foreach (var tipo in listaDeSubTiposImoveis)
             {
-                ExibirMensagem($" [{(int)tipo}] {tipo}", ConsoleColor.Cyan);
-                count++;
+                var colorNumber = $"\u001b[31m{(int)tipo}\u001b[0m";
 
-                if (count == 4)
-                {
-                    Console.WriteLine();
-                    count = 0;
-                }
+                ExibirMensagem($" [{colorNumber}]");
+                ExibirMensagem($"{tipo}", ConsoleColor.Cyan);
             }
 
-            return SolicitarEntrada("\nTipo de Imóvel:", true);
+            return SolicitarEntrada("Tipo de Imóvel:", true);
         }
 
         public TipoLogradouro SolicitarTipoLogradouro()
         {
-            Console.WriteLine("Selecione o Tipo de Logradouro:");
+            ExibirMensagem("Selecione o Tipo de Logradouro:", ConsoleColor.Cyan);
             int count = 0;
 
             foreach (var tipo in Enum.GetValues(typeof(TipoLogradouro)))
@@ -228,25 +222,27 @@ namespace ImobSys.Presentation.Handler
 
         public void ConfigurarLocacaoEVenda(Imovel imovel)
         {
-            Console.Write("O imóvel está disponível para locação? (S/N): ");
+            ExibirMensagem("O imóvel está disponível para locação? (S/N): ", ConsoleColor.Cyan);
             imovel.ParaLocacao = Console.ReadLine()?.Trim().ToUpper() == "S";
+
             if (imovel.ParaLocacao)
             {
-                Console.Write("Status ATUAL (1) Disponível / (2) Alugado: ");
+                ExibirMensagem("Status ATUAL (1) Disponível / (2) Alugado: ", ConsoleColor.Cyan);
                 imovel.StatusLocacao = int.TryParse(Console.ReadLine(), out int status) && status == 2 ? "Alugado" : "Disponível";
 
-                Console.Write("Valor do Aluguel: ");
+                ExibirMensagem("Valor do Aluguel: ", ConsoleColor.Cyan);
                 if (decimal.TryParse(Console.ReadLine(), out decimal aluguel))
                 {
                     imovel.ValorAluguel = aluguel;
                 }
             }
 
-            Console.Write("O imóvel está disponível para venda? (S/N): ");
+            ExibirMensagem("O imóvel está disponível para venda? (S/N): ", ConsoleColor.Cyan);
             imovel.ParaVenda = Console.ReadLine()?.Trim().ToUpper() == "S";
+
             if (imovel.ParaVenda)
             {
-                Console.Write("Valor de Venda: ");
+                ExibirMensagem("Valor de Venda: ", ConsoleColor.Cyan);
                 if (decimal.TryParse(Console.ReadLine(), out decimal venda))
                 {
                     imovel.ValorVenda = venda;
