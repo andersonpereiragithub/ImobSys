@@ -106,10 +106,10 @@ namespace ImobSys.Presentation.Handler
         public string ObterInscricaoIPTU()
         {
 
+            string novaInscricaoIPTU;
             ExibirMensagem("Inscrição de IPTU: ", ConsoleColor.Cyan);
-            string novaInscricaoIPTU = Console.ReadLine();
             
-            while (!string.IsNullOrWhiteSpace(novaInscricaoIPTU))
+            while (string.IsNullOrWhiteSpace(novaInscricaoIPTU = Console.ReadLine()))
             {
                 Console.Write("Número de inscrição Inválida! Digite novamente: ");
             }
@@ -179,14 +179,14 @@ namespace ImobSys.Presentation.Handler
 
         public string ObterTipoImovel()
         {
-            Console.WriteLine("Selecione o Tipo de Imvel:");
+            ExibirMensagem("Selecione o Tipo de Imvel:", ConsoleColor.Cyan);
 
             var listaDeSubTiposImoveis = Enum.GetValues(typeof(SubtipoImovel));
             int count = 0;
 
             foreach (var tipo in listaDeSubTiposImoveis)
             {
-                Console.Write($" [{(int)tipo}] {tipo}");
+                ExibirMensagem($" [{(int)tipo}] {tipo}", ConsoleColor.Cyan);
                 count++;
 
                 if (count == 4)
