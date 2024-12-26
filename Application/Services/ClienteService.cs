@@ -45,7 +45,7 @@ namespace ImobSys.Application.Services
             Console.SetCursorPosition(2, 2);
             _userInteractionHandler.ExibirMensagem("==== Cadastro de Novo Cliente ====");
 
-            var tipoCliente = _userInteractionHandler.LerIntPositivo("Cliente (1)Pessoa Física / (2)Pessoa Jurídica? ");
+            var tipoCliente = _userInteractionHandler.LerIntPositivo("\nCliente (1)Pessoa Física / (2)Pessoa Jurídica? ");
 
             Cliente novoCliente;
 
@@ -192,7 +192,7 @@ namespace ImobSys.Application.Services
                 bool adicionarOutro = _userInteractionHandler.LerOpcaoSimNao("Deseja adicionar outro proprietário? (S/N): ");
                 if (!adicionarOutro)
                 {
-                    adicionarMaisProprietarios = true;
+                    adicionarMaisProprietarios = false;
                 }
             }
             imovel.Proprietarios = proprietarios;
