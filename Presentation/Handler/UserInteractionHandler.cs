@@ -123,7 +123,7 @@ namespace ImobSys.Presentation.Handler
         {
             while (true)
             {
-                Console.WriteLine(mensagem);
+                Console.Write(mensagem);
                 if (int.TryParse(Console.ReadLine(), out int numero) && numero >= 0)
                     return numero;
 
@@ -214,18 +214,20 @@ namespace ImobSys.Presentation.Handler
         {
             Console.WriteLine("\n==== Configuração de Características Internas ====");
 
-            imovel.Quartos = SolicitarCaracteristicaNumerica("Número de Quartos: ");
-            imovel.Salas = SolicitarCaracteristicaNumerica("Número de Salas: ");
-            imovel.Banheiros = SolicitarCaracteristicaNumerica("Número de Banheiros: ");
-            imovel.Garagens = SolicitarCaracteristicaNumerica("Número de Garagens: ");
+            imovel.Quartos = LerIntPositivo("Número de Quartos: ");
+            imovel.Salas = LerIntPositivo("Número de Salas: ");
+            imovel.Banheiros = LerIntPositivo("Número de Banheiros: ");
+            imovel.Garagens = LerIntPositivo("Número de Garagens: ");
             imovel.Cozinha = SolicitarCaracteristicaBoolean("Possui Cozinha? [1]Sim / [2]Não: ");
             imovel.Copa = SolicitarCaracteristicaBoolean("Possui Copa? [1]Sim / [2]Não: ");
             imovel.Quintal = SolicitarCaracteristicaBoolean("Possui Quintal? [1]Sim / [2] Não: ");
         }
-        
+
         public Endereco ObterEndereco()
         {
             ExibirMensagem("\n==== Informações de Endereço ====\n", ConsoleColor.Cyan);
+            var confirmaEndereco = false;
+            Endereco endereco;
 
             do
             {
@@ -234,7 +236,7 @@ namespace ImobSys.Presentation.Handler
                 var numero = SolicitarCampo($" {tipoLogradouro} {logradouro} Número:", true, ConsoleColor.Cyan);
                 var complemento = SolicitarCampo($" {tipoLogradouro} {logradouro} {numero} complemento:", false, ConsoleColor.Cyan);
 
-                var endereco = new Endereco()
+                endereco = new Endereco()
                 {
                     TipoLogradouro = tipoLogradouro,
                     Logradouro = logradouro,
@@ -246,11 +248,13 @@ namespace ImobSys.Presentation.Handler
                     CEP = SolicitarCampo("CEP:")
                 };
 
-                Console.WriteLine($"\nEndereço está correto? \u001b[31m{FormatarEndereco(endereco)}\u001b[0m");
-                var 
-            } while (SolicitarConfirmacao($"\nEndereço está correto? \u001b[31m{FormatarEndereco(endereco)}\u001b[0m"));           
-                return endereco;
-           
+                var enderecoFormatado = FormatarEndereco(endereco);
+                confirmaEndereco = SolicitarConfirmacao($"\nEndereço está correto? \u001b[31m{enderecoFormatado}\u001b[0m");
+
+            } while (!confirmaEndereco);
+
+            return endereco;
+
 
             string FormatarEndereco(Endereco endereco)
             {
@@ -258,7 +262,7 @@ namespace ImobSys.Presentation.Handler
                        $"{endereco.Bairro}, {endereco.Cidade} - {endereco.UF}, CEP: {endereco.CEP}";
             }
         }
-        
+
         public string ObterTipoImovel()
         {
             Console.WriteLine("Selecione o Tipo de Imóvel:", ConsoleColor.Cyan);
