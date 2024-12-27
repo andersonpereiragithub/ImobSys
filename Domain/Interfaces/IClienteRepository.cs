@@ -5,7 +5,7 @@ namespace ImobSys.Domain.Interfaces
     public interface IClienteRepository<T> where T : Cliente
     {
         void SalvarCliente(T cliente);
-        T BuscarPorClienteId(Guid id);
+        T BuscarClientePorId(Guid id);
         Guid ObterClientePorNome(string nome);
         List<T> ListarTodosClientes();
         bool RemoverCliente(Guid id);

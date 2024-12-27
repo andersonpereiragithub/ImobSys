@@ -11,7 +11,7 @@ namespace ImobSys.Application.Services.Interfaces
         List<Cliente> ListarTodosClientes();
         public void CadastrarNovoCliente();
         public Guid ObterClientePorNome(string nomeProprietario);
-        public Cliente BuscarPorClienteId(Guid id);
+        public Cliente BuscarClientePorId(Guid id);
         public void AtribuirProprietarios(Imovel imovel);
         void RemoverCliente();
         void RemoverImovelDeCliente();

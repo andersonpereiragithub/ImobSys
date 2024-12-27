@@ -148,7 +148,7 @@ namespace ImobSys.Application.Services
                         string nomeProprietario = _userInteractionHandler.SolicitarEntrada("Informe o nome do proprietário: ", true);
 
                         var idCliente = ObterClientePorNome(nomeProprietario);
-                        var proprietario = BuscarPorClienteId(idCliente);
+                        var proprietario = BuscarClientePorId(idCliente);
 
                         if (proprietario != null)
                         {
@@ -175,7 +175,7 @@ namespace ImobSys.Application.Services
                     string clienteNovoCadastrado = _userInteractionHandler.SolicitarEntrada("Confirme o Nome do Cliente cadastrado: ", true);
 
                     var idCliente = ObterClientePorNome(clienteNovoCadastrado);
-                    var proprietario = BuscarPorClienteId(idCliente);
+                    var proprietario = BuscarClientePorId(idCliente);
 
                     if (proprietario != null)
                     {
@@ -234,9 +234,9 @@ namespace ImobSys.Application.Services
             return _clienteRepository.ObterClientePorNome(nomeProprietario);
         }
 
-        public Cliente BuscarPorClienteId(Guid id)
+        public Cliente BuscarClientePorId(Guid id)
         {
-            return _clienteRepository.BuscarPorClienteId(id);
+            return _clienteRepository.BuscarClientePorId(id);
         }
 
         public void SalvarCliente(Cliente cliente)
@@ -246,7 +246,7 @@ namespace ImobSys.Application.Services
 
         private bool RemoverImovelDoCliente(Guid clienteId, Guid ImovelId)
         {
-            var cliente = _clienteRepository.BuscarPorClienteId(clienteId);
+            var cliente = _clienteRepository.BuscarClientePorId(clienteId);
 
             if (cliente == null)
             {
